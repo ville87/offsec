@@ -3,11 +3,11 @@ Stuff for OSCP...
 
 ## Discovery
 
- - Host discovery TCP:
-   TOPTCP="$(grep -E "^[^#]*/tcp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -1000 | tr '\n' ',')"
-   nmap -n -sn --reason -PR -PE -PP -PM -PO -PY -PA -PS"$TOPTCP" -PU -iL targets.txt -oA nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp
-   Add discovered hosts to textfile:
-   awk '/Up$/{ print $2 }' nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp.gnmap | sort -V > targets_online.txt
+- Host discovery TCP:
+  TOPTCP="$(grep -E "^[^#]*/tcp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -1000 | tr '\n' ',')"
+  nmap -n -sn --reason -PR -PE -PP -PM -PO -PY -PA -PS"$TOPTCP" -PU -iL targets.txt -oA nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp
+  Add discovered hosts to textfile:
+  awk '/Up$/{ print $2 }' nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp.gnmap | sort -V > targets_online.txt
  - Host discovery UDP:
    grep -E "^[^#]*/udp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -100 > udp_ports
    grep ^udp /usr/share/nmap/nmap-payloads | cut -d " " -f2 | tr , '\n' | sort -un >> udp_ports
