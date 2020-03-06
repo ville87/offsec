@@ -4,24 +4,24 @@ Stuff for OSCP...
 ## Discovery
 
 - Host discovery TCP:   
-   TOPTCP="$(grep -E "^[^#]*/tcp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -1000 | tr '\n' ',')"   
-   nmap -n -sn --reason -PR -PE -PP -PM -PO -PY -PA -PS"$TOPTCP" -PU -iL targets.txt -oA nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp   
+   `TOPTCP="$(grep -E "^[^#]*/tcp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -1000 | tr '\n' ',')"`   
+   `nmap -n -sn --reason -PR -PE -PP -PM -PO -PY -PA -PS"$TOPTCP" -PU -iL targets.txt -oA nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp`   
    Add discovered hosts to textfile:   
-   awk '/Up$/{ print $2 }' nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp.gnmap | sort -V > targets_online.txt   
+   `awk '/Up$/{ print $2 }' nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp.gnmap | sort -V > targets_online.txt`   
 - Host discovery UDP:   
-   grep -E "^[^#]*/udp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -100 > udp_ports   
-   grep ^udp /usr/share/nmap/nmap-payloads | cut -d " " -f2 | tr , '\n' | sort -un >> udp_ports   
-   grep -l -E "categories.*default" /usr/share/nmap/scripts/* | xargs grep -h -E "portrule.*udp" | grep -o -E "[0-9]+" >> udp_ports   
-   UDPPORTS="$(sort -un udp_ports | tr '\n' ,)"   
-   nmap -n -Pn --reason -sU -sC -p "$UDPPORTS" -iL targets.txt --excludefile targets_online.txt -oA nmap_host_discovery_udp_service_scan   
+   `grep -E "^[^#]*/udp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -100 > udp_ports`   
+   `grep ^udp /usr/share/nmap/nmap-payloads | cut -d " " -f2 | tr , '\n' | sort -un >> udp_ports`   
+   `grep -l -E "categories.*default" /usr/share/nmap/scripts/* | xargs grep -h -E "portrule.*udp" | grep -o -E "[0-9]+" >> udp_ports`   
+   `UDPPORTS="$(sort -un udp_ports | tr '\n' ,)"`   
+   `nmap -n -Pn --reason -sU -sC -p "$UDPPORTS" -iL targets.txt --excludefile targets_online.txt -oA nmap_host_discovery_udp_service_scan`   
    Now add hosts with open UDP Ports to targets_online.txt:   
-   kawk '/\/open\//{ print $2 }' nmap_host_discovery_udp_service_scan.gnmap  >> targets_online.txt   
+   `awk '/\/open\//{ print $2 }' nmap_host_discovery_udp_service_scan.gnmap  >> targets_online.txt`   
 
-- Full service scan on found hosts:
-   nmap -n -Pn --reason -sS -sC -sV -p- -O -iL targets_online.txt -oA nmap_service_scan_tcp
+- Full service scan on found hosts:  
+   `nmap -n -Pn --reason -sS -sC -sV -p- -O -iL targets_online.txt -oA nmap_service_scan_tcp`
  
-- If you want only open ports without all the details:
-   nmap -n -Pn --reason -sS -p- -iL targets_online.txt -oA nmap_service_scan_tcp
+- If you want only open ports without all the details:  
+   `nmap -n -Pn --reason -sS -p- -iL targets_online.txt -oA nmap_service_scan_tcp`
 
 - start with less ports until full scan is done:
    nmap -n -Pn --top-ports 100 --reason -sS --min-hostgroup 128 --max-retries 1 --min-rate 500 --defeat-rst-ratelimit -iL targets_online.txt -oA nmap_SYN_scan_TCP_TOP_100
