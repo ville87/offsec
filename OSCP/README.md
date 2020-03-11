@@ -7,19 +7,40 @@ Links:
 ## Discovery
 - Host discovery TCP:   
    `TOPTCP="$(grep -E "^[^#]*/tcp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -1000 | tr '\n' ',')"`   
-   `nmap -n -sn --reason -PR -PE -PP -PM -PO -PY -PA -PS"$TOPTCP" -PU -iL targets.txt -oA nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp`   
-   Add discovered hosts to textfile:   
+   `nmap -n -sn --reason -PR -PE -PP -PM -PO -PY -PA -PS"$TOPTCP" -PU -iL targets.txt -oA nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp`
+   Options explained:  
+   TOPTCP: Variable containing the top 1000 ports  
+   -n: No DNS lookups  
+   -sn: No portscan  
+   --reason: Show why nmap says this host is online  
+   -PR: Host discovery using ARP requests for hosts which are in the same subnet  
+   -PE: Host discovery using ICMP echo request  
+   -PP: Host discovery using ICMP timestamp request  
+   -PM: Host discovery using ICMP netmask request  
+   -PO: Host discovery by sending various IP protocols (ICMP, IGMP and IP-in-IP)  
+   -PY: Host discovery by sending SCTP packets.  
+   -PA: Host discovery by sending a TCP ACK packet to port 80 (if the host is online, it should reply with a RST packet if this is not firewalled).  
+   -PS: Host discovery by sending TCP SYN packet to the $TOPTCP ports. This is done with a variable, because the --top-ports option is ignored for host discovery. If the host is online and the port is open, a SYN/ACK packet is replied. If the host is online but the port closed, a RST packet is returned.  
+   -PU: Host discovery by sending a UDP packet to the port 40125. (If the host is online and the port closed, an ICMP Port Unreachable packet is returned if this is not firewalled).  
+   -oA: Write output to file  
+   
+   Add discovered hosts to textfile:  
    `awk '/Up$/{ print $2 }' nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp.gnmap | sort -V > targets_online.txt`   
-- Host discovery UDP:   
+- Host / Service discovery UDP:   
+   Get top 100 UDP ports:  
    `grep -E "^[^#]*/udp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -100 > udp_ports`   
+   Get all UDP ports that have a payload that is sent by nmap. The chances are higher, that you will get a response when nmap sends a valid payload and the port is then treated as definitively open (instead of filtered|open when no response was received):  
    `grep ^udp /usr/share/nmap/nmap-payloads | cut -d " " -f2 | tr , '\n' | sort -un >> udp_ports`   
+   Get all UDP ports that have a nmap-script. The chances are again higher that you will receive a response when the script is executed:  
    `grep -l -E "categories.*default" /usr/share/nmap/scripts/* | xargs grep -h -E "portrule.*udp" | grep -o -E "[0-9]+" >> udp_ports`   
+   Assign them to a variable:  
    `UDPPORTS="$(sort -un udp_ports | tr '\n' ,)"`   
+   Start scanning:  
    `nmap -n -Pn --reason -sU -sC -p "$UDPPORTS" -iL targets.txt --excludefile targets_online.txt -oA nmap_host_discovery_udp_service_scan`   
    Now add hosts with open UDP Ports to targets_online.txt:   
    `awk '/\/open\//{ print $2 }' nmap_host_discovery_udp_service_scan.gnmap  >> targets_online.txt`   
 
-- Full service scan on found hosts:  
+- Full TCP service scan on found hosts:  
    `nmap -n -Pn --reason -sS -sC -sV -p- -O -iL targets_online.txt -oA nmap_service_scan_tcp`
  
 - If you want only open ports without all the details:  
