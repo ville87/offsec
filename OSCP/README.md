@@ -102,6 +102,7 @@ Links:
 Get files from SMB share:  
 - /usr/share/doc/python-impacket/examples# python smbclient.py 10.11.1.136  
 - `shares` --> list shares  
+- `use <share>` --> use share xyz   
 - `get <file>` --> download file  
 
 ## WinRM
