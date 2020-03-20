@@ -99,6 +99,11 @@ Links:
 - Try known creds on targets: `crackmapexec smb 10.11.1.1/24 -u Administrator -p 99bbVDdorGzfZJun`  
 - Bruteforcing: `crackmapexec smb 10.11.1.1/24 -u /ville/Desktop/OSCP/PWK/users.txt -p /ville/Desktop/OSCP/PWK/pws.txt`  
 
+Get files from SMB share:  
+- /usr/share/doc/python-impacket/examples# python smbclient.py 10.11.1.136  
+- `shares` --> list shares  
+- `get <file>` --> download file  
+
 ## WinRM
 - WinRM from Linux: https://github.com/Hackplayers/evil-winrm
 
