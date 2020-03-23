@@ -319,7 +319,15 @@ If you have path traversal plus a location with write access you can exploit tha
   - suid binaries --> `find / -perm -u=s -type f 2>/dev/null`  
     PrivEsc using suid: https://www.hackingarticles.in/linux-privilege-escalation-using-suid-binaries/  
   - editable/vulnerable service binaries  
-- Good tools to aid are linux-exploit-suggester.sh, LinEnum, LinuxPrivChecker, PowerUp and pspy
+- Good tools to aid are linux-exploit-suggester.sh, LinEnum, LinuxPrivChecker, PowerUp and pspy  
+
+- ltrace: shows parameters of invoked functions and system calls.  
+  example: `# ltrace -s 1000 ./uploadtosecure`  
+  `__libc_start_main(0x80483f0, 1, 0xbfdf8a84, 0x8048440 <unfinished ...>`  
+  `puts("Archiving files to secure server..."Archiving files to secure server...`  
+  `)                                      = 36`  
+  `system("scp -r file/tobesecured/* 10.10.11.100:/var/www/html/files/"`  
+  --> this provides us with the information, that this tool runs "scp" without path!
 
 - Spawn bash shell with python:  
   `echo "import pty; pty.spawn('/bin/bash')" > /tmp/asdf.py`  
