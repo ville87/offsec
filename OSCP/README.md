@@ -322,11 +322,11 @@ If you have path traversal plus a location with write access you can exploit tha
 - Good tools to aid are linux-exploit-suggester.sh, LinEnum, LinuxPrivChecker, PowerUp and pspy  
 
 - ltrace: shows parameters of invoked functions and system calls.  
-  example: `# ltrace -s 1000 ./uploadtosecure`  
+  example: `# ltrace -s 1000 ./filearchiver`  
   `__libc_start_main(0x80483f0, 1, 0xbfdf8a84, 0x8048440 <unfinished ...>`  
-  `puts("Archiving files to secure server..."Archiving files to secure server...`  
+  `puts("Archiving files to server..."Archiving files to server...`  
   `)                                      = 36`  
-  `system("scp -r file/tobesecured/* 10.10.11.100:/var/www/html/files/"`  
+  `system("scp -r file/tobearchived/* 100.101.110.100:/var/www/html/files/"`  
   --> this provides us with the information, that this tool runs "scp" without path!
 
 - Spawn bash shell with python:  
