@@ -115,6 +115,14 @@ Transfer files from the Kali VM with smbserver.py:
 - WinRM from Linux: https://github.com/Hackplayers/evil-winrm
 
 ## NFS
+ - `nmap -p 111 --script=nfs* -iL nfstargets.txt`  
+   example output:  
+   `PORT    STATE SERVICE`  
+   `111/tcp open  rpcbind`  
+   `| nfs-ls: Volume /home`  
+   `|   access: Read Lookup NoModify NoExtend NoDelete NoExecute`  
+   Mount the dir:  
+  `mkdir nfsmount; sudo mount -o nolock 10.11.1.72:/home ~/nfsmount/`  
 
 ## FTP
 - First check for anonymous access  
