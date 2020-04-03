@@ -339,8 +339,7 @@ If you have path traversal plus a location with write access you can exploit tha
   --> this provides us with the information, that this tool runs "scp" without path!
 
 - Spawn bash shell with python:  
-  `echo "import pty; pty.spawn('/bin/bash')" > /tmp/asdf.py`  
-  `python /tmp/asdf.py`
+  `python -c 'import pty;pty.spawn("/bin/bash")'`  
 
 ## TCPDUMP 
 - capture traffic from specific port:  
