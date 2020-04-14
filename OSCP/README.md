@@ -311,6 +311,8 @@ PHP:
 - LOLBins Linux: https://gtfobins.github.io/
 
 ## PrivEsc Windows
+- https://github.com/itm4n/PrivescCheck   
+
 - Add new admin:
   `net user /add [username] [password]`  
   `net localgroup administrators [username] /add` 
