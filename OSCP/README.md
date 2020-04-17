@@ -312,6 +312,9 @@ PHP:
 
 ## PrivEsc Windows
 - https://github.com/itm4n/PrivescCheck   
+- missing patches:   
+  https://github.com/rasta-mouse/Sherlock   
+  https://github.com/rasta-mouse/Watson   
 
 - Add new admin:
   `net user /add [username] [password]`  
