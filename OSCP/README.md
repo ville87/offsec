@@ -148,6 +148,12 @@ Path traversal:
   this might provide additional information about the network, listing hostnames and ip addresses  
 
 ## SSH
+- "unable to negotiate with ... no matching key ex found" --> add to config:   
+  `# cat /root/.ssh/config`  
+  `host 10.11.1.252`   
+     `KexAlgorithms +diffie-hellman-group1-sha1`  
+     `PubkeyAcceptedKeyTypes=+ssh-dss`  
+
 - "xxxx must be run from a terminal" --> spawn terminal:
    1. `echo "import pty; pty.spawn('/bin/bash')" > /tmp/asdf.py` 
    2. `python /tmp/asdf.py` 
