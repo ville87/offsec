@@ -60,6 +60,7 @@ Links:
   `https://github.com/codingo/Reconnoitre` 
 
 ## HTTP/HTTPS
+- `curl -i <ip>`   
 - `nikto -host $targetip -port $targetport`
 - `./dirsearch.py -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -u $targetip -e php`
 - `gobuster dir -e -k -w /usr/share/wordlists/dirb/common.txt -r -u https://www.example.com` 
