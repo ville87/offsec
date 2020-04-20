@@ -375,6 +375,7 @@ If you have path traversal plus a location with write access you can exploit tha
 - Spawn bash shell with python:  
   `python -c 'import pty;pty.spawn("/bin/bash")'`  
   (if python3 --> python3 -c "import pty; pty.spawn('/bin/bash')"`  
+  `python -c 'import pty; pty.spawn("/bin/sh")'`  
   
   make the reverse shell more usable (with autocomplete etc.):  
   `ctrl + z`  
