@@ -263,6 +263,7 @@ PHP:
 ### Windows
 - PS History: `cat (Get-PSReadlineOption).HistorySavePath` 
 - `Get-ScheduledTask| % { $_.Actions}` 
+- `schtasks /query /v /fo LIST`  
 - IIS App Pool Creds: `(ls IIS:\AppPools | Get-ItemProperty -Include ProcessModel).ProcessModel | select UserName,Password`  
 
 ### Active Directory
