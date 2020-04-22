@@ -339,6 +339,8 @@ PHP:
   
 - Check services:  
   `wmic service get name, displayname, pathname, startname`  
+  Check insecure service permissions:  
+  `accesschk.exe -accepteula -uwcqv "Authenticated Users" *`  
 
 - Check Privileges with: `whoami /priv`  
   If User has `SeImpersonate` or `SeAssignPrimaryToken` (most often service accounts!) you can get to SYSTEM by using the "potato": https://github.com/ohpe/juicy-potato  
