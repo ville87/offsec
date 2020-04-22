@@ -359,6 +359,15 @@ If you have path traversal plus a location with write access you can exploit tha
   `put filename.mof ../../../../windows/system32/wbem/mof/Specialclass.mof`  
   --> This will provide you with a reverse shell!
 
+- Error "This program cannot be run in DOS mode."  
+  When you get this error in a shell when trying to run uploaded files through FTP, try to first change the mode to binary, before you PUT the file:  
+  `ftp> binary`  
+  `200 Type set to I.`  
+  `ftp> put accesschk.exe` 
+  `[ ... ]` 
+  `150 Opening BINARY mode data connection for accesschk.exe.`  
+  `226 Transfer complete.`  
+  
 ## PrivEsc Linux
 - First look for obvious fails, like: 
   - writable etc/passwd or exports 
