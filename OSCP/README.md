@@ -58,6 +58,11 @@ Links:
 
 - Discovery & Data Gathering tools:
   `https://github.com/codingo/Reconnoitre` 
+  
+- Replace nmap with netcat:  
+  `nc -z -v {host-name-here} {port-range-here}`  
+  `nc -nvv -w1 -z 10.X.X.Y 1-100 2>&1 | grep open`  
+  `for port in `seq 65535`; do { disown -r ; nc -nvv -w1 -z 10.X.X.Y $port 2>&1 | grep ' open' & } 2>/dev/null ; disown -r ; done`  
 
 ## HTTP/HTTPS
 - `curl -i <ip>`   
