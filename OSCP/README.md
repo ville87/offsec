@@ -285,6 +285,8 @@ PHP:
 - `Get-ScheduledTask| % { $_.Actions}` 
 - `schtasks /query /v /fo LIST`  
 - IIS App Pool Creds: `(ls IIS:\AppPools | Get-ItemProperty -Include ProcessModel).ProcessModel | select UserName,Password`  
+- psexec.py Login with account:  
+`psexec.py administrator@10.10.10.10`  
 
 ### Active Directory
 - Query AD without PS AD Modules  
