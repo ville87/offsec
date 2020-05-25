@@ -280,7 +280,8 @@ PHP:
 
 ## Info Gathering 
 ### Windows
-- PS History: `cat (Get-PSReadlineOption).HistorySavePath` 
+- PS History: `cat (Get-PSReadlineOption).HistorySavePath`  
+- `type C:\Users\<username>\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt`  
 - `Get-ScheduledTask| % { $_.Actions}` 
 - `schtasks /query /v /fo LIST`  
 - IIS App Pool Creds: `(ls IIS:\AppPools | Get-ItemProperty -Include ProcessModel).ProcessModel | select UserName,Password`  
