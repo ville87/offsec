@@ -221,7 +221,7 @@ MSSQL
 - Nmap scripts with db credentials:  
   `# nmap -n -Pn -p1433 --script "ms-sql-* and not ms-sql-brute" --script-args mssql.username=sa,mssql.password=<pw> 10.11.1.31`  
 - Impacket mssqlclient.py:   
-  `python3 /usr/share/doc/python3-impacket/examples/mssqlclient.py HOSTNAME/user@10.10.10.10 -windows-auth`   
+  `mssqlclient.py HOSTNAME/USERNAME:'PASSWORD'@10.10.10.22 -windows-auth`   
   
 MySQL 
 - Enumerate tables:  
