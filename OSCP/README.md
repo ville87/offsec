@@ -77,6 +77,11 @@ Links:
 
 - Wordpress scan:
   `wpscan -u 10.10.10.10/wp/` 
+  
+- Login pages:  
+  Username enumeration through  
+  - Checking login failed message  
+  - Registering account (try same email twice, same username twice)  
 
 - PHP Logfile contamination:  
   (add the PHP code to the logfile and the with LFI get the logfile somewhere where "include PHP function" is being used)
