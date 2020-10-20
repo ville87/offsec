@@ -117,6 +117,8 @@ Links:
   `rpcclient -U "" 10.10.10.10` 
 - Try known creds on targets: `crackmapexec smb 10.11.1.1/24 -u Administrator -p 99bbVDdorGzfZJun`  
 - Bruteforcing: `crackmapexec smb 10.11.1.1/24 -u /ville/Desktop/OSCP/PWK/users.txt -p /ville/Desktop/OSCP/PWK/pws.txt`  
+- Check accessible shares in network with specific domain account:   
+  `# smbmap -d <domain> -u <username> -p <password> --host-file files/smbhosts.txt`  
 
 Get files from SMB share:  
 - /usr/share/doc/python-impacket/examples# python smbclient.py 10.11.1.136  
