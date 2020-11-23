@@ -426,6 +426,7 @@ If you have path traversal plus a location with write access you can exploit tha
 - First look for obvious fails, like: 
   - writable etc/passwd or exports 
   - readable etc/shadow. ssh keys, bash history, cronjobs
+  - capabilities --> `/sbin/getcap -r / 2>/dev/null`   
   - suid binaries --> `find / -perm -u=s -type f 2>/dev/null`  
     PrivEsc using suid: https://www.hackingarticles.in/linux-privilege-escalation-using-suid-binaries/  
   - editable/vulnerable service binaries  
