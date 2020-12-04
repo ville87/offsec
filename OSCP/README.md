@@ -184,6 +184,16 @@ Path traversal:
   `sshuttle -vr root@10.10.10.13 172.16.1.0/24 --ssh-cmd 'ssh -i sshloginkey.txt'`  
   Now all traffic to 172.16.1.0/24 will be sent to the tunnel
 
+- SSH JumpProxys:   
+  `on kali VM:`  
+  `# cat ~/.ssh/config`  
+  `Host remotehost`  
+  `  User remoteuser`  
+  `  IdentityFile ~/.ssh/id_rsa`   
+  `  ProxyJump user@jumphost.com`   
+  Then use with:   
+  `# ssh remotehost`   
+
 ## SMTP
 - check if user exists:  
   `nc -nv <ip address> 25`  
@@ -363,6 +373,9 @@ PHP:
 ### Download with SCP
 - when having SSH key to remote target, download file with:  
   `scp -i mysshprivatekey user@10.10.10.10:/home/myuser/filename /home/folder/targetfilename`  
+
+### Upload  
+  `# scp -r localfolder/ user@remotehost:/targetdir/`   
 
 ### SSH copy
 - file: `scp -p 192.168.1.100:/root/filetocopy targetfile` 
