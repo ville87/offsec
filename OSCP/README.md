@@ -1,5 +1,5 @@
-# OSCP
-Links:
+# Offensive Security Documentation
+OSCP Links:
 - https://github.com/0x4D31/awesome-oscp 
 - https://scund00r.com/all/oscp/2018/02/25/passing-oscp.html#preperation
 - https://medium.com/@hakluke/haklukes-ultimate-oscp-guide-part-3-practical-hacking-tips-and-tricks-c38486f5fc97
