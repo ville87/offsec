@@ -119,6 +119,8 @@ OSCP Links:
 - Bruteforcing: `crackmapexec smb 10.11.1.1/24 -u /ville/Desktop/OSCP/PWK/users.txt -p /ville/Desktop/OSCP/PWK/pws.txt`  
 - Check accessible shares in network with specific domain account:   
   `# smbmap -d <domain> -u <username> -p <password> --host-file files/smbhosts.txt`  
+- Query AD users in domain from Kali with known credentials:    
+  `# /opt/impacket/examples/GetADUsers.py -all domain.local/user1:Str0ngP@ss2021 -dc-ip 192.168.10.1`   
 
 Get files from SMB share:  
 - /usr/share/doc/python-impacket/examples# python smbclient.py 10.11.1.136  
