@@ -447,7 +447,7 @@ If you have path traversal plus a location with write access you can exploit tha
   - suid binaries --> `find / -perm -u=s -type f 2>/dev/null`  
     PrivEsc using suid: https://www.hackingarticles.in/linux-privilege-escalation-using-suid-binaries/  
   - editable/vulnerable service binaries  
-- Good tools to aid are linux-exploit-suggester.sh, LinEnum, LinuxPrivChecker, PowerUp and pspy  
+- Good tools to aid are linpeas.sh, linux-exploit-suggester.sh, LinEnum, LinuxPrivChecker, PowerUp and pspy  
 
 - ltrace: shows parameters of invoked functions and system calls.  
   example: `# ltrace -s 1000 ./filearchiver`  
