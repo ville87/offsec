@@ -119,6 +119,8 @@ OSCP Links:
 - Bruteforcing: `crackmapexec smb 10.11.1.1/24 -u /ville/Desktop/OSCP/PWK/users.txt -p /ville/Desktop/OSCP/PWK/pws.txt`  
 - Check accessible shares in network with specific domain account:   
   `# smbmap -d <domain> -u <username> -p <password> --host-file files/smbhosts.txt`  
+- Search for sensitive data on shares with smbmap:   
+- `# smbmap -d DOMAIN -u USER -p PASSWORD --host-file hosts.txt -R -A ".+\.(bat|cmd|ini|kdb|kdbx|key|ps1|reg|txt|vbs)|.*(admin|login|pass|secret|sensitive).*|unattend.*\.xml|web.config" --depth 3`   
 - Query AD users in domain from Kali with known credentials:    
   `# /opt/impacket/examples/GetADUsers.py -all domain.local/user1:Str0ngP@ss2021 -dc-ip 192.168.10.1`   
 
