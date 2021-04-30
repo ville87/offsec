@@ -585,6 +585,7 @@ If you have path traversal plus a location with write access you can exploit tha
 - `php -S 0.0.0.0:8000`  
 - `ruby -run -e httpd . -p 9000`  
 - `busybox httpd -f -p 10000`  
+- `updog` (Allows also file upload!)   
 
 ## start FTP server
 - Install pyftpdlib  
