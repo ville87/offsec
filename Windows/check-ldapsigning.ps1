@@ -12,5 +12,7 @@ foreach($dc in $dcs){
   $LDAPConnect = New-Object System.DirectoryServices.Protocols.LdapConnection "$HostName"
   $LdapConnect.AuthType = [System.DirectoryServices.Protocols.AuthType]::Basic
   $LDAPConnect.Bind($credentials)
-  if(($error[0] | select-string -Pattern "Strong authentication is required for this operation") -ne $null){ write-output "[OK] LDAP Signing is enforced on domain controller $hostname"} else { write-output "[WARN] LDAP Signing is not enforced on domain controller $hostname"}
+  write-host "signing on DC $hostname`:"
+	$LDAPConnect.SessionOptions.Signing
+  if(($error[0] | select-string -Pattern "Strong authentication is required for this operation") -ne $null){ write-output "[OK] LDAP Signing is enforced on domain controller $hostname"} 
 }
