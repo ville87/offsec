@@ -222,6 +222,8 @@ Path traversal:
 SQLMap
 - Use saved request from burp: (-p is parameter, can be removed if you add * to the param in the request file)  
   `sqlmap -r request.txt -p objectid --risk 3 --level 5` 
+- Define the target DBMS and run the request through local proxy (e.g. burp). Show the schema of the DB:   
+  `sqlmap --proxy http://localhost:8080 -r request --dbms="Microsoft SQL Server 2017" --schema` 
 - SQLMap Crawl:  
   `sqlmap -u http://10.10.10.10 --crawl=1`
 - SQLMap Dump DB:  
