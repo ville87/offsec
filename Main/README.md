@@ -599,6 +599,12 @@ If you have path traversal plus a location with write access you can exploit tha
   Run (-w flag allows anonymous write access)  
   `python -m pyftpdlib -p 21 -w` 
 
+## XXE
+- Payload in office document   
+  Locate data in the Excel / Word which is parsed by the web app (e.g. by opening the office document in VIM or 7zip) and insert xxe payload:   
+  `<!DOCTYPE replace [<!ENTITY ent SYSTEM "file:///etc/passwd"> ]>`   
+  Wherever the value is added, replace the value with "&ent;"   
+
 ## Compiling
 - Compiling a C program:  
   `gcc -static -mpreferred-stack-boundary=2 -o Shell ShellSpawn.c`  
