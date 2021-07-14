@@ -49,6 +49,9 @@ OSCP Links:
 - start with less ports until full scan is done:  
    `nmap -n -Pn --top-ports 100 --reason -sS --min-hostgroup 128 --max-retries 1 --min-rate 500 --defeat-rst-ratelimit -iL targets_online.txt -oA nmap_SYN_scan_TCP_TOP_100`  
 
+- NMAP result grepping:   
+  Get all open ports from multiple nmap scans:   
+  `# cat nmap_service_scan_udp.nmap nmap_service_scan_tcp.nmap | awk -F/ '/(tcp|udp).*open /{ print $1}' | sort -un | tr '\n' ','`   
 - NMAP Reports:  
    https://github.com/maaaaz/nmaptocsv  
    `python nmaptocsv.py -x SMBClientScan.xml -f ip-port-protocol-service-version-os >> output.csv` 
