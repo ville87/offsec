@@ -38,3 +38,8 @@
   Use Get-HTTPStatus from PowerSploit:   
   https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/Get-HttpStatus.ps1   
   `foreach($target in (gc .\targets_http_ip.txt)){ Get-HttpStatus -Target $target -Path .\www_wordlist.txt }`   
+
+## Helpful PowerShell commands  
+### Recon
+- Portscanning on single port without ping test:   
+  `New-Object System.Net.Sockets.TCPClient -ArgumentList "hostname.domain.local",3389`   
