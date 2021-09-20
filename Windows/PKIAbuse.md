@@ -52,7 +52,7 @@ python3 getnthash.py -key <AS-REP-encryption-key> -dc-ip <dc-ip> <domain>/<usern
 ```
 Note: You have to change the KRB5CCNAME variable to the target users tgt ccache file first (admin_tgt.ccache above):
 ```shell
-export KRB5CCNAME=/full/path/to/<username>.ccache
+export KRB5CCNAME=/full/path/to/admin_tgt.ccache
 ```
 
 ## Relaying On Linux
