@@ -247,6 +247,8 @@ Bypasses
   `' or 1#`  
   `' or 1=1 --`  
   `' or 1=1 -- -`  
+  `id=1'+OR+1=1--#`   
+  `id=1\n'+OR+1=1--#`   
 
 Queries
 - Upload php command injection file:  
