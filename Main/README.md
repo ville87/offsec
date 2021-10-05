@@ -487,6 +487,8 @@ If you have path traversal plus a location with write access you can exploit tha
 - capture traffic from specific port:  
   `tcpdump -s 0 port ftp or ssh -i eth0 -w mycap.pcap`  
   `tcpdump -s 0 port 3389 -i eth0 -w mycap.pcap`  
+  Listen for NetBIOS, SMB, RPC:   
+  `tcpdump -i eth0 'port 137 || 138 || 139 || 445'`   
 
 ## Searching stuff
 - search folder and subfolders for a string, output results and save results to file:   
