@@ -416,6 +416,7 @@ PHP:
 - `smbget -R smb://1.1.1.1/folder` 
 - LOLBins Windows: https://lolbas-project.github.io/
 - LOLBins Linux: https://gtfobins.github.io/
+- Updog (https://github.com/sc0tfree/updog) --> `updog -d /tmp/www/ -p 443 --password Sugus --ssl`   
 
 ## PrivEsc Windows
 - https://github.com/itm4n/PrivescCheck   
