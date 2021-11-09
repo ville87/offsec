@@ -1,0 +1,1 @@
+powershell -Command "[System.Net.WebRequest]::DefaultWebProxy = [System.Net.WebRequest]::GetSystemWebProxy(); [System.Net.WebRequest]::DefaultWebProxy.Credentials = [System.Net.CredentialCache]::DefaultNetworkCredentials; (New-Object Net.WebClient).DownloadFile('https://github.com/SnaffCon/Snaffler/releases/download/0.9.11/Snaffler.exe', 'snaffler.exe')"
