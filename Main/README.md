@@ -23,6 +23,9 @@ OSCP Links:
    -PS: Host discovery by sending TCP SYN packet to the $TOPTCP ports. This is done with a variable, because the --top-ports option is ignored for host discovery. If the host is online and the port is open, a SYN/ACK packet is replied. If the host is online but the port closed, a RST packet is returned.  
    -PU: Host discovery by sending a UDP packet to the port 40125. (If the host is online and the port closed, an ICMP Port Unreachable packet is returned if this is not firewalled).  
    -oA: Write output to file  
+   Quick Win Ports:   
+   `# nmap -n -Pn -sS -p 21,23,69,80,111,139,443,445,1433,2049,3263,3264,3306,5432,5900,6000,8080,8443,22,25,587,53,3389 -oA quick_wins_tcp_vlans -iL ranges.txt --min-hostgroup 256 --max-retries 1 --defeat-rst-ratelimit --min-rate 10000
+`   
    
    Add discovered hosts to textfile:  
    `awk '/Up$/{ print $2 }' nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp.gnmap | sort -V > targets_online.txt`   
