@@ -41,6 +41,10 @@ foreach($user in $users) {
     write-output "The user is member of:"$user.Properties.memberof
 }
 ```
+List user groups oneliner:   
+```shell
+([ADSISEARCHER]"(member:1.2.840.113556.1.4.1941:=$(([ADSISEARCHER]"samaccountname=$($env:USERNAME)").FindOne().Properties.distinguishedname))").FindAll().Properties.distinguishedname
+```
 
 ```shell
 # Get local computers OU:
