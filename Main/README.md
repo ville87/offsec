@@ -26,6 +26,8 @@ OSCP Links:
    Quick Win Ports:   
    `# nmap -n -Pn -sS -p 21,23,69,80,111,139,443,445,1433,2049,3263,3264,3306,5432,5900,6000,8080,8443,22,25,587,53,3389 -oA quick_wins_tcp_vlans -iL ranges.txt --min-hostgroup 256 --max-retries 1 --defeat-rst-ratelimit --min-rate 10000
 `   
+   Do only pingscan (fastest on huge ranges):   
+   `nmap -sn -T5 --min-parallelism 100 --max-parallelism 256 -iL scope.txt -oA nmap_pingscan`   
    
    Add discovered hosts to textfile:  
    `awk '/Up$/{ print $2 }' nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp.gnmap | sort -V > targets_online.txt`   
