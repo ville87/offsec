@@ -11,3 +11,6 @@ foreach($user in $userlist){
         Write-Host -ForegroundColor Green "[*] SUCCESS! User:$User Password:$Password"
     }
 }
+
+# Check bad password attempt count:
+# ([adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User))").FindAll() | % {write-host $_.Properties['name'] "--->" $_.Properties['badpwdcount'] }
