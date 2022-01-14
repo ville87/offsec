@@ -355,6 +355,8 @@ PHP:
    `([System.DirectoryServices.ActiveDirectory.Forest]::Getcurrentforest()).GlobalCatalogs`  
 - User Enumeration  
    https://github.com/sensepost/UserEnum
+- Return all GPOs that modify local group memberships through Restricted Groups or Group Policy Preferences. (Using PowerUp)   
+  `Get-DomainGPOLocalGroup`   
 
 ### Network
 - run wireshark, save dump --> `./Pcredz -f dump.pcap`  
