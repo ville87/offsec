@@ -359,6 +359,10 @@ PHP:
   `Get-DomainGPOLocalGroup`   
 - Enumerate the machines where a specific domain user/group is a member of a specific local group. (Using PowerUp)
   `powershell Get-DomainGPOUserLocalGroupMapping -LocalGroup Administrators`   
+- Find domain machines were specific users are logged into. (Using PowerUp)   
+  `Find-DomainUserLocation`   
+- Query Session information of a remote (or local) computer. (Using PowerUp)
+  `Get-NetSession -ComputerName dc1`   
 
 ### Network
 - run wireshark, save dump --> `./Pcredz -f dump.pcap`  
