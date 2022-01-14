@@ -29,7 +29,7 @@ $computers | Select-Object -Property $name, $distinguishedName, $operatingSystem
 
 ```shell
 # List User Membership
-$search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=vkoch))"
+$search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=MyUser))"
 $users = $search.FindAll()
 foreach($user in $users) {
     $CN = $user.Properties['CN']
