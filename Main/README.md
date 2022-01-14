@@ -357,6 +357,8 @@ PHP:
    https://github.com/sensepost/UserEnum
 - Return all GPOs that modify local group memberships through Restricted Groups or Group Policy Preferences. (Using PowerUp)   
   `Get-DomainGPOLocalGroup`   
+- Enumerate the machines where a specific domain user/group is a member of a specific local group. (Using PowerUp)
+  `powershell Get-DomainGPOUserLocalGroupMapping -LocalGroup Administrators`   
 
 ### Network
 - run wireshark, save dump --> `./Pcredz -f dump.pcap`  
