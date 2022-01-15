@@ -43,3 +43,13 @@
 ### Recon
 - Portscanning on single port without ping test:   
   `New-Object System.Net.Sockets.TCPClient -ArgumentList "hostname.domain.local",3389`   
+
+  
+## Port Forwarding on Windows
+- Setup netsh based port forwarder:      
+  `netsh interface portproxy add v4tov4 listenaddress= listenport= connectaddress= connectport= protocol=tcp`   
+- Show port forwardings:   
+  `netsh interface portproxy show v4tov4`   
+- Remove:
+  `netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444`   
+  
