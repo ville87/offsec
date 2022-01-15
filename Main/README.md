@@ -422,6 +422,8 @@ PHP:
 
 ### Upload  
   `# scp -r localfolder/ user@remotehost:/targetdir/`   
+ - On Windows using Putty:   
+  `C:\Payloads>pscp beacon-http.bin root@kali:/tmp/beacon.bin`
 
 ### SSH copy
 - file: `scp -p 192.168.1.100:/root/filetocopy targetfile` 
