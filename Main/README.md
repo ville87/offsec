@@ -417,6 +417,8 @@ PHP:
 ### Download with SCP
 - when having SSH key to remote target, download file with:  
   `scp -i mysshprivatekey user@10.10.10.10:/home/myuser/filename /home/folder/targetfilename`  
+- From Windows using Putty: (using user root on the target vm "kali" to download the file /tmp/file.bin to the current dir on Windows)   
+  `pscp root@kali:/tmp/file.bin .`   
 
 ### Upload  
   `# scp -r localfolder/ user@remotehost:/targetdir/`   
