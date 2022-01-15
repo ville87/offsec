@@ -8,7 +8,7 @@ Simple tool to trigger SpoolService bug via RPC backconnect. Similar to dementor
 ### Using SpoolSample
 The Printerbug can also be triggered from Windows using the "SpoolSample" tool: https://ci.appveyor.com/project/CompassSecurity/spoolsample   
 
-*Check Spooler Remotely*
+**Check Spooler Remotely**   
 To check if the spooler is active on the remote target, there are different methods:   
 - For DCs, you can use PingCastle   
 - For manually checking a specific target with PowerShell, use: https://raw.githubusercontent.com/vletoux/SpoolerScanner/master/SpoolerScan.ps1
@@ -34,7 +34,7 @@ Payload template
 </html>
 ```
 
-*Outlook* 
+**Outlook**   
 For some reason outlook only allows to embed an HTML file if it is attached through the quick access bar.
 First you need to show the quick access toolbar, then customize the quick access toolbar by adding the command "Attach File" (More Commands...).
 You can then attach the HTML payload to your email (Make sure you click on the dropdown and "Insert as Text")
