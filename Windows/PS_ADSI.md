@@ -115,6 +115,12 @@ Get unconstrained delegation systems:
 ```shell
 ([adsisearcher]"(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))").FindAll()
 ```
+Get constrained delegations: (Check both user and computers)
+```shell
+([adsisearcher]"(&(objectCategory=computer)(msds-allowedtodelegateto=*))").FindAll() | % { $_.Properties['msds-allowedtodelegateto'] }
+([adsisearcher]"(&(objectCategory=user)(msds-allowedtodelegateto=*))").FindAll() | % { $_.Properties['msds-allowedtodelegateto'] }
+```
+
 Get "PasswordNeverExpires", "Enabled" and "PasswordExpired":   
 ```shell
 $ACCOUNTDISABLE = 0x000002
