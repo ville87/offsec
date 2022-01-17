@@ -1,3 +1,25 @@
+# Kerberos Info Gathering
+## Query SPNs
+If you want to first only query registered SPNs to limit the noise, there are different methods.   
+**CMD.exe**   
+Using cmd.exe: (The following example searches all SPNs in the domain from MSSQL servers)   
+`setspn -Q *MSSQL/*`   
+
+Using cmd.exe on a foreign domain: (The following example searches for Hyper-V related SPNs)   
+`setspn -Q *hyper*/* -T <domainname>`   
+
+**Native PowerShell**   
+```
+$search = [adsisearcher]"(&(sAMAccountType=805306368)(servicePrincipalName=*))"
+$search.PageSize = 10000
+$spnusers = $search.FindAll()
+```   
+**BloodHound**   
+Using BloodHound: (list all user accounts with an SPN)   
+`MATCH (u:User {hasspn:true}) RETURN u`   
+You can even expand the BloodHound query to include pathes to computers from these accounts:   
+`MATCH (u:User {hasspn:true}), (c:Computer), p=shortestPath((u)-[*1..]->(c)) RETURN p`   
+
 # Kerberos Attacks
 
 ## ASREPRoast 
