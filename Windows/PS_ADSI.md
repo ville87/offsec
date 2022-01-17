@@ -102,12 +102,19 @@ All users not require to have a password:
 
 ```
 
-All users with "Do not require kerberos preauthentication" enabled:   
+All users with "Do not require kerberos preauthentication" enabled (AS-REP Roasting):   
 ```shell
-([adsisearcher]'(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))').FindAll()
-
+([adsisearcher]"(&(sAMAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304))").FindAll()
+```
+Get Kerberoastable accounts:
+```shell
+([adsisearcher]"(&(sAMAccountType=805306368)(servicePrincipalName=*))").FindAll()
 ```
 
+Get unconstrained delegation systems:
+```shell
+([adsisearcher]"(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))").FindAll()
+```
 Get "PasswordNeverExpires", "Enabled" and "PasswordExpired":   
 ```shell
 $ACCOUNTDISABLE = 0x000002
