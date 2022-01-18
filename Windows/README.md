@@ -4,6 +4,10 @@
 - Nmap   
   Download https://nmap.org/dist/nmap-7.91-setup.exe   
 
+- **PowerView**   
+  Get write accessible shares:   
+  `Find-DomainShare -CheckShareAccess`   
+
 - Crackmapexec   
   Download and setup Python 3 from: https://www.python.org/downloads/windows/   
   Download and setup MS Build Tools for C++ from: https://visualstudio.microsoft.com/de/visual-cpp-build-tools/   
