@@ -4,6 +4,12 @@
 - Nmap   
   Download https://nmap.org/dist/nmap-7.91-setup.exe   
 
+- **PowerView**   
+  Get write accessible shares:   
+  `Find-DomainShare -CheckShareAccess`   
+  Find accounts which have ACLs for account takeover:   
+  `Get-DomainObjectAcl -SearchBase "CN=Users,DC=domain,DC=local" | ? { $_.ActiveDirectoryRights -match "GenericAll|WriteProperty|WriteDacl" -and $_.SecurityIdentifier -match "S-1-5-21-3263068140-2042698922-2891547269-[\d]{4,10}" } | select ObjectDN, ActiveDirectoryRights, SecurityIdentifier | fl`   
+
 - Crackmapexec   
   Download and setup Python 3 from: https://www.python.org/downloads/windows/   
   Download and setup MS Build Tools for C++ from: https://visualstudio.microsoft.com/de/visual-cpp-build-tools/   
