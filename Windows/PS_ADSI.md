@@ -29,7 +29,7 @@ $computers | Select-Object -Property $name, $distinguishedName, $operatingSystem
 
 ```shell
 # List User Membership
-$search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=vkoch))"
+$search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=MyUser))"
 $users = $search.FindAll()
 foreach($user in $users) {
     $CN = $user.Properties['CN']
@@ -102,10 +102,23 @@ All users not require to have a password:
 
 ```
 
-All users with "Do not require kerberos preauthentication" enabled:   
+All users with "Do not require kerberos preauthentication" enabled (AS-REP Roasting):   
 ```shell
-([adsisearcher]'(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))').FindAll()
+([adsisearcher]"(&(sAMAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304))").FindAll()
+```
+Get Kerberoastable accounts:
+```shell
+([adsisearcher]"(&(sAMAccountType=805306368)(servicePrincipalName=*))").FindAll()
+```
 
+Get unconstrained delegation systems:
+```shell
+([adsisearcher]"(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))").FindAll()
+```
+Get constrained delegations: (Check both user and computers)
+```shell
+([adsisearcher]"(&(objectCategory=computer)(msds-allowedtodelegateto=*))").FindAll() | % { $_.Properties['msds-allowedtodelegateto'] }
+([adsisearcher]"(&(objectCategory=user)(msds-allowedtodelegateto=*))").FindAll() | % { $_.Properties['msds-allowedtodelegateto'] }
 ```
 
 Get "PasswordNeverExpires", "Enabled" and "PasswordExpired":   
