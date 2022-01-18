@@ -504,17 +504,26 @@
                     "query": "MATCH (c1:Computer)-[:MemberOf*1..]->(g:Group) WHERE g.objectid ENDS WITH '-516' WITH COLLECT(c1.name) AS domainControllers MATCH (c2:Computer {unconstraineddelegation:true}) WHERE NOT c2.name IN domainControllers RETURN c2"
                 }
             ]
-        },			
+        },	
 		{
-            "name": " Return the name of every computer in the database where at least one SPN for the computer contains the string 'MSSQL'",
+            "name": "Return the name of every computer in the database where at least one SPN for the computer contains the string 'MSSQL'",
             "queryList": [
                 {
                     "final": true,
                     "query": "MATCH (c:Computer) WHERE ANY (x IN c.serviceprincipalnames WHERE toUpper(x) CONTAINS 'MSSQL') RETURN c"
                 }
             ]
-        },				
+        },	
 		{
+            "name": "List SQL Admins",
+            "queryList": [
+                {
+                    "final": true,
+                    "query": "MATCH p=(u:User)-[:SQLAdmin]->(c:Computer) RETURN p"
+                }
+            ]
+        },
+        {
             "name": "View all GPOs",
             "queryList": [
                 {
