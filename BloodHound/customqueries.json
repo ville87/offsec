@@ -243,6 +243,15 @@
             ]
         },
         {
+            "name": "All groups that have an edge to machines via ReadLAPSPassword",
+            "queryList": [
+                {
+                    "final": true,
+                    "query": "MATCH p=(g:Group)-[:ReadLAPSPassword]->(c:Computer) RETURN p"
+                }
+            ]
+        },
+        {
             "name": "All Users with with Same Name in Different Domains",
             "queryList": [
                 {
