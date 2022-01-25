@@ -193,7 +193,11 @@ Path traversal:
    2. `python /tmp/asdf.py` 
 - SSH Tunnel (Source --> public ip 1.1.1.1 --> machine with private ip 2.2.2.2) to RDP to internal VM (2.2.2.2)  
   `ssh -l <username-on-1.1.1.1> (-i key.txt) -L 1337:2.2.2.2:3389 1.1.1.1`  
-  afterwards you can RDP to the internal VM with: localhost:1337  
+  Afterwards you can RDP to the internal VM with: localhost:1337  
+  Another example:   
+  `ssh -l username@sshjumphost -i key -L 1337:20.130.239.71:3389 sshjumphost.com`   
+  Now connect RDP with 127.0.0.1:1337   
+  
 - SSH Tunnel with SSHuttle:  
   `sshuttle -vvr user@10.10.10.10 10.1.1.0/24` 
   With SSH Key:  
