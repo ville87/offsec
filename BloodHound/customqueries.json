@@ -84,6 +84,15 @@
                 }
             ]
         },
+	{
+            "name": "LAPS Passwords Readable by Owned Principals",
+            "queryList": [
+                {
+                    "final": true,
+                    "query": "MATCH p = (n {owned: true})-[r1:MemberOf*1..]->(g:Group)-[r2:GenericAll]->(t:Computer {haslaps:true}) RETURN p"
+                }
+            ]
+        },
         {
             "name": "All Shortest Paths from no Signing to Domain",
             "queryList": [
