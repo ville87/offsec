@@ -437,6 +437,8 @@ PHP:
 
 ### Upload  
   `# scp -r localfolder/ user@remotehost:/targetdir/`   
+  Single file:   
+  `$ scp -i /home/kali/.ssh/id_rsa /home/kali/Desktop/urls.txt username@server.domain.com:/home/username/urls.txt`   
  - On Windows using Putty:   
   `C:\Payloads>pscp beacon-http.bin root@kali:/tmp/beacon.bin`
 
