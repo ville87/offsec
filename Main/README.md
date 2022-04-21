@@ -156,6 +156,10 @@ Transfer files from the Kali VM with smbserver.py:
   `/opt/PowerSploit/Privesc/Privesc.psd1`   
   `# ruby evil-winrm.rb -i 10.10.10.169 -u Hans -p 'Wurst123!' -s /opt/PowerSploit/Privesc/`   
 
+## WMI Commands
+You can run WMI commands remotely without using WinRM / PSExec:   
+<add link>   
+
 ## NFS
  - `nmap -p 111 --script=nfs* -iL nfstargets.txt`  
    example output:  
