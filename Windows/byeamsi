@@ -1,3 +1,6 @@
+# find more on: https://github.com/tihanyin/PSSW100AVB
+################
+
 $ABCDEFGG = @"
 using System;
 using System.Runtime.InteropServices;
