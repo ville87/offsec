@@ -158,7 +158,7 @@ Transfer files from the Kali VM with smbserver.py:
 
 ## WMI Commands
 - You can run WMI commands remotely without using WinRM / PSExec:   
-  [WMI doc](#/Main/wmi.md)   
+  [WMI doc](#wmi.md)   
 
 ## NFS
  - `nmap -p 111 --script=nfs* -iL nfstargets.txt`  
