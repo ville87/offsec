@@ -163,6 +163,10 @@ Get Failed logon attempts (badpwdcount):
 ```shell
 ([adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User))").FindAll() | % {write-host $_.Properties['name'] "--->" $_.Properties['badpwdcount'] }
 ```
+Get group membership   
+```
+([adsisearcher]"(&(ObjectClass=Group)(CN=ADMINISTRATORS))").FindOne().Properties['member']
+```
 Get group membership recursively   
 ```shell
 $findgroup = { param($groupname) ([adsisearcher]"(&(ObjectClass=Group)(CN=$groupname))").FindOne() }
