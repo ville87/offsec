@@ -20,6 +20,10 @@ Using BloodHound: (list all user accounts with an SPN)
 You can even expand the BloodHound query to include pathes to computers from these accounts:   
 `MATCH (u:User {hasspn:true}), (c:Computer), p=shortestPath((u)-[*1..]->(c)) RETURN p`   
 
+## Get Kerberos Delegation Accounts
+Requires AD Modules:   
+`Get-ADObject -filter { (UserAccountControl -BAND 0x0080000) -OR (UserAccountControl -BAND 0x1000000) -OR (msDS-AllowedToDelegateTo -like '*') } -prop Name,ObjectClass,PrimaryGroupID,UserAccountControl,ServicePrincipalName,msDS-AllowedToDelegateTo`   
+
 # Kerberos Attacks
 ## Kerberoasting
 From Windows against single user using Rubeus.exe:   
