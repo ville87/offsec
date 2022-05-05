@@ -53,6 +53,13 @@
 - Gather active user sessions on Windows:   
   Check: https://raw.githubusercontent.com/FuzzySecurity/PowerShell-Suite/master/Invoke-NetSessionEnum.ps1   
 
+- SMB Share Wildcard search. If you find an interesting share which e.g. contains user profiles (e.g. citrix profiles) and you want search for every txt file in every profiles desktop folder. The wildcard in this case replaces the subfolder (and some other levels of directories) where the folder name is the username.    
+  ```
+  $someshare = "\\hostxy\share$\citrix_profiles"
+  $dirs = Get-ChildItem -Path "$someshare\*\Desktop" -Directory
+  $dirs | % {get-childitem -Path $_ *.txt} | % {$_.FullName}
+  ```
+  
   
 ## Port Forwarding on Windows
 - Setup netsh based port forwarder:      
