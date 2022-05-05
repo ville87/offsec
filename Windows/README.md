@@ -59,8 +59,22 @@
   $dirs = Get-ChildItem -Path "$someshare\*\Desktop" -Directory
   $dirs | % {get-childitem -Path $_ *.txt} | % {$_.FullName}
   ```
-  
-  
+- Check current users file permissions:   
+  ```
+  $files = get-childitem -path c:\some\path\with\lotsoffiles;
+foreach($file in $files){
+    $filefullname = $file.FullName;
+    $acl = get-acl $filefullname;
+    foreach($item in $acl.access){
+        if(($item.IdentityReference -like "BUILTIN\Users") -or ($item.IdentityReference -like "Everyone") -or ($item.IdentityReference -like "*$env:username")){
+            write-host "+++++++++++++++++++++++++++++++++++++++++++";
+            write-host "file: $filefullname";
+            $item.FileSystemRights;
+        }
+    }
+}
+  ```
+
 ## Port Forwarding on Windows
 - Setup netsh based port forwarder:      
   `netsh interface portproxy add v4tov4 listenaddress= listenport= connectaddress= connectport= protocol=tcp`   
