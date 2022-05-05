@@ -90,7 +90,21 @@
     }
 }
   ```
-
+List all folder permissions of a specific user or group (in this example "VORDEFINIERT\Benutzer" meaning every user): 
+```
+$FolderPath = Get-ChildItem -Directory -Path "\\computername\share\users"
+$Output = @()
+ForEach ($Folder in $FolderPath) {
+    $Acl = Get-Acl -Path $Folder.FullName
+    ForEach ($Access in $Acl.Access) {
+if($access.IdentityReference -eq 'VORDEFINIERT\Benutzer'){
+$Properties = [ordered]@{'Folder Name'=$Folder.FullName;'Group/User'=$Access.IdentityReference;'Permissions'=$Access.FileSystemRights;'Inherited'=$Access.IsInherited}
+$Output += New-Object -TypeName PSObject -Property $Properties
+}
+}
+}
+$Output | Out-GridView
+```
 ## Port Forwarding on Windows
 - Setup netsh based port forwarder:      
   `netsh interface portproxy add v4tov4 listenaddress= listenport= connectaddress= connectport= protocol=tcp`   
