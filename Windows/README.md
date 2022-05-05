@@ -45,10 +45,13 @@
   https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/Get-HttpStatus.ps1   
   `foreach($target in (gc .\targets_http_ip.txt)){ Get-HttpStatus -Target $target -Path .\www_wordlist.txt }`   
 
-## Helpful PowerShell commands  
+## Helpful PowerShell commands and scripts  
 ### Recon
 - Portscanning on single port without ping test:   
   `New-Object System.Net.Sockets.TCPClient -ArgumentList "hostname.domain.local",3389`   
+  
+- Gather active user sessions on Windows:   
+  Check: https://raw.githubusercontent.com/FuzzySecurity/PowerShell-Suite/master/Invoke-NetSessionEnum.ps1   
 
   
 ## Port Forwarding on Windows
