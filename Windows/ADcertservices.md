@@ -93,6 +93,7 @@ python3 gettgtpkinit.py <domain>/<username> -pfx-base64 $(cat <base64-cert.file>
 ```
 
 # Pass-The-Certificate
+From: https://www.thehacker.recipes/ad/movement/kerberos/pass-the-certificate    
 A Kerberos service ticket, can only be obtained by presenting a TGT. This TGT can be obtained by
 a) ASREPRoast (if Kerberos pre-auth is disabled)
 b) symmetrical pre-authentication (using a DES,RC4,AES128 or AES256 key)
