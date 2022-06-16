@@ -2,13 +2,20 @@
 
 ## ADSISearcher
 
-Basic usage:   
+### Basic usage   
+Search for users:   
 ```shell
 $search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User))"
 $search.PageSize = 10000
 $users = $search.FindAll()
 ```
-
+Search for groups:   
+```shell
+$objSearcher=[adsisearcher]'(&(objectCategory=group)(name=GroupNameX*))'
+$objSearcher.PageSize = 10000
+$groups = $objSearcher.FindAll()
+```
+### Different Domain Search
 The following example searches for all computers in a different domain (with alternate credentials):   
 ```shell
 $search = [adsisearcher]"(ObjectClass=computer)"
@@ -18,6 +25,7 @@ $search.PageSize = 10000
 $computers = $search.FindAll()
 ```
 
+### Listing Properties
 To get specific properties of the result list, get them from the resulting hashtable as follows:   
 ```shell
 $name = @{n="Name";e={$_.properties.'name'}}
@@ -27,6 +35,7 @@ $description = @{n="Description";e={$_.properties.'description'}}
 $computers | Select-Object -Property $name, $distinguishedName, $operatingSystem, $description
 ```
 
+### List Membership
 ```shell
 # List User Membership
 $search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=MyUser))"
@@ -65,16 +74,28 @@ Function Get-OSCComputerOU
 Get-OSCComputerOU
 ```
 
-Get Subnet information from AD:   
-```shell
-([System.DirectoryServices.ActiveDirectory.Forest]::Getcurrentforest()).Sites.Subnets
-```
-
 Get all computers in the OU "server":   
 ```shell
 (New-Object -TypeName adsisearcher -ArgumentList ([adsi]'LDAP://OU=Servers,DC=contoso,DC=com', '(objectclass=computer)')).FindAll()
 ```
 
+Get group membership   
+```
+([adsisearcher]"(&(ObjectClass=Group)(CN=ADMINISTRATORS))").FindOne().Properties['member']
+```
+Get group membership recursively   
+```shell
+$findgroup = { param($groupname) ([adsisearcher]"(&(ObjectClass=Group)(CN=$groupname))").FindOne() }
+$recursegroup = { param($object, $prefix="") if ($object.Properties['ObjectClass'] -notcontains "group") { Write-Verbose "NOTAGROUP"; Write-Host $prefix"-"$object.Properties['cn'] } else { Write-Verbose "AGROUP"; Write-Host $prefix $object.Properties['name']; $object.Properties['member'] | % { $recursegroup.Invoke([ADSI]"LDAP://$_", $prefix+"|") } } }
+$recursegroup.Invoke($findgroup.Invoke("Domain Admins"))
+```
+
+### AD Information
+Get Subnet information from AD:   
+```shell
+([System.DirectoryServices.ActiveDirectory.Forest]::Getcurrentforest()).Sites.Subnets
+```
+### User Account Control (and other stuff)
 Get accounts with "PasswordNeverExpires" into csv: (import into excel and sort out all "mailbox" accounts and such for documentation)   
 ```shell
 $search = ([adsisearcher]'(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=66048)(!userAccountControl:1.2.840.113556.1.4.803:=514))')
@@ -110,7 +131,6 @@ Get Kerberoastable accounts:
 ```shell
 ([adsisearcher]"(&(sAMAccountType=805306368)(servicePrincipalName=*))").FindAll()
 ```
-
 Get unconstrained delegation systems:
 ```shell
 ([adsisearcher]"(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))").FindAll()
@@ -163,16 +183,7 @@ Get Failed logon attempts (badpwdcount):
 ```shell
 ([adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User))").FindAll() | % {write-host $_.Properties['name'] "--->" $_.Properties['badpwdcount'] }
 ```
-Get group membership   
-```
-([adsisearcher]"(&(ObjectClass=Group)(CN=ADMINISTRATORS))").FindOne().Properties['member']
-```
-Get group membership recursively   
-```shell
-$findgroup = { param($groupname) ([adsisearcher]"(&(ObjectClass=Group)(CN=$groupname))").FindOne() }
-$recursegroup = { param($object, $prefix="") if ($object.Properties['ObjectClass'] -notcontains "group") { Write-Verbose "NOTAGROUP"; Write-Host $prefix"-"$object.Properties['cn'] } else { Write-Verbose "AGROUP"; Write-Host $prefix $object.Properties['name']; $object.Properties['member'] | % { $recursegroup.Invoke([ADSI]"LDAP://$_", $prefix+"|") } } }
-$recursegroup.Invoke($findgroup.Invoke("Domain Admins"))
-```
+
 
 Get trusted domains and trusted forests:   
 ```shell
