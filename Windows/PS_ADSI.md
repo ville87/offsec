@@ -15,6 +15,10 @@ $objSearcher=[adsisearcher]'(&(objectCategory=group)(name=GroupNameX*))'
 $objSearcher.PageSize = 10000
 $groups = $objSearcher.FindAll()
 ```
+Oneliner:
+```
+([adsisearcher]'(&(objectCategory=group)(name=Groupxy*))').FindAll()
+```
 ### Different Domain Search
 The following example searches for all computers in a different domain (with alternate credentials):   
 ```shell
