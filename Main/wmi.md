@@ -1,4 +1,16 @@
 # All Kind of WMI Stuff
+## Enum
+list WMI event filters:     
+`Get-WMIObject -Namespace root\Subscription -Class __EventFilter`  
+
+list WMI event consumers:    
+`Get-WMIObject -Namespace root\Subscription -Class CommandLineEventConsumer`   
+
+list installed WMI classes:   
+`Get-CimClass`  
+
+list WMI namespaces:   
+`Get-CimInstance -Namespace Root -ClassName __Namespace`    
 
 ## Run WMI Remotely
 You can run WMI commands remotely without using WinRM or PSExec:   
