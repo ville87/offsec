@@ -1,5 +1,0 @@
-Linux proof
-hostname && whoami && cat proof.txt && /sbin/ifconfig
-
-Windows proof
-hostname && whoami.exe && type proof.txt && ipconfig /all
