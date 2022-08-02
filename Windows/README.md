@@ -84,9 +84,9 @@ Specify TLS:
   $someshare = "\\hostxy\share$\citrix_profiles"
   $dirs = Get-ChildItem -Path "$someshare\*\Desktop" -Directory
   $dirs | % {get-childitem -Path $_ *.txt} | % {$_.FullName}
-  ```
+  ```   
 - Check current users file permissions:   
-  ```
+```
   $files = get-childitem -path c:\some\path\with\lotsoffiles;
   foreach($file in $files){
     $filefullname = $file.FullName;
@@ -99,15 +99,15 @@ Specify TLS:
         }
     }
 }
-  ```
-List all folder permissions of a specific user or group (in this example "VORDEFINIERT\Benutzer" meaning every user): 
+```   
+List all folder permissions of a specific user or group (in this example "BUILTIN\Users" meaning every user): 
 ```
 $FolderPath = Get-ChildItem -Directory -Path "\\computername\share\users"
 $Output = @()
 ForEach ($Folder in $FolderPath) {
     $Acl = Get-Acl -Path $Folder.FullName
     ForEach ($Access in $Acl.Access) {
-if($access.IdentityReference -eq 'VORDEFINIERT\Benutzer'){
+if($access.IdentityReference -eq 'BUILTIN\Users'){
 $Properties = [ordered]@{'Folder Name'=$Folder.FullName;'Group/User'=$Access.IdentityReference;'Permissions'=$Access.FileSystemRights;'Inherited'=$Access.IsInherited}
 $Output += New-Object -TypeName PSObject -Property $Properties
 }
