@@ -1,5 +1,5 @@
 # Application Whitelisting Bypasses
-## PowerShell Reflection
+## PowerShell Assembly Reflection
 ```
 # This technique can in some cases be used to bypass application whitelisting
 # The following example runs the tool Snaffler.exe with the argument -s
