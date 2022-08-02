@@ -7,22 +7,7 @@ OSCP Links:
 ## Discovery
 - Host discovery TCP:   
    `TOPTCP="$(grep -E "^[^#]*/tcp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -1000 | tr '\n' ',')"`   
-   `nmap -n -sn --reason -PR -PE -PP -PM -PO -PY -PA -PS"$TOPTCP" -PU -iL targets.txt -oA nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp`  
-   Options explained:  
-   TOPTCP: Variable containing the top 1000 ports  
-   -n: No DNS lookups  
-   -sn: No portscan  
-   --reason: Show why nmap says this host is online  
-   -PR: Host discovery using ARP requests for hosts which are in the same subnet  
-   -PE: Host discovery using ICMP echo request  
-   -PP: Host discovery using ICMP timestamp request  
-   -PM: Host discovery using ICMP netmask request  
-   -PO: Host discovery by sending various IP protocols (ICMP, IGMP and IP-in-IP)  
-   -PY: Host discovery by sending SCTP packets.  
-   -PA: Host discovery by sending a TCP ACK packet to port 80 (if the host is online, it should reply with a RST packet if this is not firewalled).  
-   -PS: Host discovery by sending TCP SYN packet to the $TOPTCP ports. This is done with a variable, because the --top-ports option is ignored for host discovery. If the host is online and the port is open, a SYN/ACK packet is replied. If the host is online but the port closed, a RST packet is returned.  
-   -PU: Host discovery by sending a UDP packet to the port 40125. (If the host is online and the port closed, an ICMP Port Unreachable packet is returned if this is not firewalled).  
-   -oA: Write output to file  
+   `nmap -n -sn --reason -PR -PE -PP -PM -PO -PY -PA -PS"$TOPTCP" -PU -iL targets.txt -oA nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp`   
    Quick Win Ports:   
    `# nmap -n -Pn -sS -p 21,23,69,80,111,139,443,445,1433,2049,3263,3264,3306,5432,5900,6000,8080,8443,22,25,587,53,3389 -oA quick_wins_tcp_vlans -iL ranges.txt --min-hostgroup 256 --max-retries 1 --defeat-rst-ratelimit --min-rate 10000
 `   
