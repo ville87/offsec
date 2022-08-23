@@ -6,7 +6,7 @@
  SCCM deploys a so called "Network Access Account" to the workstations, which is used to access network shares. Pushed to every SCCM client in machine policy   
  Credentials are stored locally on clients as DPAPI blobs protected by the system's masterkey   
  - Retrievable via WMI as a privileged user
- - Remain in CIM repository (C:\Windows\System32\Wbem\Repository\OBJECTS.DATA) *after client is uninstalled or account rotation*
+ - Remain in CIM repository (C:\Windows\System32\Wbem\Repository\OBJECTS.DATA) **after client is uninstalled or account rotation**
 
 ### NAA Creds
 Retrieve and decrypt Network Access Account domain credentials from an SCCM client:   
@@ -14,7 +14,7 @@ Retrieve and decrypt Network Access Account domain credentials from an SCCM clie
 WMI Query:   
 `select * from CCM_NetworkAccessAccount`   
 
-*Decrypt Credentials*   
+**Decrypt Credentials**   
 The credentials can be extracted over DPAPI calls with the NT/SYSTEM user.   
 
 ```
