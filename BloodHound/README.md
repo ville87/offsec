@@ -1,5 +1,9 @@
 # All Things BloodHound
 
+## Custom Queries
+You can directly download a custom queries file to your Windows box running BloodHound:   
+`PS C:\> Invoke-WebRequest -Uri "https://raw.githubusercontent.com/CompassSecurity/BloodHoundQueries/master/customqueries.json" -OutFile "$env:USERPROFILE\AppData\Roaming\bloodhound\customqueries.json"`   
+
 ## Queries
 Big list of queries: https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/red-teaming/bloodhound/Handy-BloodHound-Cypher-Queries.md   
 
