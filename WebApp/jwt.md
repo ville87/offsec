@@ -32,3 +32,23 @@ $tokobj = $tokenArray | ConvertFrom-Json
 [System.Text.Encoding]::ASCII.GetString([system.convert]::FromBase64String($tokenheader)) | ConvertFrom-Json | fl | Out-Default
 return $tokobj
 ```
+Function which decodes the JWT and checks if its expired:   
+```
+function Check-TokenValidity
+{
+    param (
+        [Parameter(Mandatory = $true)][string]$JWToken
+    )
+    if (!$JWToken.Contains(".") -or !$JWToken.StartsWith("eyJ")) { Write-Error "Invalid token provided" -ErrorAction Stop }
+    $tokenheader = $JWToken.Split(".")[0].Replace('-', '+').Replace('_', '/')
+    while ($tokenheader.Length % 4) { Write-Verbose "Invalid length for a Base-64 char array or string, adding ="; $tokenheader += "=" }
+    $tokenPayload = $JWToken.Split(".")[1].Replace('-', '+').Replace('_', '/')
+    while ($tokenPayload.Length % 4) { Write-Verbose "Invalid length for a Base-64 char array or string, adding ="; $tokenPayload += "=" }
+    $tokobj = [System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($tokenPayload)) | ConvertFrom-Json
+    if($tokobj.exp -lt ([DateTimeOffset]::Now.ToUnixTimeSeconds())){
+        return $false
+    }else{
+        return $true
+    }
+}
+```
