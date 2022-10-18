@@ -9,6 +9,9 @@ list WMI event consumers:
 list installed WMI classes:   
 `Get-CimClass`  
 
+list WMI classes of specific namespace:   
+`Get-CimClass -Namespace Root\SecurityCenter2`   
+
 list WMI namespaces:   
 `Get-CimInstance -Namespace Root -ClassName __Namespace`    
 
