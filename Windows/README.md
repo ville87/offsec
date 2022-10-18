@@ -116,7 +116,7 @@ $Output += New-Object -TypeName PSObject -Property $Properties
 $Output | Out-GridView
 ```
 Translate SID to username:   
-`((New-Object System.Security.Principal.SecurityIdentifier("S-1-5-21-4199874746-2552548160-2612792759-1736")).Translate( [System.Security.Principal.NTAccount])).value`   
+`((New-Object System.Security.Principal.SecurityIdentifier("S-1-5-21-xxxx-xxxx-xxxx-xxxx")).Translate( [System.Security.Principal.NTAccount])).value`   
 
 
 ## Port Forwarding on Windows
