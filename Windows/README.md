@@ -9,6 +9,10 @@
   `Find-DomainShare -CheckShareAccess`   
   Find accounts which have ACLs for account takeover:   
   `Get-DomainObjectAcl -SearchBase "CN=Users,DC=domain,DC=local" | ? { $_.ActiveDirectoryRights -match "GenericAll|WriteProperty|WriteDacl" -and $_.SecurityIdentifier -match "S-1-5-21-3263068140-2042698922-2891547269-[\d]{4,10}" } | select ObjectDN, ActiveDirectoryRights, SecurityIdentifier | fl`   
+  
+- AccessChk.exe   
+  Get write accessible files /folders for specific user on specific directory:   
+  `accesschk64.exe -uwdqs johnwayne \\dc01.domain.local\NETLOGON`   
 
 - Crackmapexec   
   Download and setup Python 3 from: https://www.python.org/downloads/windows/   
