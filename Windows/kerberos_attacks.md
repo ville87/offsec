@@ -3,7 +3,7 @@
 If you want to first only query registered SPNs to limit the noise, there are different methods.   
 **CMD.exe**   
 Using cmd.exe: (The following example searches all SPNs in the domain from MSSQL servers)   
-`setspn -Q *MSSQL/*`   
+`setspn -Q MSSQLSvc/*`   
 
 Using cmd.exe on a foreign domain: (The following example searches for Hyper-V related SPNs)   
 `setspn -Q *hyper*/* -T <domainname>`   
