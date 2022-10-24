@@ -122,6 +122,20 @@ $Output | Out-GridView
 Translate SID to username:   
 `((New-Object System.Security.Principal.SecurityIdentifier("S-1-5-21-xxxx-xxxx-xxxx-xxxx")).Translate( [System.Security.Principal.NTAccount])).value`   
 
+### Office File Metadata 
+Get Office file metadata:    
+```
+$path = 'C:\Users\bob\Desktop\example.ppt'
+$shell = New-Object -COMObject Shell.Application
+$folder = Split-Path $path
+$file = Split-Path $path -Leaf
+$shellfolder = $shell.Namespace($folder)
+$shellfile = $shellfolder.ParseName($file)
+$outputdata = @()
+0..287 | Foreach-Object { $INDEX = '{0} = {1}' -f $_, $shellfolder.GetDetailsOf($null, $_);$indxnr = $($INDEX.Split("=")[0]); $indxname = $($INDEX.Split("=")[1]);$propvalue = $($shellfolder.GetDetailsOf($shellfile, $indxnr)); if($propvalue -ne ""){$data = [pscustomobject]@{'PropertyName'=$indxname;'PropertyValue'=$propvalue}; $outputdata += $data}}
+```
+
+
 
 ## Port Forwarding on Windows
 - Setup netsh based port forwarder:      
