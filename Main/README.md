@@ -732,4 +732,6 @@ Note: You might have to change the <rdp2tcpFolder>/server/Makefile.mingw32 --> S
 
 Generate shellcode (may need to use different encoder due to huge list of bad characters. x86/fnstenv_mov may help)
 
-## 
+## AMSI Stuff
+AMSI Test string:   
+`‘AMSI Test Sample: 7e72c3ce-861b-4339-8740-0ac1484c1386’ `   
