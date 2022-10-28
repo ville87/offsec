@@ -9,6 +9,10 @@
   `Find-DomainShare -CheckShareAccess`   
   Find accounts which have ACLs for account takeover:   
   `Get-DomainObjectAcl -SearchBase "CN=Users,DC=domain,DC=local" | ? { $_.ActiveDirectoryRights -match "GenericAll|WriteProperty|WriteDacl" -and $_.SecurityIdentifier -match "S-1-5-21-3263068140-2042698922-2891547269-[\d]{4,10}" } | select ObjectDN, ActiveDirectoryRights, SecurityIdentifier | fl`   
+  
+- AccessChk.exe   
+  Get write accessible files /folders for specific user on specific directory:   
+  `accesschk64.exe -uwdqs johnwayne \\dc01.domain.local\NETLOGON`   
 
 - Crackmapexec   
   Download and setup Python 3 from: https://www.python.org/downloads/windows/   
@@ -115,6 +119,29 @@ $Output += New-Object -TypeName PSObject -Property $Properties
 }
 $Output | Out-GridView
 ```
+Translate SID to username:   
+`((New-Object System.Security.Principal.SecurityIdentifier("S-1-5-21-xxxx-xxxx-xxxx-xxxx")).Translate( [System.Security.Principal.NTAccount])).value`   
+
+### Office File Metadata 
+Get Office file metadata:    
+```
+function Get-FileMetadata {
+    Param (
+        [Parameter(Mandatory = $true)][string]$Path
+	)
+    $shell = New-Object -COMObject Shell.Application
+$folder = Split-Path $path
+$file = Split-Path $path -Leaf
+$shellfolder = $shell.Namespace($folder)
+$shellfile = $shellfolder.ParseName($file)
+$outputdata = @()
+0..287 | Foreach-Object { $INDEX = '{0} = {1}' -f $_, $shellfolder.GetDetailsOf($null, $_);$indxnr = $($INDEX.Split("=")[0]); $indxname = $($INDEX.Split("=")[1]);$propvalue = $($shellfolder.GetDetailsOf($shellfile, $indxnr)); if($propvalue -ne ""){$data = [pscustomobject]@{'PropertyName'=$indxname;'PropertyValue'=$propvalue}; $outputdata += $data}}
+$outputdata | format-table
+}
+
+```
+
+
 
 ## Port Forwarding on Windows
 - Setup netsh based port forwarder:      

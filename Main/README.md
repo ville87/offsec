@@ -652,9 +652,23 @@ If you have path traversal plus a location with write access you can exploit tha
   make sure db runs: `db_status`  
   `db_nmap -v -sV 10.11.1.35`  
   `db_nmap -sS -Pn -A 10.11.1.35`  
-
-## Linux RDP Client
+## RDP
+### Linux RDP Client
 - `rdesktop -u username -p password -g 85% -r disk:share=/root/ 10.10.10.10`  
+
+### Tunneling via RDP
+On Linux:   
+1. git clone https://github.com/V-E-O/rdp2tcp
+2. apt install mingw-w64
+3. make server-mingw32   
+Note: You might have to change the <rdp2tcpFolder>/server/Makefile.mingw32 --> Set CC=i686-w64-mingw32-gcc-win32   
+4. make client
+5. xfreerdp /u:<user> /p:<pw> /v:<TargetIP> /rdp2tcp:/home/kali/rdp2tcp/client/rdp2tcp
+6. Transfer the ./server/rdp2tcp.exe to the windows target
+7. On the Windows target, run rdp2tcp.exe as an unprivileged user
+8. On Linux: configure the proxychains config ("socks5 127.0.0.1 1080" >> /etc/proxychains.conf)
+9. `python2 tools/rdp2tcp.py add socks5 127.0.0.1 1080`   
+10. enjoy the tunnel with "proxychains .... targets"!
 
 ## start webserver
 - `python -m SimpleHTTPServer 80`  
@@ -718,4 +732,6 @@ If you have path traversal plus a location with write access you can exploit tha
 
 Generate shellcode (may need to use different encoder due to huge list of bad characters. x86/fnstenv_mov may help)
 
-## 
+## AMSI Stuff
+AMSI Test string:   
+`‘AMSI Test Sample: 7e72c3ce-861b-4339-8740-0ac1484c1386’ `   
