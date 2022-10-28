@@ -29,3 +29,4 @@ Source: [YouTube](https://www.youtube.com/watch?v=CKfjLnEMfvI)
 
 # Notes
 - Avoid built-in 'execute-assembly'
+- Use InlineExecute-Assembly: https://github.com/anthemtotheego/InlineExecute-Assembly 
