@@ -13,3 +13,6 @@ Collect everything:
 Collect on specific subscription only (has to be verified, currently no data in the subscription was collected):   
 `.\azurehound.exe -u "<user>" -p "<pw>" list subscriptions --subscriptionId <SPECIFIC_SUBSCRIPTION_ID> --tenant "<tenantname>.onmicrosoft.com" -o output-sub.json`  
 
+## Random Queries
+Get users which have changed the password within the last year and limit output to 50:   
+`MATCH p=(n:User)-[r:MemberOf*1..]->(m:Group {name:'DOMAIN USERS@DOMAIN.LOCAL'}) WHERE n.pwdlastset > (datetime().epochseconds - (365 * 86400)) RETURN p LIMIT 50`  
