@@ -9,6 +9,9 @@ $search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User))"
 $search.PageSize = 10000
 $users = $search.FindAll()
 ```
+Note: There is a more efficient way to search for users in AD, which only specifies one adsisearcher criteria:   
+`$search = [adsisearcher]"(samAccountType=805306368)"`   
+
 Search for groups:   
 ```shell
 $objSearcher=[adsisearcher]'(&(objectCategory=group)(name=GroupNameX*))'
