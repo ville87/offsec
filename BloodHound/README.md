@@ -1,5 +1,9 @@
 # All Things BloodHound
 
+## Abusing AD Permissions
+There is some documentation to be found online, about what you can do with specific permissions.    
+E.g.: https://github.com/surajpkhetani/Active-Directory-Permission-Abuse
+
 ## Custom Queries
 You can directly download a custom queries file to your Windows box running BloodHound:   
 `PS C:\> Invoke-WebRequest -Uri "https://raw.githubusercontent.com/CompassSecurity/BloodHoundQueries/master/customqueries.json" -OutFile "$env:USERPROFILE\AppData\Roaming\bloodhound\customqueries.json"`   
