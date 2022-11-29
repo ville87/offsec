@@ -38,5 +38,6 @@ With PowerShell from a swagger file:
 
 
 ## Cache Control
-Check if responses without no-store exist by using the following RegEx in Burps search tool:   
-`Cache-Control: (?!.*no-store).*`   
+Check if responses without no-store exist by using Regex in Burps search tool.   
+The following Regex filters out static files like JS, PNG/GIF and CSS:   
+`Cache-Control: (?!.*no-store)((.|\n)*)Content-Type: (?!((text\/css|image\/(png|gif)|application\/javascript))).*`   
