@@ -622,6 +622,7 @@ If you have path traversal plus a location with write access you can exploit tha
 - Extract specific users creds from DC:   
   `impacket-secretsdump 'domain.local/username:password'@<DC-IP> -just-dc-user <username> -just-dc-ntlm`   
 - Extract creds from vmdk/vhd/vhdx files: https://github.com/CCob/Volumiser   
+- SCCM share (SCCMContentLib$) enumeration and credential extraction: https://github.com/1njected/CMLoot    
 
 ## Bypass Applocker
 - Bypass Applocker with mimilib.dll to run arbitrary executables:  
