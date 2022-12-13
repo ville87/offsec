@@ -539,6 +539,8 @@ If you have path traversal plus a location with write access you can exploit tha
   `tcpdump -s 0 port 3389 -i eth0 -w mycap.pcap`  
   Listen for NetBIOS, SMB, RPC:   
   `tcpdump -i eth0 'port 137 || 138 || 139 || 445'`   
+  Record traffic into file and show in console at the same time:   
+  `sudo tcpdump -i eth0 -U -w - | tee test.pcap | tcpdump -r -`    
 
 ## Searching stuff
 - search folder and subfolders for a string, output results and save results to file:   
