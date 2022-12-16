@@ -547,6 +547,8 @@ If you have path traversal plus a location with write access you can exploit tha
   `grep -ria @emaildomain.com /mnt/leaks_unpacked/ | tee /root/Desktop/85390/search_emaildomain.out` 
 - searching the home directories on linux:  
   `ls -ahlR /home `  
+- search for ip addresses in files of specified directory and subdirs:   
+  `# grep -rnioE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" /etc`   
 - get full path to file  
   `realpath key.pem`  
 - Comparison: get all entries of file2 with are not already in file1:  
