@@ -2,6 +2,9 @@
 Different ways to parse / report Nmap results...
 
 ## Bash
+Get all hosts with any open port:   
+`# awk '/open/{ print $2 }' *.gnmap | sort -u`   
+
 Get all IPs with specific port open:   
 `grep -E '445/open/tcp' nmap_service_scan_tcp.gnmap | awk '{print $2}'`   
 
