@@ -5,15 +5,15 @@ OSCP Links:
 - https://medium.com/@hakluke/haklukes-ultimate-oscp-guide-part-3-practical-hacking-tips-and-tricks-c38486f5fc97
 
 ## Discovery
-- Host discovery TCP:   
+- Fast host discovery for big ranges (pingscan):   
+  `nmap -sn -T5 --min-parallelism 100 --max-parallelism 256 -oA nmap_10.0.0.0-8_hostdiscovery 10.0.0.0/8`   
+- Thorough host discovery TCP:   
    `TOPTCP="$(grep -E "^[^#]*/tcp" /usr/share/nmap/nmap-services | sort -k 3nr | cut -f2 | cut -f1 -d/ | head -1000 | tr '\n' ',')"`   
    `nmap -n -sn --reason -PR -PE -PP -PM -PO -PY -PA -PS"$TOPTCP" -PU -iL targets.txt -oA nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp`   
    Quick Win Ports:   
    `# nmap -n -Pn -sS -p 21,23,69,80,111,139,443,445,1433,2049,3263,3264,3306,5432,5900,6000,8080,8443,22,25,587,53,3389 -oA quick_wins_tcp_vlans -iL ranges.txt --min-hostgroup 256 --max-retries 1 --defeat-rst-ratelimit --min-rate 10000
 `   
-   Do only pingscan (fastest on huge ranges):   
-   `nmap -sn -T5 --min-parallelism 100 --max-parallelism 256 -iL scope.txt -oA nmap_pingscan`   
-   
+      
    Add discovered hosts to textfile:  
    `awk '/Up$/{ print $2 }' nmap_host_discovery_arp_icmp_ip_sctp_tcp_udp.gnmap | sort -V > targets_online.txt`   
 - Host / Service discovery UDP:   
