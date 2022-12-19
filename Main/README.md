@@ -84,6 +84,11 @@ OSCP Links:
   Use the PHP code in the logfile:  
   `http://10.11.0.2/menu.php?file=c:\xampp\apache\logs\access.log&cmd=ipconfig`  
 
+- Screenshots using GoWitness (via burp proxy):   
+  `./gowitness-2.4.2-linux-amd64 file -f urls.txt --delay 10 -p http://127.0.0.1:8080`   
+  GoWitness report creation:   
+  `./gowitness-2.4.2-linux-amd64 report export -f gowitness-report.zip`   
+
 - Aquatone Installation:
    `wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip` 
    `unzip aquatone_linux_amd64_*.zip -d /opt/aquatone/` 
