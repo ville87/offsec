@@ -1,6 +1,10 @@
 # NMAP Reporting
 Different ways to parse / report Nmap results...
 
+## PowerShell
+Get date and time of executed Nmap scans from all nmap files in local dir:   
+`Get-ChildItem -Filter "*.nmap" | % {get-content $_ } | % { ($_ | Select-String -Pattern "[a-zA-Z]{3} [a-zA-Z]{3} \d{1,2} \d{1,2}:\d{1,2}:\d{1,2}" -all).Matches.Value}`   
+
 ## Bash
 Get all hosts with any open port:   
 `# awk '/open/{ print $2 }' *.gnmap | sort -u`   
