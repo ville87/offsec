@@ -550,6 +550,8 @@ If you have path traversal plus a location with write access you can exploit tha
 ## Searching stuff
 - search folder and subfolders for a string, output results and save results to file:   
   `grep -ria @emaildomain.com /mnt/leaks_unpacked/ | tee /root/Desktop/85390/search_emaildomain.out` 
+- search for string 'pass' in txt files with error redirection:   
+  `find /home -iname "*.txt" 2>/dev/null -exec grep -i 'pass' {} \;`   
 - searching the home directories on linux:  
   `ls -ahlR /home `  
 - search for ip addresses in files of specified directory and subdirs:   
