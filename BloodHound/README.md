@@ -1,4 +1,6 @@
 # All Things BloodHound
+## Tips and Tricks
+In larger environments if runtime is long, run DCOnly first, afterwards run ComputerOnly
 
 ## Abusing AD Permissions
 There is some documentation to be found online, about what you can do with specific permissions.    
