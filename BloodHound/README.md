@@ -4,7 +4,10 @@ In larger environments if runtime is long, run DCOnly first, afterwards run Comp
 
 ## Abusing AD Permissions
 There is some documentation to be found online, about what you can do with specific permissions.    
-E.g.: https://github.com/surajpkhetani/Active-Directory-Permission-Abuse
+E.g.: https://github.com/surajpkhetani/Active-Directory-Permission-Abuse   
+
+BloodHound Abuse texts can be found here:   
+https://github.com/BloodHoundAD/BloodHound/tree/45c04e7292a44362af1031cc0d7bd3748433ac4d/src/components/Modals/HelpTexts   
 
 ## Custom Queries
 You can directly download a custom queries file to your Windows box running BloodHound:   
