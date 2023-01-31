@@ -461,6 +461,7 @@ PHP:
 - LOLBins Windows: https://lolbas-project.github.io/
 - LOLBins Linux: https://gtfobins.github.io/
 - Updog (https://github.com/sc0tfree/updog) --> `updog -d /tmp/www/ -p 443 --password SuperS3cr3t --ssl`   
+- goshs (https://github.com/patrickhener/goshs) --> supports user provided certs   
 
 ## PrivEsc Windows
 - https://github.com/itm4n/PrivescCheck   
