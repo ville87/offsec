@@ -15,6 +15,7 @@ You can directly download a custom queries file to your Windows box running Bloo
 
 ## Queries
 Big list of queries: https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/red-teaming/bloodhound/Handy-BloodHound-Cypher-Queries.md   
+https://gist.github.com/seajaysec/a4d4a545047a51053d52cba567f78a9b
 
 ## AzureHound
 Collect everything:   
