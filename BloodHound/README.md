@@ -48,5 +48,8 @@ Get users which have changed the password within the last year and limit output 
 2. dat to ndjson using ADExplorerSnapshot.py with **objects mode**: `python3 ADExplorerSnapshot.py ad-snapshot.dat -m Objects -o output-folder`  
 3. use jq to parse the ndjson
 
+**Notes**
+ - pwdLastSet is a special format, convert with: `[datetime]::FromFileTime(133195491194415500)`   
+
 ### JQ Examples
 `cat $ndjson | jq '.|select(.userAccountControl==[512])|{name:.userPrincipalName,UAC:.userAccountControl,logoncount:.logonCount,badPwdCount:.badPwdCount,pwdLastSet:.pwdLastSet}|select(.pwdLastSet!=[0])' | Out-File "C:\users\bob\file.json"`
