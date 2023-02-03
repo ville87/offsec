@@ -42,3 +42,11 @@ Collect on specific subscription only (has to be verified, currently no data in 
 ## Random Queries
 Get users which have changed the password within the last year and limit output to 50:   
 `MATCH p=(n:User)-[r:MemberOf*1..]->(m:Group {name:'DOMAIN USERS@DOMAIN.LOCAL'}) WHERE n.pwdlastset > (datetime().epochseconds - (365 * 86400)) RETURN p LIMIT 50`  
+
+## ADExplorer
+1. Make Snapshot with ADExplorer
+2. dat to ndjson using ADExplorerSnapshot.py with **objects mode**: `python3 ADExplorerSnapshot.py ad-snapshot.dat -m Objects -o output-folder`  
+3. use jq to parse the ndjson
+
+### JQ Examples
+`cat $ndjson | jq '.|select(.userAccountControl==[512])|{name:.userPrincipalName,UAC:.userAccountControl,logoncount:.logonCount,badPwdCount:.badPwdCount,pwdLastSet:.pwdLastSet}|select(.pwdLastSet!=[0])' | Out-File "C:\users\bob\file.json"`
