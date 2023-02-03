@@ -141,8 +141,6 @@ $outputdata | format-table
 
 ```
 
-
-
 ## Port Forwarding on Windows
 - Setup netsh based port forwarder:      
   `netsh interface portproxy add v4tov4 listenaddress= listenport= connectaddress= connectport= protocol=tcp`   
@@ -151,3 +149,7 @@ $outputdata | format-table
 - Remove:
   `netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444`   
   
+## Quick SMB Wildcard search
+```
+$readshare = Read-Host "please provide path";$readext = Read-Host "Please provide extension you want to list (without dot, e.g. ps1)";Get-Childitem -Path $readshare -ErrorAction SilentlyContinue -Recurse -Filter "*.$readext";
+```
