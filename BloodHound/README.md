@@ -17,6 +17,22 @@ You can directly download a custom queries file to your Windows box running Bloo
 Big list of queries: https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/red-teaming/bloodhound/Handy-BloodHound-Cypher-Queries.md   
 https://gist.github.com/seajaysec/a4d4a545047a51053d52cba567f78a9b
 
+## Parsing neo4j JSON files
+**Get pwd last set and SPNs from kerberoastable accounts**
+Cypher Query to get kerberoastable accounts:
+`MATCH (d:Domain {name: "SPRVP.DOM"})-[r:Contains*1..]->(u {hasspn: true}) RETURN u`   
+Export to JSON (Note: Replace backslashes in JSON if necessary) and parse with PowerShell:   
+```
+$data = @()
+$krbjson.u | % { $values = [PSCustomObject]@{
+ samaccountname = $_.properties.samaccountname
+ unconstraineddelegation = $_.properties.unconstraineddelegation
+ spns = $_.properties.serviceprincipalnames -join ","
+ pwdlastset = Get-Date -Date ((Get-Date -Date "01-01-1970") + ([System.TimeSpan]::FromSeconds(($($_.properties.pwdlastset))))) -Format "dd/MM/yyyy HH:mm"
+ }
+ $data += $values }
+```
+
 ## AzureHound
 Collect everything:   
 `.\azurehound.exe -u "<user>" -p "<pw>" list --tenant "<tenantname>.onmicrosoft.com" -o output-all.json`  
