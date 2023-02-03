@@ -52,4 +52,9 @@ Get users which have changed the password within the last year and limit output 
  - pwdLastSet is a special format, convert with: `[datetime]::FromFileTime(133195491194415500)`   
 
 ### JQ Examples
-`cat $ndjson | jq '.|select(.userAccountControl==[512])|{name:.userPrincipalName,UAC:.userAccountControl,logoncount:.logonCount,badPwdCount:.badPwdCount,pwdLastSet:.pwdLastSet}|select(.pwdLastSet!=[0])' | Out-File "C:\users\bob\file.json"`
+`cat $ndjson | jq '.|select(.userAccountControl==[512])|{name:.userPrincipalName,UAC:.userAccountControl,logoncount:.logonCount,badPwdCount:.badPwdCount,whencreated:.whenCreated,pwdLastSet:.pwdLastSet}|select(.pwdLastSet!=[0])' | out-file .\jqparsedjson.json`   
+
+### PowerShell parsing JQ output
+```
+$objects = @();$jqparsedjson.entries | Where-Object { $_.logoncount -lt 10 } | % { $data = [PSCustomObject]@{name = $($_.name); logoncount = $($_.logoncount); badpwdcount = $($_.badPwdCount); created = $(get-date ((Get-Date -Date "01-01-1970") + ([System.TimeSpan]::FromSeconds(("$($_.whencreated)")))) -Format "dd/MM/yyyy HH:mm"); pwdLastSet = $( get-date ([datetime]::FromFileTime($($_.pwdLastSet))) -f "dd/MM/yyyy HH:mm" )}; $objects += $data}
+```
