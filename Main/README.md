@@ -121,6 +121,8 @@ OSCP Links:
 - `# smbmap -d DOMAIN -u USER -p PASSWORD --host-file hosts.txt -R -A ".+\.(bat|cmd|ini|kdb|kdbx|key|ps1|reg|txt|vbs)|.*(admin|login|pass|secret|sensitive).*|unattend.*\.xml|web.config" --depth 3`   
 - Query AD users in domain from Kali with known credentials:    
   `# /opt/impacket/examples/GetADUsers.py -all domain.local/user1:Str0ngP@ss2021 -dc-ip 192.168.10.1`   
+- Search interesting files using MANSPIDER:   
+  `manspider host.domain.local --sharenames generalshare -e bat ps1 cfg conf kdbx rtsz -d domain.local -u user1 -p somepass`   
 
 Get files from SMB share:  
 - /usr/share/doc/python-impacket/examples# python smbclient.py 10.11.1.136  
