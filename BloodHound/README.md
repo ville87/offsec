@@ -9,6 +9,11 @@ E.g.: https://github.com/surajpkhetani/Active-Directory-Permission-Abuse
 BloodHound Abuse texts can be found here:   
 https://github.com/BloodHoundAD/BloodHound/tree/master/src/components/Modals/HelpTexts   
 
+### Notes
+**GenericAll**
+- Container: Does not allow to add e.g. members to groups within the container
+
+
 ## Custom Queries
 You can directly download a custom queries file to your Windows box running BloodHound:   
 `PS C:\> Invoke-WebRequest -Uri "https://raw.githubusercontent.com/CompassSecurity/BloodHoundQueries/master/customqueries.json" -OutFile "$env:USERPROFILE\AppData\Roaming\bloodhound\customqueries.json"`   
