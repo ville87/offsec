@@ -17,6 +17,11 @@ You can directly download a custom queries file to your Windows box running Bloo
 Big list of queries: https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/red-teaming/bloodhound/Handy-BloodHound-Cypher-Queries.md   
 https://gist.github.com/seajaysec/a4d4a545047a51053d52cba567f78a9b
 
+## BloodHoundLoader
+Python tool to manipulate neo4j db data: https://github.com/CompassSecurity/BloodHoundQueries/tree/master/BloodHound_Loader   
+Mark list of users as owned:   
+`python .\BloodHoundLoader.py --dburi bolt://localhost:7687 --dbuser neo4j --dbpassword secretpass -m o .\owned.txt`    
+
 ## Parsing neo4j JSON files
 **Get pwd last set and SPNs from kerberoastable accounts**
 Cypher Query to get kerberoastable accounts:
