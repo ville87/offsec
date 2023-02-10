@@ -89,6 +89,11 @@ Specify TLS:
   $dirs = Get-ChildItem -Path "$someshare\*\Desktop" -Directory
   $dirs | % {get-childitem -Path $_ *.txt} | % {$_.FullName}
   ```   
+  Search all files on all users desktop:   
+  `$dirs = Get-ChildItem -Path "C:\users\*\Desktop" -Directory; $dirs | % {get-childitem -Path $_ *.*} | % {$_.FullName}`   
+  Search for only specific extensions:   
+  `$dirs = Get-ChildItem -Path "C:\users\*\Desktop" -Directory; $dirs | % {get-childitem -Path $_ -include ("*.txt","*.ps1","*.cmd") -recurse} | % {$_.FullName}`   
+  
 - Check current users file permissions:   
 ```
   $files = get-childitem -path c:\some\path\with\lotsoffiles;
