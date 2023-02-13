@@ -22,6 +22,9 @@ You can directly download a custom queries file to your Windows box running Bloo
 Big list of queries: https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/red-teaming/bloodhound/Handy-BloodHound-Cypher-Queries.md   
 https://gist.github.com/seajaysec/a4d4a545047a51053d52cba567f78a9b
 
+Show all groups a specific user can AddMember (might take a long time!):   
+`MATCH p=((n)-[r:MemberOf|AddMember*1..]->(m:Group)) WHERE n.name =~ 'TESTUSER@DOMAIN.LOCAL' return p`   
+
 ## BloodHoundLoader
 Python tool to manipulate neo4j db data: https://github.com/CompassSecurity/BloodHoundQueries/tree/master/BloodHound_Loader   
 Mark list of users as owned:   
