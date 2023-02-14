@@ -31,7 +31,6 @@ $search.searchRoot = $domain
 $search.PageSize = 10000
 $computers = $search.FindAll()
 ```
-### Add member to group
 Find user:
 ```
 $search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=testuserabc))"
@@ -47,6 +46,7 @@ $search.searchRoot = $domain
 $group = $search.FindOne()
 $group.Properties['member']
 ```
+### Add member to group
 Add group member:
 ```
 $group = [adsi]"LDAP://192.168.1.1/CN=AD-ADMINS,OU=ADMANAGEMENT,DC=DOMAIN,DC=LOCAL""
