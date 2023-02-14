@@ -31,6 +31,28 @@ $search.searchRoot = $domain
 $search.PageSize = 10000
 $computers = $search.FindAll()
 ```
+### Add member to group
+Find user:
+```
+$search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=testuserabc))"
+$domain = new-object DirectoryServices.DirectoryEntry("LDAP://192.168.1.1","domain.local\testuser1", "xxxxxxx")
+$search.searchRoot = $domain
+$user = $search.FindOne()
+```
+Find group:
+```
+$search = ([adsisearcher]"(&(objectClass=group)(CN=AD-ADMINS))")
+$domain = new-object DirectoryServices.DirectoryEntry("LDAP://192.168.1.1","domain.local\testuser2", "xxxxxx")
+$search.searchRoot = $domain
+$group = $search.FindOne()
+$group.Properties['member']
+```
+Add group member:
+```
+$group = [adsi]"LDAP://192.168.1.1/CN=AD-ADMINS,OU=ADMANAGEMENT,DC=DOMAIN,DC=LOCAL""
+$user = [adsi]"LDAP://192.168.1.1/CN=Wayne John,OU=Users,OU=UserAccounts,DC=DOMAIN,DC=LOCAL"
+$group.add($user.path)
+```
 
 ### Listing Properties
 To get specific properties of the result list, get them from the resulting hashtable as follows:   
