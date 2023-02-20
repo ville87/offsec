@@ -641,6 +641,16 @@ If you have path traversal plus a location with write access you can exploit tha
 - Extract creds from vmdk/vhd/vhdx files: https://github.com/CCob/Volumiser   
 - SCCM share (SCCMContentLib$) enumeration and credential extraction: https://github.com/1njected/CMLoot    
 
+### Python NTLM hash
+```python
+import hashlib,binascii
+hash = hashlib.new('md4', "Somepass1".encode('utf-16le')).digest()
+password = "Somepass1"
+print ("Password before hash: ",password)
+print ("Hashed password: ",binascii.hexlify(hash))
+```
+
+
 ## Bypass Applocker
 - Bypass Applocker with mimilib.dll to run arbitrary executables:  
   `rundll32 c:\path\mimilib.dll,start d:\otherpath\a.exe`  
