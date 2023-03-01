@@ -1,5 +1,27 @@
 # All Things BloodHound
-## Python version
+## BloodHound & Neo4j on Linux
+```
+sudo apt-get install openjdk-11-jdk
+sudo vi /etc/profile
+# Add: 
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+export JAVA_HOME
+export JRE_HOME
+export PATH
+```
+Download the .deb packages for Neo4j Community Edition 4.x.xx and Cypher Shell 4.x from https://neo4j.com/download-center/#community.   
+Install them with:   
+`sudo dpkg -i <pkg.deb>`   
+
+Start neo4j and verify no errors appear:   
+```
+cd /usr/bin
+./neo4j console
+```
+Open neo4j console in browser: http://localhost:7474   
+
+## Python Collector 
 `python3 bloodhound.py -u xxxxxx@domain.local -dc dc01.domain.local -d domain.local -ns 192.168.1.1 --dns-tcp --computerfile /home/kali/Desktop/WindowsServers_LastLogon2023_excludeDCs.txt -w 4 -c LocalAdmin,RDP,Session,LoggedOn --dns-timeout 10`   
 
 ## Tips and Tricks
