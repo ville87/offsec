@@ -1,4 +1,7 @@
 # All Things BloodHound
+## Python version
+`python3 bloodhound.py -u xxxxxx@domain.local -dc dc01.domain.local -d domain.local -ns 192.168.1.1 --dns-tcp --computerfile /home/kali/Desktop/WindowsServers_LastLogon2023_excludeDCs.txt -w 4 -c LocalAdmin,RDP,Session,LoggedOn --dns-timeout 10`   
+
 ## Tips and Tricks
 In larger environments if runtime is long, run DCOnly first, afterwards run ComputerOnly
 
