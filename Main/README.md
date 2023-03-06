@@ -583,6 +583,10 @@ If you have path traversal plus a location with write access you can exploit tha
   `cat domains.txt | rev | cut -d. -f 1-2 | rev`  
 - get client IPs from apache access.log and group them:  
   `cat access.log | cut -d " " -f 1 | sort | uniq -c | sort -urn`  
+- Get Current user:   
+  `grep -oz "USER=.*" /proc/self/environ; echo `   
+- Get current users id:   
+  `cat /proc/self/loginuid;echo`   
 
 ## Creating lists
 - add domain name to the beginning of each user in a users.txt file:  
