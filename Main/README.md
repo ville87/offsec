@@ -768,3 +768,7 @@ Generate shellcode (may need to use different encoder due to huge list of bad ch
 ## AMSI Stuff
 AMSI Test string:   
 `‘AMSI Test Sample: 7e72c3ce-861b-4339-8740-0ac1484c1386’ `   
+
+## Misc
+Create NT hash of string:   
+`rubeus hash /password:<string>`   
