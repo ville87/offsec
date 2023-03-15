@@ -10,6 +10,7 @@ export JAVA_HOME
 export JRE_HOME
 export PATH
 ```
+Install daemon with `apt install daemon`   
 Download the .deb packages for Neo4j Community Edition 4.x.xx and Cypher Shell 4.x from https://neo4j.com/download-center/#community.   
 Install first cypher-shell and then neo4j with:   
 `sudo dpkg -i <pkg.deb>`   
