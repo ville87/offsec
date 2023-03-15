@@ -11,7 +11,7 @@ export JRE_HOME
 export PATH
 ```
 Download the .deb packages for Neo4j Community Edition 4.x.xx and Cypher Shell 4.x from https://neo4j.com/download-center/#community.   
-Install them with:   
+Install first cypher-shell and then neo4j with:   
 `sudo dpkg -i <pkg.deb>`   
 
 Start neo4j and verify no errors appear:   
