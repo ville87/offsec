@@ -79,9 +79,14 @@ foreach($user in $users) {
     write-output "The user is member of:"$user.Properties.memberof
 }
 ```
-List user groups oneliner:   
+List all nested groups of one specific group:   
 ```shell
-([ADSISEARCHER]"(member:1.2.840.113556.1.4.1941:=$(([ADSISEARCHER]"samaccountname=$($env:USERNAME)").FindOne().Properties.distinguishedname))").FindAll().Properties.distinguishedname
+PS C:\Users\jdoe> ([ADSISEARCHER]"(&(objectCategory=Group)(memberOf:1.2.840.113556.1.4.1941:=CN=Marketing,CN=Users,DC=dumpsterfire,DC=local))").FindAll()
+
+Path                                                          Properties
+----                                                          ----------
+LDAP://CN=nestedgroup1,CN=Users,DC=dumpsterfire,DC=local      {usnchanged, distinguishedname, grouptype, whencreated...
+LDAP://CN=nestedgrouplevel2,CN=Users,DC=dumpsterfire,DC=local {usnchanged, distinguishedname, grouptype, whencreated...
 ```
 
 ```shell
