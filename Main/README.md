@@ -366,6 +366,8 @@ PHP:
    `([System.DirectoryServices.ActiveDirectory.Forest]::Getcurrentforest()).GlobalCatalogs`  
 - User Enumeration  
    https://github.com/sensepost/UserEnum
+- User Enumeration using Impacket:   
+  `# lookupsid.py domain.local/username:password@<dc-ip>`   
 - Return all GPOs that modify local group memberships through Restricted Groups or Group Policy Preferences. (Using PowerUp)   
   `Get-DomainGPOLocalGroup`   
 - Enumerate the machines where a specific domain user/group is a member of a specific local group. (Using PowerUp)
