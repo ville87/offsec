@@ -166,3 +166,7 @@ $outputdata | format-table
 ```
 $readshare = Read-Host "please provide path";$readext = Read-Host "Please provide extension you want to list (without dot, e.g. ps1)";Get-Childitem -Path $readshare -ErrorAction SilentlyContinue -Recurse -Filter "*.$readext";
 ```
+
+## Pass-The-Things
+Diagram created by Charlie Bromberg (@_nwodtuhs):   
+![shutdown_passthethings_drawing.webp](shutdown_passthethings_drawing.webp)
