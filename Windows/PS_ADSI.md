@@ -8,12 +8,11 @@
 ### Basic usage   
 Search for users:   
 ```shell
-$search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User))"
+$search = [adsisearcher]"(&(samAccountType=805306368))"
 $search.PageSize = 10000
 $users = $search.FindAll()
 ```
-Note: There is a more efficient way to search for users in AD, which only specifies one adsisearcher criteria:   
-`$search = [adsisearcher]"(samAccountType=805306368)"`   
+Note: The query `(samAccountType=805306368)` is more efficient to search for users in AD, than `(objectCategory=person)(objectClass=user)`, since it only specifies one adsisearcher criteria!
 
 Search for groups:   
 ```shell
@@ -36,7 +35,7 @@ $computers = $search.FindAll()
 ```
 Find user:
 ```
-$search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=testuserabc))"
+$search = [adsisearcher]"(&(samAccountType=805306368)(samaccountname=testuserabc))"
 $domain = new-object DirectoryServices.DirectoryEntry("LDAP://192.168.1.1","domain.local\testuser1", "xxxxxxx")
 $search.searchRoot = $domain
 $user = $search.FindOne()
@@ -70,7 +69,7 @@ $computers | Select-Object -Property $name, $distinguishedName, $operatingSystem
 ### List Membership
 ```shell
 # List User Membership
-$search = [adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=MyUser))"
+$search = [adsisearcher]"(&(samAccountType=805306368)(samaccountname=MyUser))"
 $users = $search.FindAll()
 foreach($user in $users) {
     $CN = $user.Properties['CN']
@@ -135,7 +134,7 @@ Get Subnet information from AD:
 ### User Account Control (and other stuff)
 Get accounts with "PasswordNeverExpires" into csv: (import into excel and sort out all "mailbox" accounts and such for documentation)   
 ```shell
-$search = ([adsisearcher]'(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=66048)(!userAccountControl:1.2.840.113556.1.4.803:=514))')
+$search = ([adsisearcher]'(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=66048)(!userAccountControl:1.2.840.113556.1.4.803:=514))')
 $search.PageSize = 10000
 $userpwneverexpires = $search.FindAll()
 $itemarray = @()
@@ -156,13 +155,13 @@ $itemarray | Export-Csv -NoTypeInformation -Append $outfile -Force
 
 All users not require to have a password:   
 ```shell
-([adsisearcher]'(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=544))').FindAll()
+([adsisearcher]'(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=544))').FindAll()
 
 ```
 
 All users with "Do not require kerberos preauthentication" enabled (AS-REP Roasting):   
 ```shell
-([adsisearcher]"(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))").FindAll()
+([adsisearcher]"(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304))").FindAll()
 ```
 Get Kerberoastable accounts:
 ```shell
@@ -179,7 +178,7 @@ Get constrained delegations: (Check both user and computers)
 ```
 
 No Password Required:   
-`(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=32))`   
+`(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=32))`   
 
 Get "PasswordNeverExpires", "Enabled" and "PasswordExpired":   
 ```shell
@@ -207,7 +206,7 @@ $PASSWORD_EXPIRED)
 
 All users with Logon Script field set:   
 ```shell
-([adsisearcher]'(&(objectCategory=person)(objectClass=user)(scriptPath=*))').FindAll()
+([adsisearcher]'(&(samAccountType=805306368)(scriptPath=*))').FindAll()
 ```
 
 Shadow Credentials:   
@@ -228,7 +227,7 @@ Get LAPS PW of single system:
 
 Get Failed logon attempts (badpwdcount):   
 ```shell
-([adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User))").FindAll() | % {write-host $_.Properties['name'] "--->" $_.Properties['badpwdcount'] }
+([adsisearcher]"(&(samAccountType=805306368))").FindAll() | % {write-host $_.Properties['name'] "--->" $_.Properties['badpwdcount'] }
 ```
 
 Get trusted domains and trusted forests:   
@@ -270,12 +269,12 @@ $output | Where-Object { ($_.ObjectType -like "1131f6ad-9c07-11d1-f79f-00c04fc2d
 
 Get uac value:   
 ```shell
-([adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=kochv2))").Findall().Properties.useraccountcontrol
+([adsisearcher]"(&(samAccountType=805306368)(samaccountname=user1))").Findall().Properties.useraccountcontrol
 ```
 
 You might have to combine queries so that e.g. disabled accounts are not included,e.g.:   
 ```shell
-([adsisearcher]'(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=66048)(!userAccountControl:1.2.840.113556.1.4.803:=514))')
+([adsisearcher]'(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=66048)(!userAccountControl:1.2.840.113556.1.4.803:=514))')
 ```
 
 ### Values
