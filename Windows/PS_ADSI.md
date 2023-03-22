@@ -1,6 +1,9 @@
 # ADSI Queries PowerShell
 
 ## ADSISearcher
+### Links
+ - https://github.com/PwnDefend/Active_Directory_ADSI_Audit_Powershell/blob/main/audit_v1_wip.ps1
+ - Debug Privileges ADSI Research paper: [Managing Active Directory objects with ADSI Edit](debugprivilege_adsi-edit-en-v1.1.pdf)
 
 ### Basic usage   
 Search for users:   
@@ -159,11 +162,11 @@ All users not require to have a password:
 
 All users with "Do not require kerberos preauthentication" enabled (AS-REP Roasting):   
 ```shell
-([adsisearcher]"(&(sAMAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304))").FindAll()
+([adsisearcher]"(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))").FindAll()
 ```
 Get Kerberoastable accounts:
 ```shell
-([adsisearcher]"(&(sAMAccountType=805306368)(servicePrincipalName=*))").FindAll()
+([adsisearcher]"(&(objectClass=user)(servicePrincipalName=*)(!(cn=krbtgt))(!(userAccountControl:1.2.840.113556.1.4.803:=2)))").FindAll()
 ```
 Get unconstrained delegation systems:
 ```shell
@@ -174,6 +177,9 @@ Get constrained delegations: (Check both user and computers)
 ([adsisearcher]"(&(objectCategory=computer)(msds-allowedtodelegateto=*))").FindAll() | % { $_.Properties['msds-allowedtodelegateto'] }
 ([adsisearcher]"(&(objectCategory=user)(msds-allowedtodelegateto=*))").FindAll() | % { $_.Properties['msds-allowedtodelegateto'] }
 ```
+
+No Password Required:   
+`(&(objectCategory=person)(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=32))`   
 
 Get "PasswordNeverExpires", "Enabled" and "PasswordExpired":   
 ```shell
@@ -204,6 +210,13 @@ All users with Logon Script field set:
 ([adsisearcher]'(&(objectCategory=person)(objectClass=user)(scriptPath=*))').FindAll()
 ```
 
+Shadow Credentials:   
+`(msDS-KeyCredentialLink=*)`   
+
+User Objects with Description:   
+`(&(objectCategory=user)(description=*))`   
+
+
 Get LAPS PWs of all systems in the domain (where the user running the command has the permission):   
 ```shell
 ([adsisearcher]"((objectCategory=computer))").FindAll() | % {write-host $_.Properties['name'] "--->" $_.Properties['ms-mcs-admpwd'] }
@@ -217,7 +230,6 @@ Get Failed logon attempts (badpwdcount):
 ```shell
 ([adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User))").FindAll() | % {write-host $_.Properties['name'] "--->" $_.Properties['badpwdcount'] }
 ```
-
 
 Get trusted domains and trusted forests:   
 ```shell
