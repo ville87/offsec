@@ -170,3 +170,7 @@ $readshare = Read-Host "please provide path";$readext = Read-Host "Please provid
 ## Pass-The-Things
 Diagram created by Charlie Bromberg (@_nwodtuhs):   
 ![shutdown_passthethings_drawing.webp](shutdown_passthethings_drawing.webp)
+
+## ACL Abuse Graph
+Graph by @HackAndDo:   
+![hackanddo_aclabuse_graph.png](hackanddo_aclabuse_graph.png)
