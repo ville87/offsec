@@ -136,7 +136,8 @@ Translate SID to username:
 `((New-Object System.Security.Principal.SecurityIdentifier("S-1-5-21-xxxx-xxxx-xxxx-xxxx")).Translate( [System.Security.Principal.NTAccount])).value`   
 
 ### Office File Metadata 
-Get Office file metadata:    
+Get Office file metadata:
+(Note: Some properties are not shown, e.g. Creator and Last Modified By... Either fix script or use exiftool instead)
 ```
 function Get-FileMetadata {
     Param (
