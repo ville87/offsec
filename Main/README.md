@@ -778,3 +778,5 @@ AMSI Test string:
 ## Misc
 Create NT hash (RC4) of string:   
 `rubeus hash /password:<string>`   
+
+Search Jira for Credentials: https://github.com/sahadnk72/jecretz   
