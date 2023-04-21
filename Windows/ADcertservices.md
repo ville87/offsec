@@ -6,7 +6,22 @@ https://social.technet.microsoft.com/Forums/windows/en-US/96016a13-9062-4842-b53
 
 
 ## Enumerating ADCS On Linux
+### Using certipy
+Example using Kerberos via proxychains...   
+First calculate NT hash for the users PW using Python:
+```python
+import hashlib,binascii
+hash = hashlib.new('md4', "SecureP4ssword".encode('utf-16le')).digest()
+print(binascii.hexlify(hash))
+```
+Then get the Kerberos ticket using this hash: (Include the colon before the hash!)   
+`proxychains getTGT.py domain.local/username -dc-ip 10.0.10.1 -hashes :<HASHFROMPREVIOUSSTEP>`   
+Add the generated ccache file to the environment variable:   
+`export KRB5CCNAME=/home/kali/username.ccache`   
+Now run certipy using Kerberos Auth:   
+`proxychains certipy find -u username@domain.local -target dc01.domain.local -vulnerable -k -ns <dnsserverip> -dns-tcp -timeout 10 -enabled -debug`   
 
+### Using Certi
 Download and install Certi
 ```shell
 git clone https://github.com/eloypgz/certi
