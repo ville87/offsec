@@ -45,8 +45,10 @@ You can directly download a custom queries file to your Windows box running Bloo
 `PS C:\> Invoke-WebRequest -Uri "https://raw.githubusercontent.com/CompassSecurity/BloodHoundQueries/master/customqueries.json" -OutFile "$env:USERPROFILE\AppData\Roaming\bloodhound\customqueries.json"`   
 
 ## Queries
-Big list of queries: https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/red-teaming/bloodhound/Handy-BloodHound-Cypher-Queries.md   
-https://gist.github.com/seajaysec/a4d4a545047a51053d52cba567f78a9b
+Big list of queries:   
+- https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/red-teaming/bloodhound/Handy-BloodHound-Cypher-Queries.md   
+- https://gist.github.com/seajaysec/a4d4a545047a51053d52cba567f78a9b
+- https://github.com/ZephrFish/Bloodhound-CustomQueries/blob/main/customqueries.json
 
 Show all groups a specific user can AddMember (might take a long time!):   
 `MATCH p=((n)-[r:MemberOf|AddMember*1..]->(m:Group)) WHERE n.name =~ 'TESTUSER@DOMAIN.LOCAL' return p`   
