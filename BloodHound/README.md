@@ -87,6 +87,49 @@ Recommended permissions and roles for AzureHound user:
 - Reader on all Azure Subscriptions
 - Read.All on Microsoft Graph
 
+### AzureHound using Refresh Token
+Note: The client_id value of “1950a258-227b-4e31-a9cf-717495945fc2" is the known Azure AD PowerShell client and the same for every environment.   
+First run the following code to start the auth process:   
+```powershell
+$body = @{
+    "client_id" =     "1950a258-227b-4e31-a9cf-717495945fc2"
+    "resource" =      "https://graph.microsoft.com"
+}
+$UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"
+$Headers=@{}
+$Headers["User-Agent"] = $UserAgent
+$authResponse = Invoke-RestMethod `
+    -UseBasicParsing `
+    -Method Post `
+    -Uri "https://login.microsoftonline.com/common/oauth2/devicecode?api-version=1.0" `
+    -Headers $Headers `
+    -Body $body
+$authResponse
+```
+The output should show a user_code   
+Open a browser and go to: https://microsoft.com/devicelogin   
+Enter the user code and complete the login.   
+Now run the following code to get the Refresh Token:   
+```powershell
+$body=@{
+    "client_id" =  "1950a258-227b-4e31-a9cf-717495945fc2"
+    "grant_type" = "urn:ietf:params:oauth:grant-type:device_code"
+    "code" =       $authResponse.device_code
+}
+$Tokens = Invoke-RestMethod `
+    -UseBasicParsing `
+    -Method Post `
+    -Uri "https://login.microsoftonline.com/Common/oauth2/token?api-version=1.0" `
+    -Headers $Headers `
+    -Body $body
+$Tokens
+```
+You should have a Refresh Token now.
+
+**Running AzureHound**
+You can now collect data with AzureHound using this Refresh Token:
+
+`./azurehound -r "<refresh-token-value>" list --tenant "<domain name>" -o output.json`   
 
 ## Random Queries
 Get users which have changed the password within the last year and limit output to 50:   
