@@ -776,7 +776,21 @@ AMSI Test string:
 `‘AMSI Test Sample: 7e72c3ce-861b-4339-8740-0ac1484c1386’ `   
 
 ## Misc
-Create NT hash (RC4) of string:   
+Create NT hash (RC4) of string using rubeus.exe:   
 `rubeus hash /password:<string>`   
+Using smbencrypt:   
+```bash
+# smbencrypt SecureP4ss                
+LM Hash                         NT Hash
+--------------------------------        --------------------------------
+E41905232DC0574622EC7988C7A60073        409EE7AA969E30D8A04F05D6AB78E57C
+```
+Using python:   
+```python
+import hashlib,binascii
+hash = hashlib.new('md4', "SecureP4ss".encode('utf-16le')).digest()
+print(binascii.hexlify(hash))
+# Output: b'409ee7aa969e30d8a04f05d6ab78e57c'
+```
 
 Search Jira for Credentials: https://github.com/sahadnk72/jecretz   
