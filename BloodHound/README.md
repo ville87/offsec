@@ -131,6 +131,115 @@ You can now collect data with AzureHound using this Refresh Token:
 
 `./azurehound -r "<refresh-token-value>" list --tenant "<domain name>" -o output.json`   
 
+### Azure Queries
+Find users who have high privileges on a subscription with their normal account   
+Goal: Find all paths starting from a user that has high/owner privileges on a subscription. Exclude admin accounts.   
+Option 1: Find all non-admin users that have a path to subscription ownership. Show only the first 1000 paths.   
+```
+MATCH p = (n:AZUser)-[*]->()-[r:AZOwns]->(g:AZSubscription)
+WHERE NOT(tolower(n.userprincipalname) STARTS WITH 'admin_')
+RETURN p
+LIMIT 1000
+```
+Option 2: Find the shortest path for all non-admin users with a path to high privileges on a subscription.   
+```
+MATCH p = shortestpath((n:AZUser)-[*]->(g:AZSubscription))
+WHERE NOT(tolower(n.userprincipalname)
+STARTS WITH 'admin_')
+RETURN p
+```
+Option 3: List all non-admin users, ordered by the number of subscriptions they have high privileges on.   
+```
+MATCH p = shortestpath((n:AZUser)-[*]->(g:AZSubscription))
+WHERE NOT(tolower(n.userprincipalname)
+STARTS WITH 'admin_')
+RETURN n.userprincipalname,
+COUNT(g) ORDER BY COUNT(g) DESC
+```
+Find apps with interesting delegated permissions   
+Goal: Find all Azure apps that have access to resources which might be unexpected, due to nested group memberships.   
+
+Option 1: Find all apps that have a path which ends in another resource with a relationship that is not “RunAs” and not “MemberOf”. These relationships can be on the path, but not at the end of the path.   
+```
+MATCH p = (n:AZApp)-[*]->()-[r]->(g)
+WHERE any(r in relationships(p)
+WHERE NOT(r:AZRunsAs)) and NOT(r:AZMemberOf)
+RETURN p
+LIMIT 3000
+```
+Option 2: The same as option 1, but for all service principals (not all apps are necessarily a service principal).   
+```
+MATCH p = (n:AZServicePrincipal)-[*]->()-[r]->(g)
+WHERE any(r in relationships(p)
+WHERE NOT(r:AZRunsAs)) and NOT(r:AZMemberOf)
+RETURN p
+LIMIT 3000
+```
+Find all VMs with a managed identity that has access to interesting resources   
+Goal: Find VMs which can have a high impact in case they get compromized.   
+```
+MATCH p=(v:AZVM)-->(s:AZServicePrincipal)
+MATCH q=shortestpath((s)-[*]->(r))
+WHERE s <> r
+RETURN q
+```
+Find shortest path from a compromized device to interesting resources   
+Goal: Find a path from a compromized Azure-joined device to a resource.   
+```
+MATCH p = shortestpath((n:AZDevice)-[*]->(g))
+WHERE n <> g
+RETURN p
+LIMIT 100
+```
+Find external user with odd permissions on Azure objects   
+Goal: Find users from an external directory which have odd permissions.   
+Option 1: Find external users with directly assigned permissions.   
+```
+MATCH p = (n:AZUser)-[r]->(g)
+WHERE n.name contains "#EXT#" AND NOT(r:AZMemberOf)
+RETURN n.name, COUNT(g.name), type(r), COLLECT(g.name)
+ORDER BY COUNT(g.name) DESC
+```
+Option 2: Find external users with Owner or Contributor permissions on a subscription.   
+```
+MATCH (n:AZUser) WHERE n.name contains "#EXT#"
+MATCH p = (n)-[*]->()-[r:AZOwns]->(g:AZSubscription)
+RETURN p
+```
+Option 3: Find external users with generic high privileges in Azure.   
+```
+MATCH p = (n:AZUser)-[*]->(g)
+WHERE n.name contains "#EXT#" AND any(r in relationships(p) WHERE NOT(r:AZMemberOf))
+RETURN p
+```
+Find objects with the user administrator role   
+Goal: Find any object that has indirect access to the user administrator role. Note that you can modify this role in the below queries to any other role you deem relevant.   
+Option 1: Find all objects with a path to a specific role. In this case "user administrator".   
+```
+MATCH p = (n)-[*]->(g:AZRole)
+WHERE n<>g and NOT(n:AZTenant) AND g.name starts with "USER ADMINISTRATOR"
+RETURN p
+```
+Option 2: Find all objects, which are not users, with an indirect role assignment.
+```
+MATCH p = shortestpath((n)-[*]->(g:AZRole))
+WHERE n<>g and NOT(n:AZTenant) AND NOT(n:AZManagementGroup) and NOT(n:AZUser)
+RETURN p 
+```
+Option 3: The same as option 2, except we exclude directory readers, since this is a common role to have.   
+```
+MATCH p = shortestpath((n)-[*]->(g:AZRole))
+WHERE n<>g and NOT(n:AZTenant) AND NOT(n:AZManagementGroup) and NOT(n:AZUser) and NOT(g.name starts with "DIRECTORY READERS")
+RETURN p 
+```
+Find users with high privileges on most objects   
+Goal: Identify users with high privileges (owner/contributor) on most objects (non-transitive). Find the top 100 users with most direct contributor permissions. The permission can be changed for AZOwner as well.   
+```
+MATCH p = (n)-[r:AZContributor]->(g)
+RETURN n.name, COUNT(g)
+ORDER BY COUNT(g) DESC
+LIMIT 100
+```
 ## Random Queries
 Get users which have changed the password within the last year and limit output to 50:   
 `MATCH p=(n:User)-[r:MemberOf*1..]->(m:Group {name:'DOMAIN USERS@DOMAIN.LOCAL'}) WHERE n.pwdlastset > (datetime().epochseconds - (365 * 86400)) RETURN p LIMIT 50`  
