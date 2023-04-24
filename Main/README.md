@@ -392,6 +392,11 @@ PHP:
   `cme smb 172.16.1.0/24 -u bill -p 'password' --shares` 
 - Test if user and password combination of domain user are correct:   
   `crackmapexec smb domain.local -d DOMAIN -u username -p password`   
+- CME using Kerberos: (Requires FQDN in request to be the same as in the krb ticket!)
+  ```
+  $ export KRB5CCNAME=/home/testuser/impacket/administrator.ccache 
+  $ cme smb zoro.gold.local --use-kcache
+  ```
   
 ## Password Spraying
 - Using Kerbrute:   
