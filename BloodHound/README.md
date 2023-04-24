@@ -132,6 +132,7 @@ You can now collect data with AzureHound using this Refresh Token:
 `./azurehound -r "<refresh-token-value>" list --tenant "<domain name>" -o output.json`   
 
 ### Azure Queries
+Source: https://falconforce.nl/automating-things-0x01-azurehound-for-blue-teams   
 Find users who have high privileges on a subscription with their normal account   
 Goal: Find all paths starting from a user that has high/owner privileges on a subscription. Exclude admin accounts.   
 Option 1: Find all non-admin users that have a path to subscription ownership. Show only the first 1000 paths.   
