@@ -265,8 +265,35 @@ $output+=$obj
 $output | Where-Object { ($_.ObjectType -like "1131f6ad-9c07-11d1-f79f-00c04fc2dcd2") -or ($_.ObjectType -like "1131f6aa-9c07-11d1-f79f-00c04fc2dcd2")}
 ```
 
-## AD UserAccountControl Values
+## Connect using PFX File
+```powershell
+# Source: https://raw.githubusercontent.com/leechristensen/Random/master/PowerShellScripts/Get-LdapCurrentUser.ps1
+$null = [System.Reflection.Assembly]::LoadWithPartialName("System.DirectoryServices.Protocols")
+$null = [System.Reflection.Assembly]::LoadWithPartialName("System.Net")
+$Ident = New-Object System.DirectoryServices.Protocols.LdapDirectoryIdentifier -ArgumentList @("10.1.1.1:636")
+$c = New-Object System.DirectoryServices.Protocols.LdapConnection $Ident
+$Cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2 @("C:\_Data\username.pfx", "", 'Exportable')
+$null = $c.ClientCertificates.Add($Cert)
+$c.SessionOptions.SecureSocketLayer = $true;
+$c.AuthType = "Kerberos"
+$c.SessionOptions.VerifyServerCertificate = {
+	param($conn, [System.Security.Cryptography.X509Certificates.X509Certificate2]$cert)           
+	Write-Verbose ($cert.ToString($true))
+	$true
+}
+# 1.3.6.1.4.1.4203.1.11.3 = OID for LDAP_SERVER_WHO_AM_I_OID (see MS-ADTS 3.1.1.3.4.2 LDAP Extended Operations)
+$ExtRequest = New-Object System.DirectoryServices.Protocols.ExtendedRequest "1.3.6.1.4.1.4203.1.11.3"
+$resp = $c.SendRequest($ExtRequest)
+$str = [System.Text.Encoding]::ASCII.GetString($resp.ResponseValue)
+if([string]::IsNullOrEmpty($str)) {
+	Write-Error "Authentication failed"
+} else {
+	$str
+}
+$c.Dispose()
+```
 
+## AD UserAccountControl Values
 Get uac value:   
 ```shell
 ([adsisearcher]"(&(samAccountType=805306368)(samaccountname=user1))").Findall().Properties.useraccountcontrol
