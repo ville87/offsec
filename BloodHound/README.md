@@ -84,8 +84,8 @@ Collect on specific subscription only (has to be verified, currently no data in 
 
 Recommended permissions and roles for AzureHound user:   
 - Directory Reader on Azure AD Tenant
-- Reader on all Azure Subscriptions
-- Read.All on Microsoft Graph
+- Reader on all Azure Subscriptions (or "Reader" on the tenants "Root Management Group")
+- Directory.Read.All on Microsoft Graph
 
 ### AzureHound using Refresh Token
 Note: The client_id value of “1950a258-227b-4e31-a9cf-717495945fc2" is the known Azure AD PowerShell client and the same for every environment.   
