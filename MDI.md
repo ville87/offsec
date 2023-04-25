@@ -14,3 +14,4 @@ After dumping all AD objects using ADExplorer, you can generate the ndjson file 
 $ndjson = Get-Content "C:\ADExplorer_1675164450_objects.ndjson" | ConvertFrom-Json
 $ndjson | Where-Object { (($_.description -like "*Defender for Identity*") -and ($_.objectCategory -like "*ms-DS-Group-Managed-Service-Account*"))}
 ```
+Note: It might be worth going through all gMSA accounts, in case the description was changed / customized!
