@@ -12,5 +12,5 @@ It might be possible to identify on-premises MDI by searching the description fi
 After dumping all AD objects using ADExplorer, you can generate the ndjson file using ADExplorerSnapshot.py (GitHub: c3c/ADExplorerSnapshot.py) with the -m objects method. Afterwards, the AD objects can be searched using e.g. PowerShell:   
 ```powershell
 $ndjson = Get-Content "C:\ADExplorer_1675164450_objects.ndjson" | ConvertFrom-Json
-$ndjson | Where-Object { (($_.description -like "*Microsoft Defender for Identity*") -and ($_.objectCategory -like "*ms-DS-Group-Managed-Service-Account*"))}
+$ndjson | Where-Object { (($_.description -like "*Defender for Identity*") -and ($_.objectCategory -like "*ms-DS-Group-Managed-Service-Account*"))}
 ```
