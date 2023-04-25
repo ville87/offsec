@@ -48,6 +48,14 @@ $search.searchRoot = $domain
 $group = $search.FindOne()
 $group.Properties['member']
 ```
+Find DNS zones:   
+```powershell
+$search = [adsisearcher]"(&(objectClass=DnsZone)(!(DC=*arpa))(!(DC=RootDNSServers)))"
+$domain = new-object DirectoryServices.DirectoryEntry("LDAP://10.0.0.1","domain\username", "pw")
+$search.searchRoot = $domain
+$search.PageSize = 10000
+$entries = $search.FindAll()
+```
 ### Add member to group
 Add group member:
 ```
