@@ -383,6 +383,7 @@ PHP:
 - Query Session information of a remote (or local) computer. (Using PowerUp)
   `Get-NetSession -ComputerName dc1`   
 - krbtgt Account: If the krbtgt was created with Windows 2000, the chance is its pw is user provided and can be cracked (pwdLastSet should be before ~2003/4?)   
+- Python port of PowerView (Pywerview): https://github.com/the-useless-one/pywerview   
 
 ### Network
 - run wireshark, save dump --> `./Pcredz -f dump.pcap`  
