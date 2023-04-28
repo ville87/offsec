@@ -175,3 +175,8 @@ Diagram created by Charlie Bromberg (@_nwodtuhs):
 ## ACL Abuse Graph
 Graph by @HackAndDo:   
 ![hackanddo_aclabuse_graph.png](hackanddo_aclabuse_graph.png)
+
+## Find Unsigned or non-MS drivers
+```powershell
+driverquery /si /FO CSV | ConvertFrom-CSV | Where-Object { ($_.IsSigned -eq "False") -or ($_.Manufacturer -ne "Microsoft") }
+```
