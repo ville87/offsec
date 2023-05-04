@@ -56,6 +56,29 @@ $search.searchRoot = $domain
 $search.PageSize = 10000
 $entries = $search.FindAll()
 ```
+
+### List Details of specific user
+```powershell
+$search = [adsisearcher]"(&(samAccountType=805306368)(samaccountname=someusername1))"
+$domain = new-object DirectoryServices.DirectoryEntry("LDAP://10.0.0.1","domain\user", "secretpass")
+$search.searchRoot = $domain
+$search.PageSize = 10000
+$user = $search.FindAll()
+
+$data = [PSCustomObject]@{
+samaccountname = $($user.properties.samaccountname);
+servicePrincipalName = "$($user.properties.servicePrincipalName)";
+useraccountcontrol = "$($user.properties.useraccountcontrol)"; 
+created = $(get-date ($($user.properties.whencreated)) -Format "dd/MM/yyyy HH:mm"); 
+logonCount = $($user.properties.logonCount); 
+lastLogon = Get-Date ([DateTime]::FromFileTime("$($user.properties.lastlogon)") ) -Format "dd/MM/yyyy HH:mm";
+lastLogonTimestamp = Get-Date ([DateTime]::FromFileTime("$($user.properties.lastlogontimestamp)") ) -Format "dd/MM/yyyy HH:mm";
+pwdLastSet = Get-Date ([DateTime]::FromFileTime("$($user.properties.pwdlastset)") ) -Format "dd/MM/yyyy HH:mm";
+memberOf = "$($user.properties.memberof)";};
+$data
+```
+
+
 ### Add member to group
 Add group member:
 ```
@@ -139,6 +162,7 @@ Get Subnet information from AD:
 ```shell
 ([System.DirectoryServices.ActiveDirectory.Forest]::Getcurrentforest()).Sites.Subnets
 ```
+
 ### User Account Control (and other stuff)
 Get accounts with "PasswordNeverExpires" into csv: (import into excel and sort out all "mailbox" accounts and such for documentation)   
 ```shell
