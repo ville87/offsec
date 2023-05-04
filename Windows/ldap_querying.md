@@ -20,9 +20,9 @@ dsquery * -filter “(&(memberof=CN=Staff,DC=PLANETEXPRESS,DC=LOCAl)(memberof=CN
 ## ldapsearch
 https://malicious.link/post/2022/ldapsearch-reference/   
 ```
-ldapsearch -LLL -x -h DC-THESHIP.PLANETEXPRESS.LOCAL -p 389 -D ‘PLANETEXPRESS\SService’ -w ‘L1feD3@thSeamlessContinuum’ -b ‘DC=PLANETEXPRESS,DC=LOCAL’ “(&(objectclass=group)(name=*admin*))” name samaccountname
-ldapsearch -LLL -x -h DC-THESHIP.PLANETEXPRESS.LOCAL -p 389 -D ‘PLANETEXPRESS\SService’ -w ‘L1feD3@thSeamlessContinuum’ -b ‘DC=PLANETEXPRESS,DC=LOCAL’ “(&(objectclass=computer)(name=*DC*))” name samaccountname operatingsystem
-ldapsearch -LLL -x -h DC-THESHIP.PLANETEXPRESS.LOCAL -p 389 -D ‘PLANETEXPRESS\SService’ -w ‘L1feD3@thSeamlessContinuum’ -b ‘DC=PLANETEXPRESS,DC=LOCAL’ “(description=*password*)” name description
-ldapsearch -LLL -x -h DC-THESHIP.PLANETEXPRESS.LOCAL -p 389 -D ‘PLANETEXPRESS\SService’ -w ‘L1feD3@thSeamlessContinuum’ -b ‘DC=PLANETEXPRESS,DC=LOCAL’ “(&(objectclass=user)(pwdlastset<=132655849658851779))” name pwdlastset
-ldapsearch -LLL -x -h DC-THESHIP.PLANETEXPRESS.LOCAL -p 389 -D ‘PLANETEXPRESS\SService’ -w ‘L1feD3@thSeamlessContinuum’ -b ‘DC=PLANETEXPRESS,DC=LOCAL’ “(&(memberof=CN=Staff,DC=PLANETEXPRESS,DC=LOCAl)(memberof=CN=ShipCrew,DC=PLANETEXPRESS,DC=LOCAL))” name memberof
+ldapsearch -LLL -x -H ldaps://DC.DOMAIN.LOCAL -D 'domain\user' -w 'SecreP4ssw0rd' -b 'DC=DOMAIN,DC=LOCAL' "(&(objectclass=group)(name=*admin*))" name samaccountname
+ldapsearch -LLL -x -H ldaps://DC.DOMAIN.LOCAL -D 'domain\user'  -w 'SecreP4ssw0rd'  -b 'DC=DOMAIN,DC=LOCAL'  "(&(objectclass=computer)(name=*DC*))" name samaccountname operatingsystem
+ldapsearch -LLL -x -H ldaps://DC.DOMAIN.LOCAL -D 'domain\user'  -w 'SecreP4ssw0rd'  -b 'DC=DOMAIN,DC=LOCAL'  "(description=*password*)" name description
+ldapsearch -LLL -x -H ldaps://DC.DOMAIN.LOCAL -D 'domain\user'  -w 'SecreP4ssw0rd'  -b 'DC=DOMAIN,DC=LOCAL'  "(&(objectclass=user)(pwdlastset<=132655849658851779))" name pwdlastset
+ldapsearch -LLL -x -H ldaps://DC.DOMAIN.LOCAL -D 'domain\user'  -w 'SecreP4ssw0rd'  -b 'DC=DOMAIN,DC=LOCAL'  "(&(memberof=CN=Staff,DC=DOMAIN,DC=LOCAl)(memberof=CN=ShipCrew,DC=DOMAIN,DC=LOCAL))" name memberof
 ```
