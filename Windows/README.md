@@ -180,3 +180,7 @@ Graph by @HackAndDo:
 ```powershell
 driverquery /si /FO CSV | ConvertFrom-CSV | Where-Object { ($_.IsSigned -eq "False") -or ($_.Manufacturer -ne "Microsoft") }
 ```
+
+## List loaded DLLs of process
+Same as opening in UI task manager --> performance --> resource manager:
+`C:\Windows\System32\perfmon.exe /res`   
