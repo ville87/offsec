@@ -184,3 +184,5 @@ driverquery /si /FO CSV | ConvertFrom-CSV | Where-Object { ($_.IsSigned -eq "Fal
 ## List loaded DLLs of process
 Same as opening in UI task manager --> performance --> resource manager:
 `C:\Windows\System32\perfmon.exe /res`   
+Powershell way:   
+`get-process powershell |select -ExpandProperty modules`   
