@@ -23,3 +23,7 @@ Get all enabled unconstrained delegation objects (systems and users):
 ```powershell
 $ndjson | ? { (($($_.userAccountControl) -band 524288) -and !($($_.userAccountControl) -band 2) ) }
 ```
+Get all enabled unconstrained delegation objects (systems and users) EXCLUDING domain controllers:   
+```powershell
+$ndjson | ? { (($($_.userAccountControl) -band 524288) -and !($($_.userAccountControl) -band 2) -and ($_.distinguishedname -notmatch "OU=Domain Controllers")) }
+```
