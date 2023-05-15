@@ -1,3 +1,7 @@
+# All Stuff about EDR
+Check if MDE is in block mode: https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/edr-block-mode-faqs?view=o365-worldwide   
+`Get-MPComputerStatus|select AMRunningMode`   
+
 # EDR Bypasses
 EDR places hooks in certain moment of execution in memory of processes (after loading DLLs).   
 There are different methods / techniques to evade those EDR hooks.   
