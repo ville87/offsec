@@ -54,6 +54,8 @@ Show all groups a specific user can AddMember (might take a long time!):
 `MATCH p=((n)-[r:MemberOf|AddMember*1..]->(m:Group)) WHERE n.name =~ 'TESTUSER@DOMAIN.LOCAL' return p`   
 Show all groups a specific group can AddMember:   
 `MATCH p=((g)-[r:AddMember*1..]->(m:Group)) WHERE g.name =~ 'GROUPMANAGERS@DOMAIN.LOCAL' return p`   
+Show all local admin rights of owned users:   
+`MATCH p=shortestPath((m:User {owned: TRUE})-[r:HasSession|AdminTo|MemberOf*1..]->(n:Computer)) RETURN p`   
 
 ## BloodHoundLoader
 Python tool to manipulate neo4j db data: https://github.com/CompassSecurity/BloodHoundQueries/tree/master/BloodHound_Loader   
