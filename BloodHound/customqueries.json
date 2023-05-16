@@ -220,7 +220,7 @@
             "queryList": [
                 {
                     "final": true,
-                    "query": "MATCH p = (d:Domain)-[r:Contains*1..]->(o) WHERE o.owned = true RETURN p"
+                    "query": "MATCH (m:User) WHERE m.owned=TRUE RETURN m"
                 }
             ]
         },
