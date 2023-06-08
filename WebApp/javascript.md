@@ -30,6 +30,7 @@ Using a proxy:
 
 ### Linkfinder
 `# for url in $(cat /root/Desktop/urls_js.txt); do python3 linkfinder.py -i $url -o cli; done`   
+Note: If you get SSL deprecation errors, run it with: `python3 -W ignore linkfinder.py`   
 
 ## Sending Local Storage Items to Remote Server
 ### JavaScript (client) 
