@@ -5,6 +5,7 @@ Check if the application does JSON requests with wrong content-type.
 You can check this with the search tool in burp, by using following regex:    
 `Content-Type: (?!.*application/json).*\r\n\r\n[\[{]`   
 Set Options:Regex and Locations:Request Headers + Request Body   
+Note: Ensure there is no space at the end due to copy&paste!   
 
 ## JSON Responses
 To search for JSON Responses with wrong content-type you can use the search tool in burp.   
