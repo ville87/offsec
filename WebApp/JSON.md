@@ -1,7 +1,7 @@
 # Testing JSON 
 ## JSON Requests
 _Application Behavior_   
-Check how the application does JSON requests.   
+Check if the application does JSON requests with wrong content-type.   
 You can check this with the search tool in burp, by using following regex:    
 `Content-Type: (?!.*application/json).*\r\n\r\n[\[{]`   
 Set Options:Regex and Locations:Request Headers + Request Body   
