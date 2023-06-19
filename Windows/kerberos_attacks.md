@@ -24,6 +24,10 @@ You can even expand the BloodHound query to include pathes to computers from the
 Requires AD Modules:   
 `Get-ADObject -filter { (UserAccountControl -BAND 0x0080000) -OR (UserAccountControl -BAND 0x1000000) -OR (msDS-AllowedToDelegateTo -like '*') } -prop Name,ObjectClass,PrimaryGroupID,UserAccountControl,ServicePrincipalName,msDS-AllowedToDelegateTo`   
 
+# Kerberos Ticket
+Get krb ticket for user with known password (e.g. via socks proxy):   
+`.\Rubeus.exe asktgt /user:jdoe /password:<CUT> /domain:lab.local /dc:10.0.0.4 /ptt`
+
 # Kerberos Attacks
 ## Kerberoasting
 ### From Windows
