@@ -83,7 +83,8 @@ Example using smbmap:
 Now, once someone browses to this share, you should see hashes popping up in your Responder instance.
 
 ## MSSQL
-If you happen to find an MSSQL instance where you have access (using PowerUpSQL) and you can run either 'xp_fileexist' or 'xp_dirtree', you can try to use those to trigger an authenticated ntlm connection from the SQL service account to e.g. your responder instance.
+If you happen to find an MSSQL instance where you have access (using PowerUpSQL) and you can run either 'xp_fileexist' or 'xp_dirtree', you can try to use those to trigger an authenticated ntlm connection from the SQL service account to e.g. your responder instance.   
+More methods can be found here: https://github.com/NetSPI/PowerUpSQL/blob/master/templates/CheatSheet_UncPathInjection.txt   
 
 ## SCCM
 If you are on a SCCM managed device with a low privileged user, you can force the SCCM service to authenticate.   
