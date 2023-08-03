@@ -265,6 +265,10 @@ Get LAPS PW of single system:
 ```shell
 ([adsisearcher]"(&(objectCategory=computer)(name=ws1))").FindAll().Properties['ms-mcs-admpwd']
 ```
+List systems without LAPS:   
+```
+([adsisearcher]"(&(objectCategory=computer)(!(ms-mcs-admpwdexpirationtime=*)))").FindAll()
+```
 
 Get Failed logon attempts (badpwdcount):   
 ```shell
