@@ -14,6 +14,9 @@ $users = $search.FindAll()
 ```
 Note: The query `(samAccountType=805306368)` is more efficient to search for users in AD, than `(objectCategory=person)(objectClass=user)`, since it only specifies one adsisearcher criteria!
 
+List all samaccountnames of enabled users:   
+`([adsisearcher]"(&(samAccountType=805306368)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))").FindAll().properties.samaccountname`   
+
 Search for groups:   
 ```shell
 $objSearcher=[adsisearcher]'(&(objectCategory=group)(name=GroupNameX*))'
