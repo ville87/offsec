@@ -58,6 +58,8 @@ Show all local admin rights of owned users:
 `MATCH p=shortestPath((m:User {owned: TRUE})-[r:HasSession|AdminTo|MemberOf*1..]->(n:Computer)) RETURN p`   
 Mark list of users as owned:   
 `MATCH (n) where n.name in ["user1","user2",...] SET n.owned=true;`   
+Remove all CanRDP edges:   
+`MATCH ()-[r:CanRDP]->() DELETE r;`   
 
 ## BloodHoundLoader
 Python tool to manipulate neo4j db data: https://github.com/CompassSecurity/BloodHoundQueries/tree/master/BloodHound_Loader   
