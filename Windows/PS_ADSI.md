@@ -33,6 +33,10 @@ List all descriptions of user accounts:
 ```
 ([adsisearcher]"(&(samAccountType=805306368)(description=*))").FindAll().properties.description
 ```
+Search for SCCM servers:   
+```
+([adsisearcher]"(objectClass=mSSMSManagementPoint)").FindAll().properties
+```
 ### Different Domain Search
 The following example searches for all computers in a different domain (with alternate credentials):   
 ```shell
