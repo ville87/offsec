@@ -4,10 +4,10 @@
 ## Enumeration
 On a SCCM managed endpoint, you can find the Configuration Manager client in the Control Panel, where you can find the configuration (e.g. Site Server and Site Name).
 If you do not have access to such a managed client, there are other ways:   
-- Using PowerShell ADSI: ([adsisearcher]"(objectClass=mSSMSManagementPoint)").FindAll().properties
-- Using sccmhunter.py ( ) : python3 sccmhunter.py find -u username -p 'pass' -d domain.local -dc-ip dc1.domain.local 
-- List SCCM accounts using sccmhunter.py: python3 sccmhunter.py show -users
-- List SCCM computers using sccmhunter.py: python3 sccmhunter.py show -computers
+- Using PowerShell ADSI: `([adsisearcher]"(objectClass=mSSMSManagementPoint)").FindAll().properties`
+- Using sccmhunter.py ( ) : `python3 sccmhunter.py find -u username -p 'pass' -d domain.local -dc-ip dc1.domain.local` 
+- List SCCM accounts using sccmhunter.py: `python3 sccmhunter.py show -users`
+- List SCCM computers using sccmhunter.py: `python3 sccmhunter.py show -computers`
 
 Identifying SCCM servers from portscans (Nmap):    
 - 8530, 8531, 10123 (Site Server, Management Point)
