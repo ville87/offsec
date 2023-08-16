@@ -23,6 +23,9 @@ for (n = 0; n < arguments.length; ++n) {
 ``` 
 
 ## Searching for low hanging fruits
+### TODO: Test JSLuice
+https://github.com/BishopFox/jsluice
+
 ### Secretfinder
 `$ for url in $(cat /root/Desktop/urls_js.txt); do python3 SecretFinder.py -i $url -o cli; done`   
 Using a proxy:   
