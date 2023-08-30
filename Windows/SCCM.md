@@ -1,4 +1,5 @@
 # SCCM
+ - Good summary of all different enum and attack techniques: https://http418infosec.com/offensive-sccm-summary   
  - SharpSCCM: https://github.com/Mayyhem/SharpSCCM    
 
 ## Enumeration
