@@ -20,7 +20,10 @@ for (n = 0; n < arguments.length; ++n) {
         console.log("arguments[" + n + "][" + name + "]=" + arg[name]);
     }
 }
-``` 
+```
+## Un-Minify JS code
+Tool: https://github.com/jehna/humanify   
+Blog: https://thejunkland.com/blog/using-llms-to-reverse-javascript-minification   
 
 ## Searching for low hanging fruits
 ### TODO: Test JSLuice
