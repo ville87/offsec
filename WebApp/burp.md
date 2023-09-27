@@ -27,3 +27,7 @@ Set Locations to Response Headers + Response Body
 The following regex looks for responses missing the “Cache-Control: no-store” header and filters out static files like PNG,GIF,CSS and JavaScript:   
 `Cache-Control: (?!.*no-store)((.|\n)*)Content-Type: (?!((text\/css|image\/(png|gif)|application\/javascript))).*`   
 Set Locations to “Response headers” only   
+
+List all responses missing the content-security-policy header which have the content-type set to text/html:   
+`^((?!.*Content-Security-Policy).*)((.|\n)*)Content-Type: (text\/html).*`   
+Set Locations to “Response headers” only   
