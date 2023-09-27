@@ -15,3 +15,15 @@ An ugly but working hack is to use string split:
 ```powershell
 get-content .\burpresponses.txt | select-string -SimpleMatch '<response base64="true"><![CDATA[' | % { ((($_ -split "\[")[2]) -split "\]")[0] } | % { [System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($_))}
 ``` 
+## Burp Search Regexes
+Search for any JSON requests which do not use Content-Type “application/json”:   
+`Content-Type: (?!.*application/json).*\r\n\r\n[\[{]`   
+Set Locations to Request Headers + Request Body   
+
+Search for JSON responses which weren´t served with Content-Type “application/json”:   
+`Content-Type: (?!application/(.+\+)?json).*\r\n\r\n[\[{]`   
+Set Locations to Response Headers + Response Body   
+ 
+The following regex looks for responses missing the “Cache-Control: no-store” header and filters out static files like PNG,GIF,CSS and JavaScript:   
+`Cache-Control: (?!.*no-store)((.|\n)*)Content-Type: (?!((text\/css|image\/(png|gif)|application\/javascript))).*`   
+Set Locations to “Response headers” only   
