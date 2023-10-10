@@ -59,9 +59,9 @@ OSCP Links:
 ## DNS Enum in AD Domains
 Check out adidnsdump from dirkjanm: https://dirkjanm.io/getting-in-the-zone-dumping-active-directory-dns-with-adidnsdump/   
 First list zones:   
-`proxychains adidnsdump -u domain\\username --print-zones <DC/DNS IP> --dns-tcp`   
+`proxychains adidnsdump -u domain.local\\username --print-zones <DC/DNS IP> --dns-tcp`   
 If we specify the zone to the tool (or leave it empty for the default zone), we will get a list of all the records. Records which can be listed but not read (so called “hidden” records) are shown but only with a question mark, as it is unknown which type of record is present and where it points to. The records are all saved to a file called records.csv.   
-`proxychains adidnsdump -u domain\\username <DC/DNS IP> --dns-tcp`   
+`proxychains adidnsdump -u domain.local\\username <DC/DNS IP> --dns-tcp`   
 
 ## HTTP/HTTPS
 - `curl -i <ip>`   
