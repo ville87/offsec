@@ -1,4 +1,23 @@
 ### PowerShell parsing ADExplorerSnapshot.py output
+First take the dat and create an ndjson: `python3 ADExplorerSnapshot.py ad-snapshot.dat -o output-folder -m objects`   
+Afterwards, user PowerShell to parse.
+
+## PowerShell Examples
+### Users with PW last changed
+Get all users from files created by ADDumpParser (users changed their pw by month) and get their corresponding email attribute for a M365 spraying userlist:
+First create the userlist files with ADDumpParser: `./ADdumpparser.sh <ADExplorer Objects dump file>.ndjson`   
+```powershell
+$files = Get-ChildItem ".\spraying\usernames_by_pwdLastSet_mon_*"
+foreach($file in $files){
+    $adusers = get-content $file.fullname
+    foreach($user in $adusers){ $mail = $ndjson | Where-Object { $_.userprincipalname -like $user };write-host "MonthChanged: $((($file.name).split("."))[0] -replace "usernames_by_pwdLastSet_mon_"); UserPrincipalName: $user; Email: $($mail.mail) "}
+}
+```
+### PKI Cert Templates
+```powershell
+$certtemplates = $ndjson | Where-Object { $_.objectClass -like "*pKICertificateTemplate*"}
+```
+### Misc
 Get uac, spn, logon and pw last changed info of all users:   
 ```powershell
 $objects = @();$ndjson | Where-Object { $_.objectCategory -like "CN=Person*"} | % { $data = [PSCustomObject]@{samaccountname = $($_.samaccountname);servicePrincipalName = "$($_.servicePrincipalName)";useraccountcontrol = "$($_.useraccountcontrol)"; created = $(get-date ((Get-Date -Date "01-01-1970") + ([System.TimeSpan]::FromSeconds(("$($_.whencreated)")))) -Format "dd/MM/yyyy HH:mm"); logonCount = $($_.logonCount); lastLogon = $( get-date ([datetime]::FromFileTime($($_.lastLogon))) -f "dd/MM/yyyy HH:mm" );lastLogonTimestamp = $( get-date ([datetime]::FromFileTime($($_.lastLogonTimestamp))) -f "dd/MM/yyyy HH:mm" );pwdLastSet = $( get-date ([datetime]::FromFileTime($($_.pwdLastSet))) -f "dd/MM/yyyy HH:mm" )}; $objects += $data }
