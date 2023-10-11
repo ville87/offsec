@@ -1,6 +1,6 @@
 # Application Whitelisting Bypasses
 ## Enumeration
-Check Applocker policies:
+Check Applocker policies:    
 `Get-AppLockerPolicies -Effective`    
 ASR Rules:   
 `Get-MpPreference | select AttackSurfaceReductionRules_Ids, AttackSurfaceReductionRules_Action`   
