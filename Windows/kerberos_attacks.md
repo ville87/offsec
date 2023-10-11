@@ -25,7 +25,7 @@ Requires AD Modules:
 
 # Kerberos Ticket
 Get krb ticket for user with known password (e.g. via socks proxy):   
-`.\Rubeus.exe asktgt /user:jdoe /password:<CUT> /domain:lab.local /dc:10.0.0.4 /ptt`
+`.\Rubeus.exe asktgt /user:jdoe /password:<CUT> /domain:lab.local /dc:10.0.0.4 /ptt`   
 Using native Powershell:   
 ```Powershell
 PS C:\> Add-Type -AssemblyName System.IdentityModel  
