@@ -1,6 +1,6 @@
 ### PowerShell parsing ADExplorerSnapshot.py output
-First take the dat and create an ndjson: `python3 ADExplorerSnapshot.py ad-snapshot.dat -o output-folder -m objects`   
-Afterwards, user PowerShell to parse.
+First take the dat from the ADExplorer Snapshot and create an ndjson using ADExplorerSnapshot.py: `python3 ADExplorerSnapshot.py ad-snapshot.dat -o output-folder -m objects`   
+Afterwards, use PowerShell to parse.
 
 ## PowerShell Examples
 ### Users with PW last changed
