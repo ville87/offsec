@@ -54,3 +54,20 @@ Get all users with the flag "Store password using reversible encryption":
 ```powershell
 $ndjson| ? { (($($_.userAccountControl) -band 128) -and !($($_.userAccountControl) -band 2) ) }
 ```
+## Specific stuff
+### PW Spraying list (domain admins by pwdlastset month / year)
+1. Export all domain admins from BloodHound into `.\domainadmins_bhexport.json`
+2. Sort out all unique years for pwdlastset property from ADExplorer snapshot into `.\uniqueyears.txt`
+3. Collect domain user list for pw spraying:   
+```powershell
+$years = get-content .\uniqueyears.txt
+$domainadmins = get-content .\domainadmins_bhexport.json | ConvertFrom-Json
+$domadmins = ($domainadmins.m.properties.name) | select -Unique
+$domainadminsobjects = foreach($user in $domadmins){ $ndjson | Where-Object { $_.userprincipalname -like $user } }
+$objects = @();$domainadminsobjects | % { $data = [PSCustomObject]@{samaccountname = $($_.samaccountname);servicePrincipalName = "$($_.servicePrincipalName)";useraccountcontrol = "$($_.useraccountcontrol)"; created = $(get-date ((Get-Date -Date "01-01-1970") + ([System.TimeSpan]::FromSeconds(("$($_.whencreated)")))) -Format "dd/MM/yyyy HH:mm"); logonCount = $($_.logonCount); lastLogon = $( get-date ([datetime]::FromFileTime($($_.lastLogon))) -f "dd/MM/yyyy HH:mm" );lastLogonTimestamp = $( get-date ([datetime]::FromFileTime($($_.lastLogonTimestamp))) -f "dd/MM/yyyy HH:mm" );pwdLastSet = $( get-date ([datetime]::FromFileTime($($_.pwdLastSet))) -f "dd/MM/yyyy HH:mm" )}; $objects += $data }
+
+
+foreach($year in $years){
+    1..12 | % { $month = "{0:00}" -f $_; $results = $objects | Where-Object { (!($($_.userAccountControl) -band 2) -and ( $_.pwdLastSet -like "*$month/$year*" ))};if(($results |Measure-Object).count -gt 0){$results | select -ExpandProperty samaccountname |out-file .\pwspray_domainadmins_$year`_$month.txt}}
+}
+```
