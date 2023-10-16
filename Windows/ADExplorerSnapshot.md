@@ -46,3 +46,7 @@ Get all enabled unconstrained delegation objects (systems and users) EXCLUDING d
 ```powershell
 $ndjson | ? { (($($_.userAccountControl) -band 524288) -and !($($_.userAccountControl) -band 2) -and ($_.distinguishedname -notmatch "OU=Domain Controllers")) }
 ```
+Get all users with flag "this account is sensitive and cannot be delegated:   
+```powershell
+$ndjson | Where-Object { (($_.objectClass -like "User") -and ($($_.userAccountControl) -band 1048576) )}
+```
