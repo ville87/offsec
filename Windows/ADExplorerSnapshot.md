@@ -50,3 +50,7 @@ Get all users with flag "this account is sensitive and cannot be delegated:
 ```powershell
 $ndjson | Where-Object { (($_.objectClass -like "User") -and ($($_.userAccountControl) -band 1048576) )}
 ```
+Get all users with the flag "Store password using reversible encryption":   
+```powershell
+$ndjson| ? { (($($_.userAccountControl) -band 128) -and !($($_.userAccountControl) -band 2) ) }
+```
