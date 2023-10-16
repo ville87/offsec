@@ -54,6 +54,10 @@ Get all users with the flag "Store password using reversible encryption":
 ```powershell
 $ndjson| ? { (($($_.userAccountControl) -band 128) -and !($($_.userAccountControl) -band 2) ) }
 ```
+Enum Fine Grained PW Policy stuff (TO FINISH):   
+```powershell
+$ndjson | ? { $_.'msDS-PSOApplied' -ne $null}
+```
 ## Specific stuff
 ### PW Spraying list (domain admins by pwdlastset month / year)
 1. Export all domain admins from BloodHound into `.\domainadmins_bhexport.json`
