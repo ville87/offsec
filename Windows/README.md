@@ -163,9 +163,13 @@ $outputdata | format-table
 - Remove:
   `netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444`   
   
-## Quick SMB Wildcard search
+## Quick SMB File Extension search
 ```
 $readshare = Read-Host "please provide path";$readext = Read-Host "Please provide extension you want to list (without dot, e.g. ps1)";Get-Childitem -Path $readshare -ErrorAction SilentlyContinue -Recurse -Filter "*.$readext";
+```
+## Quick SMB File Content String search
+```
+$readshare = Read-Host "please provide path";$readext = Read-Host "Please provide extension you want to list (without dot, e.g. ps1)";$stringsearch = Read-Host "provide keyword to search for in files";Write-host "Looking for string: $stringsearch`r`nFiles with ending: $readext`r`nShare: $readshare";Get-Childitem -Path $readshare -ErrorAction SilentlyContinue -Recurse -Filter "*.$readext" | Select-string $stringsearch -list | select path;
 ```
 
 ## Pass-The-Things
