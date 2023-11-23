@@ -91,9 +91,24 @@ memberOf = "$($user.properties.memberof)";};
 $data
 ```
 
+### Add User
+```
+[ADSI]$OU = "LDAP://CN=Users,DC=lab,DC=local"
+$new = $OU.Create("user","CN=Mister Sister")
+$new.put("samaccountname","msister")
+$new.put("userAccountControl",544)
+$new.setinfo()
+$new.setpassword("This-Is-Some-Serious-Sh1t")
+```
 
 ### Add member to group
 Add group member:
+```
+[ADSI]$newuser = "LDAP://CN=Mister Sister,CN=Users,DC=lab,DC=local"
+[ADSI]$group = "LDAP://CN=Domain Admins,CN=Users,DC=lab,DC=local"
+$group.Add($newuser.ADSPath)
+```
+Or with specifying DC address:   
 ```
 $group = [adsi]"LDAP://192.168.1.1/CN=AD-ADMINS,OU=ADMANAGEMENT,DC=DOMAIN,DC=LOCAL""
 $user = [adsi]"LDAP://192.168.1.1/CN=Wayne John,OU=Users,OU=UserAccounts,DC=DOMAIN,DC=LOCAL"
