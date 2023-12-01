@@ -215,7 +215,7 @@ $itemarray | Export-Csv -NoTypeInformation -Append $outfile -Force
 
 All users not require to have a password:   
 ```shell
-([adsisearcher]'(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=544))').FindAll()
+([adsisearcher]'(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=32))').FindAll()
 
 ```
 
