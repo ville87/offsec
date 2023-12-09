@@ -101,6 +101,17 @@ Specify TLS:
   `$dirs = Get-ChildItem -Path "C:\users\*\Desktop" -Directory; $dirs | % {get-childitem -Path $_ *.*} | % {$_.FullName}`   
   Search for only specific extensions:   
   `$dirs = Get-ChildItem -Path "C:\users\*\Desktop" -Directory; $dirs | % {get-childitem -Path $_ -include ("*.txt","*.ps1","*.cmd") -recurse} | % {$_.FullName}`   
+
+  Search for string in files of max 50MB:   
+  ```
+  # Max filesize of 50MB
+  $maxsizeinbyte = 1024*1024*50
+  $searchstring = "This is what we search for..."
+  Get-ChildItem -Path "C:\" -File -Recurse -OutBuffer 1000 -ErrorAction SilentlyContinue | 
+  where {($_.Length -lt $maxsizeinbyte)} | % {
+      $_ |select-string $searchstring
+  }
+  ```
   
 - Check current users file permissions:   
 ```
