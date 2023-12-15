@@ -101,3 +101,13 @@ With `/ptt` the ticket is automatically imported into the local Kerberos cache a
 # Other stuff
 Change user or groups in Kerberos ticket, Crack requested service tickets:   
 https://github.com/nidem/kerberoast/   
+
+## SPNs which can be used for code exec
+```
+MSSQLSvc -> xp_cmdshell
+TERMServ -> RDP 
+WSMAN+HTTP -> PS remoting
+HOST+HTTP -> WinRM
+HOST -> Task scheduler
+CIFS -> psexec, etc. (SMB)
+```
