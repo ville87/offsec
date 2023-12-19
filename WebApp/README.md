@@ -33,6 +33,9 @@ With PowerShell from a swagger file:
 `$apispec = Get-Content .\swagger2.json | ConvertFrom-Json`   
 `$apispec.paths`   
 
+## GraphQL
+https://gitlab.com/dee-see/graphql-path-enum
+
 ## IDOR Checklist
 ![IDOR Checklist](images/idor.jpg)
 
