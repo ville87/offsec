@@ -695,6 +695,8 @@ print ("Hashed password: ",binascii.hexlify(hash))
   `rundll32 c:\path\mimilib.dll,start d:\otherpath\a.exe`  
 - Run PowerShell.exe via wmic.exe:   
   `wmic.exe process call create "cmd /c powershell"`   
+- Spawn process using WMI via PowerShell:   
+  `([WMICLASS]"\\localhost\ROOT\CIMV2:win32_process").Create("calc.exe")`   
 - Load a binary into byte array and run it from powershell:   
   `[byte[]]$bytes = get-content -encoding byte -path C:\Users\username\Desktop\Snaffler.exe`   
   `$asm = [System.Reflection.Assembly]::Load($bytes)`   
