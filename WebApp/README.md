@@ -36,6 +36,9 @@ With PowerShell from a swagger file:
 ## GraphQL
 https://gitlab.com/dee-see/graphql-path-enum
 
+## 403 bypass
+https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/403/403.md?s=03
+
 ## IDOR Checklist
 ![IDOR Checklist](images/idor.jpg)
 
