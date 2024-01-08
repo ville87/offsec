@@ -1,4 +1,4 @@
-# Windows based Pentesting
+# Windows Pentesting
 
 ## Tools
 - Nmap   
@@ -83,7 +83,6 @@ Specify TLS:
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 ```
 
-  
 ### Recon
 - Portscanning on single port without ping test:   
   `New-Object System.Net.Sockets.TCPClient -ArgumentList "hostname.domain.local",3389`   
@@ -201,3 +200,29 @@ Same as opening in UI task manager --> performance --> resource manager:
 `C:\Windows\System32\perfmon.exe /res`   
 Powershell way:   
 `get-process powershell |select -ExpandProperty modules`   
+
+## Windows Credentials
+Show saved credentials with windows credential manager:   
+`rundll32.exe keymgr.dll,KRShowKeyMgr`   
+
+Examples using cmdkey:   
+```
+  To list available credentials:
+     cmdkey /list
+     cmdkey /list:targetname
+
+  To create domain credentials:
+     cmdkey /add:targetname /user:username /pass:password
+     cmdkey /add:targetname /user:username /pass
+     cmdkey /add:targetname /user:username
+     cmdkey /add:targetname /smartcard
+
+  To create generic credentials:
+     The /add switch may be replaced by /generic to create generic credentials
+
+  To delete existing credentials:
+     cmdkey /delete:targetname
+
+  To delete RAS credentials:
+     cmdkey /delete /ras
+```
