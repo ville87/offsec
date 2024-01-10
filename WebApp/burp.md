@@ -33,5 +33,5 @@ List all responses missing the content-security-policy header which have the con
 Set Locations to “Response headers” only   
 
 Search for POST requests which are not anything with `application/*json`:   
-`(?!application/(.+\+)?json)`   
+`POST((.|\n)*)Content-Type: (?!application/(.+\+)?json)`   
 Set Location to "Request headers" only
