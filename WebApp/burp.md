@@ -31,3 +31,7 @@ Set Locations to “Response headers” only
 List all responses missing the content-security-policy header which have the content-type set to text/html:   
 `^((?!.*Content-Security-Policy).*)((.|\n)*)Content-Type: (text\/html).*`   
 Set Locations to “Response headers” only   
+
+Search for POST requests which are not anything with `application/*json`:   
+`(?!application/(.+\+)?json)`   
+Set Location to "Request headers" only
