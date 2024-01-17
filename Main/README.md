@@ -494,6 +494,7 @@ PHP:
 - goshs (https://github.com/patrickhener/goshs) --> supports user provided certs   
 
 ## PrivEsc Windows
+- https://github.com/vu-ls/Crassus
 - https://github.com/itm4n/PrivescCheck   
 - missing patches:   
   https://github.com/rasta-mouse/Sherlock   
