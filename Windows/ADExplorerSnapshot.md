@@ -93,3 +93,11 @@ foreach($year in $years){
     1..12 | % { $month = "{0:00}" -f $_; $results = $objects | Where-Object { (!($($_.userAccountControl) -band 2) -and ( $_.pwdLastSet -like "*$month/$year*" ))};if(($results |Measure-Object).count -gt 0){$results | select -ExpandProperty samaccountname |out-file .\pwspray_domainadmins_$year`_$month.txt}}
 }
 ```
+### Parsing DateTime values in PowerShell
+If you have a specific format of a date time string, you can try to parse it using the `[datetime]` structure. Example:   
+```powershell
+PS> $objects[1].lastlogonTimestamp
+13/03/2014 09:27
+PS> [datetime]::ParseExact($objects[1].lastlogonTimestamp, 'dd/MM/yyyy hh:mm',$null)
+Thursday, March 13, 2014 9:27:00 AM
+```
