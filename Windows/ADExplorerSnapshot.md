@@ -98,11 +98,12 @@ If you have a specific format of a date time string, you can try to parse it usi
 ```powershell
 PS> $objects[1].lastlogonTimestamp
 13/03/2014 09:27
-PS> [datetime]::ParseExact($objects[1].lastlogonTimestamp, 'dd/MM/yyyy hh:mm',$null)
+PS> [datetime]::ParseExact($objects[1].lastlogonTimestamp, 'dd/MM/yyyy HH:mm',$null)
 Thursday, March 13, 2014 9:27:00 AM
 ```
 To e.g. use this to check if the last logon was after the first of July 2023:   
 ```powershell
-PS> ([datetime]::ParseExact($objects[1].lastlogonTimestamp, 'dd/MM/yyyy hh:mm',$null)) -gt (Get-Date 2023-07-01)
+PS> ([datetime]::ParseExact($objects[1].lastlogonTimestamp, 'dd/MM/yyyy HH:mm',$null)) -gt (Get-Date 2023-07-01)
 False
 ```
+NOTE: For the 24h clock format, the datetime string format has to be defined with HH:mm and for the 12h clock format with hh:mm!   
