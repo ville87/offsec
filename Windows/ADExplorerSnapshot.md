@@ -101,3 +101,8 @@ PS> $objects[1].lastlogonTimestamp
 PS> [datetime]::ParseExact($objects[1].lastlogonTimestamp, 'dd/MM/yyyy hh:mm',$null)
 Thursday, March 13, 2014 9:27:00 AM
 ```
+To e.g. use this to check if the last logon was after the first of July 2023:   
+```powershell
+PS> ([datetime]::ParseExact($objects[1].lastlogonTimestamp, 'dd/MM/yyyy hh:mm',$null)) -gt (Get-Date 2023-07-01)
+False
+```
