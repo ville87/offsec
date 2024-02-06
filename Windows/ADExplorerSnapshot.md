@@ -76,7 +76,15 @@ Enum Fine Grained PW Policy stuff (TO FINISH):
 ```powershell
 $ndjson | ? { $_.'msDS-PSOApplied' -ne $null}
 ```
-## Specific stuff
+MachineAccountQuota:   
+```
+$ndjson | ? { $_.distinguishedName -like "DC=domain,DC=local" } | select ms-DS-MachineAccountQuota
+
+ms-DS-MachineAccountQuota
+-------------------------
+{10}
+```
+
 ### PW Spraying list (domain admins by pwdlastset month / year)
 1. Export all domain admins from BloodHound into `.\domainadmins_bhexport.json`
 2. Sort out all unique years for pwdlastset property from ADExplorer snapshot into `.\uniqueyears.txt`
