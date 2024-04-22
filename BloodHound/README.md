@@ -25,6 +25,13 @@ Open neo4j console in browser: http://localhost:7474
 ## Python Collector 
 `python3 bloodhound.py -u xxxxxx@domain.local -dc dc01.domain.local -d domain.local -ns 192.168.1.1 --dns-tcp --computerfile /home/kali/Desktop/WindowsServers_LastLogon2023_excludeDCs.txt -w 4 -c LocalAdmin,RDP,Session,LoggedOn --dns-timeout 10`   
 
+## ldapsearch
+Get data using ldapsearch with specific ADSI query:   
+`ldapsearch -H ldap://<IP> -x -D <USER>@<FQDN> -w <PASSWORD> -b DC=<DOMAIN>,DC=<TLD> -o ldif-wrap=no -E '!1.2.840.113556.1.4.801=::MAMCAQc=' -E pr=1000/noprompt -LLL -Z '(objectClass=*)'`   
+`1.2.840.113556.1.4.801=::MAMCAQc= ` -> base64-encoded BER-encoded value of ASN.1 structure with flags value of 7 (meaning to get owner, group and DACL information - all except SACL)   
+`pr=1000/noprompt` -> Paging of results to get everything (not just default limit of 1k)   
+Afterwards use the following tool to convert the ldif file to BH compatible JSON: https://github.com/SySS-Research/ldif2bloodhound   
+
 ## Tips and Tricks
 In larger environments if runtime is long, run DCOnly first, afterwards run ComputerOnly
 
