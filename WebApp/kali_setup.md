@@ -6,6 +6,7 @@
 - Make different profiles (about:profiles) and launchers on desktop:
   `firefox -Profile /home/kali/.cache/mozilla/firefox/71oz5v0x.red -no-remote`
 - Optionally install differently colored themes in the profiles
+- Logging and bash prompt setup: https://github.com/ville87/private/blob/main/custom_bashrc.md   
 
 ## Burp extensions
 tbd...
