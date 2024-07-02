@@ -96,15 +96,15 @@ If we specify the zone to the tool (or leave it empty for the default zone), we 
   `./gowitness-2.4.2-linux-amd64 report export -f gowitness-report.zip`   
 
 - Aquatone Installation:
-   `wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip` 
-   `unzip aquatone_linux_amd64_*.zip -d /opt/aquatone/` 
-   If google chrome is not yet installed:  
-   `echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list` 
-   `wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -` 
-   `apt-get update` 
-   `apt-get install google-chrome-stable` 
-   Aquatone Usage:  
-   Collect data based on nmap report: `cat nmap.xml | /opt/aquatone/aquatone -nmap -chrome-path /usr/bin/google-chrome -out screenshots -ports xlarge` 
+   `wget https://github.com/michenriksen/aquatone/releases/download/v1.7.0/aquatone_linux_amd64_1.7.0.zip`   
+   `unzip aquatone_linux_amd64_*.zip -d /opt/aquatone/`   
+   If google chrome is not yet installed:    
+   `echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list`   
+   `wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -`   
+   `apt-get update`   
+   `apt-get install google-chrome-stable`   
+   Aquatone Usage:    
+   Collect data based on nmap report: `cat nmap.xml | /opt/aquatone/aquatone -nmap -chrome-path /usr/bin/google-chrome -out screenshots -ports xlarge`   
    Run Aquatone on list of IPs with specific ports: `cat ips.txt | /opt/aquatone/aquatone -chrome-path /usr/bin/google-chrome -out screenshots -ports 25,80,161,264,443,2001,3478,4999,5222,6080,8443,18264,27299,38751`  
 
 - https://guif.re/webtesting
