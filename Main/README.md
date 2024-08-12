@@ -480,7 +480,7 @@ Enumerate domain users on the remote target:
 - when having SSH key to remote target, download file with:  
   `scp -i mysshprivatekey user@10.10.10.10:/home/myuser/filename /home/folder/targetfilename`  
 - Multiple files:
-  `scp -i C:\Users\username\.ssh\sshkey user@1.1.1.1:/home/user/nmap_results* .`
+  `scp -r -i C:\Users\username\.ssh\sshkey user@1.1.1.1:/home/user/nmap_results* .`
 - From Windows using Putty: (using user root on the target vm "kali" to download the file /tmp/file.bin to the current dir on Windows)   
   `pscp root@kali:/tmp/file.bin .`   
 
