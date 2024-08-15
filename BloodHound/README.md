@@ -56,6 +56,13 @@ List all high value objects:
 `MATCH p=(n) WHERE n.highvalue=true RETURN n.name`   
 List all owned objects:   
 `MATCH p=(n) WHERE n.owned=true RETURN n.name`   
+Reachable high value targets from specific source object:   
+```
+MATCH p=allShortestPaths((n)-[:Owns|GenericAll|GenericWrite|WriteOwner|WriteDacl|MemberOf|ForceChangePassword|AllExtendedRights|AddMember|HasSession|Contains|GPLink|AllowedToDelegate|TrustedBy|AllowedToAct|AdminTo|CanPSRemote|CanRDP|ExecuteDCOM|HasSIDHistory|AddSelf|DCSync|ReadLAPSPassword|ReadGMSAPassword|DumpSMSAPassword|SQLAdmin|AddAllowedToAct|WriteSPN|AddKeyCredentialLink|SyncLAPSPassword|WriteAccountRestrictions|GoldenCert|ADCSESC1|ADCSESC3|ADCSESC4|ADCSESC5|ADCSESC6a|ADCSESC6b|ADCSESC7|ADCSESC9a|ADCSESC9b|ADCSESC10a|ADCSESC10b|ADCSESC13|DCFor|SyncedToEntraUser*1..]->(m))
+WHERE n.objectid = "<SOURCE OBJECT ID>"
+AND "admin_tier_0" IN split(m.system_tags, ' ')
+RETURN p
+```
 
 Big list of queries:   
 - https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/red-teaming/bloodhound/Handy-BloodHound-Cypher-Queries.md   
