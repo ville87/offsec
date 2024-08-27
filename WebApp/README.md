@@ -1,6 +1,6 @@
 # All Stuff Web App Testing
 ## Polyglot for Injection Tests
-`'"><h1>aaa${{5*5}}bb`
+`'"><s>aaa${{7*7}}bbb`
 
 ## Burp
 
