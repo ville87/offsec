@@ -227,3 +227,14 @@ Examples using cmdkey:
   To delete RAS credentials:
      cmdkey /delete /ras
 ```
+## Windows Shortcut
+Create new shortcut with a PDF icon:   
+```powershell
+$shell = New-Object -ComObject WScript.Shell
+$Location = "C:\Users\jdoe\Desktop"
+$shortcut = $shell.CreateShortcut("$Location\shortcut.lnk")
+$shortcut.TargetPath = 'C:\Users\something\file.exe'
+# PDF Icon for shortcut:
+$shortcut.IconLocation = "%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe,13"
+$shortcut.Save()
+```
