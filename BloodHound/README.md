@@ -1,6 +1,19 @@
 # All Things BloodHound
-## BloodHound & Neo4j on Linux
+## BloodHound CE UI
+On Kali:   
+```bash
+# Install docker-compose prerequisite
+sudo apt install docker-compose
+
+# change to a directory where you want BHCE to be installed and run
+curl -L https://ghst.ly/getbhce -o docker-compose.yml
+
+# setup the container and start it with
+docker-compose pull && docker-compose up
 ```
+
+## BloodHound Legacy UI & Neo4j on Linux
+```bash
 sudo apt-get install openjdk-11-jdk
 sudo vi /etc/profile
 # Add: 
