@@ -1,4 +1,12 @@
 # PowerShell Active Directory Module
+## Exporting list of AD Objects
+The following commands can be used to export all users, computers or service accounts from AD into CSV files.   
+Note however, that there are various properties which wont be readable without further scripting (e.g. MemberOf -> `Microsoft.ActiveDirectory.Management.ADPropertyValueCollection`, ntSecurityDescriptor -> `System.DirectoryServices.ActiveDirectorySecurity` etc.)    
+```powershell
+Get-ADUser -Filter * -Properties * | Export-Csv -Path "$env:userprofile\Desktop\All_ADUsers.csv" -NoTypeInformation -Delimiter ";"
+Get-ADComputer -Filter * -Properties * | Export-Csv -Path "$env:userprofile\Desktop\All_ADComputers.csv" -NoTypeInformation -Delimiter ";"
+Get-ADServiceAccount -Filter * -Properties * | Export-Csv -Path "$env:userprofile\Desktop\All_ADSvcAccs.csv" -NoTypeInformation -Delimiter ";"
+```
 ## Parsing Exports of AD Module
 If you have a CSV file containing users exported via Get-ADUsers command, the following script can be used to parse them:   
 ```powershell
