@@ -26,7 +26,7 @@ $objects = @();$enabledusers  | % {
 ```
 If you want to quickly get lists of users who changed their password within the last 12 months:   
 
-´´´powershell
+```powershell
 $months = 1..12
 $currentMonth = get-date -Format 'MM'
 $currentYear = get-date -Format 'yyyy'
