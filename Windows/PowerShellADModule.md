@@ -28,6 +28,8 @@ $objects = @();$enabledusers  | % {
         description = $($_.description);
         title = $($_.title);
         lockedout = $($_.lockedout);
+        PasswordExpired = $($_.PasswordExpired);
+        DistinguishedName = $($_.DistinguishedName);
     };
     $objects += $data
 }
