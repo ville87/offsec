@@ -4,6 +4,9 @@
 ### Links
  - https://github.com/PwnDefend/Active_Directory_ADSI_Audit_Powershell/blob/main/audit_v1_wip.ps1
  - Debug Privileges ADSI Research paper: [Managing Active Directory objects with ADSI Edit](debugprivilege_adsi-edit-en-v1.1.pdf)
+ - ADO Search Tips: https://www.rlmueller.net/ADOSearchTips.htm
+ - Famous filters (LDAP Explorer): https://www.ldapexplorer.com/en/manual/109050000-famous-filters.htm
+ - Technet LDAP filter examples: https://learn.microsoft.com/en-us/archive/technet-wiki/5392.active-directory-ldap-syntax-filters#examples  
 
 ### Basic usage   
 Search for users:   
