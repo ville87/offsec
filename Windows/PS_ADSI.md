@@ -29,6 +29,14 @@ Oneliner:
 ```
 ([adsisearcher]'(&(objectCategory=group)(name=Groupxy*))').FindAll()
 ```
+Get all users and groups in one go:   
+```
+$objSearcher=([adsisearcher]"(|(&(samAccountType=805306368)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))((objectCategory=group)(name=*)))")
+$objSearcher.PageSize = 10000
+$usersngroups = $objSearcher.FindAll()
+$users = $usersngroups |? { $_.Properties['objectclass'] -like "user" }
+$groups = $usersngroups |? { $_.Properties['objectclass'] -like "group" }
+```
 List all descriptions of user accounts:
 ```
 ([adsisearcher]"(&(samAccountType=805306368)(description=*))").FindAll().properties.description
