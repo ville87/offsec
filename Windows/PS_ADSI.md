@@ -34,7 +34,7 @@ Oneliner:
 ```
 Get all users and groups in one go:   
 ```
-$objSearcher=([adsisearcher]"(|(&(samAccountType=805306368)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))((objectCategory=group)(name=*)))")
+$objSearcher=([adsisearcher]"(|(&(samAccountType=805306368)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))(&(objectCategory=group)(name=*)))")
 $objSearcher.PageSize = 10000
 $usersngroups = $objSearcher.FindAll()
 $users = $usersngroups |? { $_.Properties['objectclass'] -like "user" }
