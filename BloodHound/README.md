@@ -65,10 +65,14 @@ You can directly download a custom queries file to your Windows box running Bloo
 `PS C:\> Invoke-WebRequest -Uri "https://raw.githubusercontent.com/CompassSecurity/BloodHoundQueries/master/customqueries.json" -OutFile "$env:USERPROFILE\AppData\Roaming\bloodhound\customqueries.json"`   
 
 ## Queries
-List all high value objects:    
+(Legacy BH) List all high value objects:    
 `MATCH p=(n) WHERE n.highvalue=true RETURN n.name`   
-List all owned objects:   
+(BHCE) List all high value objects:    
+`MATCH (m:User) WHERE m.system_tags CONTAINS "admin_tier_0" RETURN m`    
+(Legacy BH) List all owned objects:   
 `MATCH p=(n) WHERE n.owned=true RETURN n.name`   
+(BH CE) List all owned objects:    
+`MATCH (m:User) WHERE m.system_tags CONTAINS "owned" RETURN m`    
 Reachable high value targets from specific source object:   
 ```
 MATCH p=allShortestPaths((n)-[:Owns|GenericAll|GenericWrite|WriteOwner|WriteDacl|MemberOf|ForceChangePassword|AllExtendedRights|AddMember|HasSession|Contains|GPLink|AllowedToDelegate|TrustedBy|AllowedToAct|AdminTo|CanPSRemote|CanRDP|ExecuteDCOM|HasSIDHistory|AddSelf|DCSync|ReadLAPSPassword|ReadGMSAPassword|DumpSMSAPassword|SQLAdmin|AddAllowedToAct|WriteSPN|AddKeyCredentialLink|SyncLAPSPassword|WriteAccountRestrictions|GoldenCert|ADCSESC1|ADCSESC3|ADCSESC4|ADCSESC5|ADCSESC6a|ADCSESC6b|ADCSESC7|ADCSESC9a|ADCSESC9b|ADCSESC10a|ADCSESC10b|ADCSESC13|DCFor|SyncedToEntraUser*1..]->(m))
