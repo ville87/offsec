@@ -52,6 +52,10 @@ Search for SPNs:
 ```
 ([adsisearcher]'(&(&(samaccounttype>=805306367)(samaccounttype<=805306369)(!(samaccounttype=805306367))(!(samaccounttype=805306369)))(serviceprincipalname<=zzz))').FindAll()
 ```
+List DA members:    
+```
+(([adsisearcher]'(&(objectCategory=group)(aNR=\64\6F\6D\61\69\6E Admi*asdfasdfasdf))').FindAll().Properties['member'])
+```
 ### Different Domain Search
 The following example searches for all computers in a different domain (with alternate credentials):   
 ```shell
