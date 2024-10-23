@@ -48,6 +48,10 @@ Search for SCCM servers:
 ```
 ([adsisearcher]"(objectClass=mSSMSManagementPoint)").FindAll().properties
 ```
+Search for SPNs:    
+```
+([adsisearcher]'(&(&(samaccounttype>=805306367)(samaccounttype<=805306369)(!(samaccounttype=805306367))(!(samaccounttype=805306369)))(serviceprincipalname<=zzz))').FindAll()
+```
 ### Different Domain Search
 The following example searches for all computers in a different domain (with alternate credentials):   
 ```shell
