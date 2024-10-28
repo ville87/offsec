@@ -56,6 +56,12 @@ List DA members:
 ```
 (([adsisearcher]'(&(objectCategory=group)(aNR=\64\6F\6D\61\69\6E Admi*asdfasdfasdf))').FindAll().Properties['member'])
 ```
+Get ADFS Thumbrint LDAP querie examples:    
+```
+"(&(ObjectClass=Contact)(!(name=CryptoPolicy)))"
+"(&(oId.00000002.00000005.00000004.00000000=Contact)(!(aNr=Crypto*afasdfasdfasdf)))"
+"(&(2.5.4.0=Contact)(!(aNr=Crypto*afasdfasdfasdf)))"
+```
 ### Different Domain Search
 The following example searches for all computers in a different domain (with alternate credentials):   
 ```shell
