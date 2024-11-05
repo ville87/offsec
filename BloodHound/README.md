@@ -60,11 +60,17 @@ https://github.com/BloodHoundAD/BloodHound/tree/master/src/components/Modals/Hel
 - Container: Does not allow to add e.g. members to groups within the container
 
 
-## Custom Queries
+## Queries
+
+Big list of queries:   
+- https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/red-teaming/bloodhound/Handy-BloodHound-Cypher-Queries.md   
+- https://gist.github.com/seajaysec/a4d4a545047a51053d52cba567f78a9b
+- https://github.com/ZephrFish/Bloodhound-CustomQueries/blob/main/customqueries.json
+- Azure: https://github.com/LuemmelSec/Custom-BloodHound-Queries
+
 You can directly download a custom queries file to your Windows box running BloodHound:   
 `PS C:\> Invoke-WebRequest -Uri "https://raw.githubusercontent.com/CompassSecurity/BloodHoundQueries/master/customqueries.json" -OutFile "$env:USERPROFILE\AppData\Roaming\bloodhound\customqueries.json"`   
 
-## Queries
 (Legacy BH) List all high value objects:    
 `MATCH p=(n) WHERE n.highvalue=true RETURN n.name`   
 (BHCE) List all high value objects:    
@@ -80,13 +86,8 @@ WHERE n.objectid = "<SOURCE OBJECT ID>"
 AND "admin_tier_0" IN split(m.system_tags, ' ')
 RETURN p
 ```
-
-Big list of queries:   
-- https://github.com/mgeeky/Penetration-Testing-Tools/blob/master/red-teaming/bloodhound/Handy-BloodHound-Cypher-Queries.md   
-- https://gist.github.com/seajaysec/a4d4a545047a51053d52cba567f78a9b
-- https://github.com/ZephrFish/Bloodhound-CustomQueries/blob/main/customqueries.json
-- Azure: https://github.com/LuemmelSec/Custom-BloodHound-Queries
-
+Users who can create new users in OUs:    
+`Query: MATCH (u:User),(n:OU),p=shortestPath((u)-[:GenericAll|CreateChild]->(n)) return p `   
 Show all groups a specific user can AddMember (might take a long time!):   
 `MATCH p=((n)-[r:MemberOf|AddMember*1..]->(m:Group)) WHERE n.name =~ 'TESTUSER@DOMAIN.LOCAL' return p`   
 Show all groups a specific group can AddMember:   
