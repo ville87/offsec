@@ -92,6 +92,14 @@ Show all groups a specific user can AddMember (might take a long time!):
 `MATCH p=((n)-[r:MemberOf|AddMember*1..]->(m:Group)) WHERE n.name =~ 'TESTUSER@DOMAIN.LOCAL' return p`   
 Show all groups a specific group can AddMember:   
 `MATCH p=((g)-[r:AddMember*1..]->(m:Group)) WHERE g.name =~ 'GROUPMANAGERS@DOMAIN.LOCAL' return p`   
+Show all (indirect) GenericAll and AddMember edges of a specific group against three other specific groups:   
+```
+MATCH p = (g:Group)-[:MemberOf*0..]->()-[:GenericAll|AddMember]->(target:Group)
+WHERE 
+g.objectid = "S-1-5-21-xxxx-xxxx2"
+AND target.objectid IN ["S-1-5-21-xxxx-xxxx4", "S-1-5-21-xxxx-xxxx5", "S-1-5-21-xxxx-xxxx6"]
+RETURN p
+```
 Show all local admin rights of owned users:   
 `MATCH p=shortestPath((m:User {owned: TRUE})-[r:HasSession|AdminTo|MemberOf*1..]->(n:Computer)) RETURN p`   
 Mark list of users as owned:   
