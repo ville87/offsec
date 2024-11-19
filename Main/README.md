@@ -90,8 +90,17 @@ If we specify the zone to the tool (or leave it empty for the default zone), we 
   Use the PHP code in the logfile:  
   `http://10.11.0.2/menu.php?file=c:\xampp\apache\logs\access.log&cmd=ipconfig`  
 
-- Screenshots using GoWitness (via burp proxy):   
-  `./gowitness-2.4.2-linux-amd64 file -f urls.txt --delay 10 -p http://127.0.0.1:8080`   
+- Screenshots using GoWitness (via burp proxy):
+  First install chrome:    
+  ```
+  curl -L https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > google-chrome-stable_current_amd64.deb
+  sudo dpkg -i google-chrome-stable_current_amd64.deb
+  ```
+  Then run gowitness: (second example via burp proxy)    
+  ```
+  ./gowitness-3.0.5-linux-amd64 scan nmap -f /home/nmap_results.xml --open-only --service-contains http
+  ./gowitness-3.0.5-linux-amd64 file -f urls.txt --delay 10 -p http://127.0.0.1:8080
+  ```
   GoWitness report creation:   
   `./gowitness-2.4.2-linux-amd64 report export -f gowitness-report.zip`   
 
