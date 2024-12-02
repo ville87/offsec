@@ -42,5 +42,14 @@ Get all IPs and their open ports from gnmap file:
 ``` 
 $regexIPAddress = '\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
 $nmap = gc .\file.gnmap
-foreach($line in $nmap){ Select-String -Pattern "$regexIPAddress" -InputObject $line | % { $_.matches }| % { $_.Value };Select-String -Pattern "[0-9]+/open/(tcp|udp)" -InputObject $line -AllMatches | % { $_.matches }| % { $_.Value } }
+foreach($line in $nmap){ 
+    $affectedlinesIP = Select-String -Pattern "$regexIPAddress" -InputObject $line | % { $_.matches }| % { $_.Value }
+    $affectedlinesPorts = Select-String -Pattern "[0-9]+/open/(tcp|udp)" -InputObject $line -AllMatches 
+    if($affectedlinesIP.count -gt 0){
+        if($affectedlinesPorts.count -gt 0){
+            $ports = ($affectedlinesPorts.matches.value | % { ($_ -split "/")[0]  }) -join ","
+            Write-host "$affectedlinesIP`:$ports"
+        }
+    } 
+}
 ```   
