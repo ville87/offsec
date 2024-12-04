@@ -861,3 +861,7 @@ print(binascii.hexlify(hash))
 ```
 
 Search Jira for Credentials: https://github.com/sahadnk72/jecretz   
+
+# Password Cracking 
+## HIBP 
+The ultimate hibp downloader: https://github.com/HaveIBeenPwned/PwnedPasswordsDownloader/issues/79    
