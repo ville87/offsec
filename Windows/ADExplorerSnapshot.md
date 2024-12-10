@@ -84,6 +84,24 @@ ms-DS-MachineAccountQuota
 -------------------------
 {10}
 ```
+### PW Spraying list (all users by pwdlastset month / year)
+1. Get all enabled users with their pwdlastset:
+```
+$users = @();$ndjson | Where-Object { ($_.samAccountType -like "805306368") -and !($($_.userAccountControl) -band 2)} | % {
+    $data = [PSCustomObject]@{
+        samaccountname = $($_.samaccountname);
+        pwdLastSet = $( get-date ([datetime]::FromFileTime($($_.pwdLastSet))) -f "dd/MM/yyyy HH:mm" );
+    };
+    $users += $data
+}
+```
+2. Get unique years of pwdlastchanged of all users: `$uniqueyears = $users | % { (($_.pwdlastset -split "/")[2] -split " ")[0] } | select -Unique`
+3. Create text files with users for relevant month & year:
+```
+foreach($year in $uniqueyears){
+    1..12 | % { $month = "{0:00}" -f $_; $results = $users | Where-Object { ($_.pwdLastSet -like "*$month/$year*" )};if(($results |Measure-Object).count -gt 0){$results | select -ExpandProperty samaccountname |out-file .\pwspray_users_$year`_$month.txt}}
+}
+```
 
 ### PW Spraying list (domain admins by pwdlastset month / year)
 1. Export all domain admins from BloodHound into `.\domainadmins_bhexport.json`
