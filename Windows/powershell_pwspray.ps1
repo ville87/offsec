@@ -20,6 +20,7 @@ foreach($user in $userlist){
 
 # Variant 2: Working with users from files
 $userlistfile = Read-Host "Provide the full path to the file with the users you want to spray"
+$userlistfile = $userlistfile -replace '"'
 $userlist = Get-Content $userlistfile
 $password = Read-Host "Provide the password you want to test"
 $Domain = $env:userdnsdomain
@@ -31,8 +32,8 @@ $objects = @()
 foreach($user in $userlist){
 	$result = ([adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=$user))").FindAll() 
 	$data = [PSCustomObject]@{
-		samaccountname = $($_.Properties['samaccountname'])
-		badpwdcount = $($_.Properties['badpwdcount'])
+		samaccountname = $($result.Properties['samaccountname'])
+		badpwdcount = $($result.Properties['badpwdcount'])
 	}
 	$objects += $data
 }
