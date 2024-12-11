@@ -44,6 +44,26 @@ Get all objects with "Windows*" operating systems:
 ```powershell
 $windowsobjects = @();$ndjson | Where-Object { $_.operatingSystem -like "Windows*"} | % { $data = [PSCustomObject]@{name = $($_.name);description = $($_.description);operatingSystem = $($_.operatingSystem);  created = $(get-date ((Get-Date -Date "01-01-1970") + ([System.TimeSpan]::FromSeconds(("$($_.whencreated)")))) -Format "dd/MM/yyyy HH:mm"); lastLogon = $( get-date ([datetime]::FromFileTime($($_.lastLogon))) -f "dd/MM/yyyy HH:mm" );lastLogonTimestamp = $( get-date ([datetime]::FromFileTime($($_.lastLogonTimestamp))) -f "dd/MM/yyyy HH:mm" );userAccountControl = $($_.userAccountControl)}; $windowsobjects += $data}
 ```
+Get all windows systems and include IP address from adidnsdump records.csv:    
+```powershell
+$dnsrecords = Import-Csv .\records.csv
+$windowsobjects = @();
+$ndjson | Where-Object { $_.operatingSystem -like "Windows*"} | % { 
+    $name = $($_.name)
+    $dnsrecord = ($dnsrecords | ? { $_.name -like $name}).value
+    $data = [PSCustomObject]@{
+        name = $name;
+        description = $($_.description);
+        operatingSystem = $($_.operatingSystem);  
+        created = $(get-date ((Get-Date -Date "01-01-1970") + ([System.TimeSpan]::FromSeconds(("$($_.whencreated)")))) -Format "dd/MM/yyyy HH:mm"); 
+        lastLogon = $( get-date ([datetime]::FromFileTime($($_.lastLogon))) -f "dd/MM/yyyy HH:mm" );
+        lastLogonTimestamp = $( get-date ([datetime]::FromFileTime($($_.lastLogonTimestamp))) -f "dd/MM/yyyy HH:mm" );
+        userAccountControl = $($_.userAccountControl)
+        IPAddress = if($dnsrecord -notmatch "\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b"){"N/A"}else{$dnsrecord}
+    }; 
+    $windowsobjects += $data
+}
+```
 Get all objects with an SPN:   
 ```powershell
 $objects = @();$ndjson | Where-Object { ($_.servicePrincipalName -ne $null)} | % { $data = [PSCustomObject]@{samaccname = $($_.samaccountname); servicePrincipalName = "$($_.servicePrincipalName)"; memberOf = "$($_.memberOf)";useraccountcontrol = $($_.useraccountcontrol);operatingsystem = "$($_.operatingSystem)";created = $(get-date ((Get-Date -Date "01-01-1970") + ([System.TimeSpan]::FromSeconds(("$($_.whencreated)")))) -Format "dd/MM/yyyy HH:mm"); logonCount = $($_.logonCount); lastLogon = $( get-date ([datetime]::FromFileTime($($_.lastLogon))) -f "dd/MM/yyyy HH:mm" );lastLogonTimestamp = $( get-date ([datetime]::FromFileTime($($_.lastLogonTimestamp))) -f "dd/MM/yyyy HH:mm" );pwdLastSet = $( get-date ([datetime]::FromFileTime($($_.pwdLastSet))) -f "dd/MM/yyyy HH:mm" )}; $objects += $data }
