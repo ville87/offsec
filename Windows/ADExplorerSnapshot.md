@@ -72,6 +72,26 @@ Get all subnets:
 ```powershell
 $subnets = $ndjson | Where-Object { $_.objectCategory -like "CN=Subnet,CN=Schema,CN=Configuration,DC=domain,DC=local"}
 ```
+Get ms-ds-machineaccountquota:    
+```
+$ndjson | Where-Object { ($_.objectclass -like "domain")} | select ms-DS-MachineAccountQuota
+```
+Get default domain password policy:    
+```
+$domainpwpolicy = @();$ndjson | Where-Object { ($_.objectclass -like "domain")} | %{
+    $data = [PSCustomObject]@{
+        maxPwdAge = [int]($($_.maxPwdAge) / -864000000000)
+	minPwdAge = $($_.minPwdAge)
+	minPwdLength = $($_.minPwdLength)
+	pwdProperties = $($_.pwdProperties) 
+	pwdHistoryLength = $($_.pwdHistoryLength)
+	lockoutDuration = $($_.lockoutDuration) / -10000000 / 60
+	lockOutObservationWindow = $($_.lockOutObservationWindow)  / -10000000 / 60
+	lockoutThreshold = $($_.lockoutThreshold) 
+    };
+    $domainpwpolicy += $data
+}
+```
 Get all LAPS managed systems:   
 ```powershell
 $LAPSobjects = @();$ndjson | where-object { $_.'ms-mcs-AdmPwdExpirationTime' -ne $null } | % { $data = [PSCustomObject]@{samaccountname = $($_.samaccountname);useraccountcontrol = "$($_.useraccountcontrol)"; created = $(get-date ((Get-Date -Date "01-01-1970") + ([System.TimeSpan]::FromSeconds(("$($_.whencreated)")))) -Format "dd/MM/yyyy HH:mm"); lastLogon = $( get-date ([datetime]::FromFileTime($($_.lastLogon))) -f "dd/MM/yyyy HH:mm" );lastLogonTimestamp = $( get-date ([datetime]::FromFileTime($($_.lastLogonTimestamp))) -f "dd/MM/yyyy HH:mm" );operatingSystem = "$($_.operatingSystem)";memberOf = "$($_.memberOf)";description = "$($_.description)";};  $LAPSobjects += $data }
