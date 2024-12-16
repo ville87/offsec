@@ -309,11 +309,14 @@ Get LAPS PW of single system:
 ```shell
 ([adsisearcher]"(&(objectCategory=computer)(name=ws1))").FindAll().Properties['ms-mcs-admpwd']
 ```
-List enabled systems without LAPS:   
+List enabled systems without LAPS (Legacy LAPS):   
 ```
 ([adsisearcher]"(&(objectCategory=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(!(ms-mcs-admpwdexpirationtime=*)))").FindAll()
 ```
-
+List enabled systems without LAPS (Windows LAPS):   
+```
+([adsisearcher]"(&(objectCategory=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(!(msLAPS-PasswordExpirationTime=*)))").FindAll()
+```
 Get Failed logon attempts (badpwdcount):   
 ```shell
 ([adsisearcher]"(&(samAccountType=805306368))").FindAll() | % {write-host $_.Properties['name'] "--->" $_.Properties['badpwdcount'] }
