@@ -173,3 +173,10 @@ PS> ([datetime]::ParseExact($objects[1].lastlogonTimestamp, 'dd/MM/yyyy HH:mm',$
 False
 ```
 NOTE: For the 24h clock format, the datetime string format has to be defined with HH:mm and for the 12h clock format with hh:mm!   
+
+Get the last logon from both lastlogon and lastlogonTimestamp: 
+```powershell
+$last = [datetime]::parseexact("$($_.lastLogon)", 'dd/MM/yyyy HH:mm', $null);
+$lasttimestamp = [datetime]::parseexact("$($_.lastLogonTimestamp)", 'dd/MM/yyyy HH:mm', $null);
+$actuallast = get-date ($last,$lasttimestamp | measure-object -maximum).Maximum -Format 'dd/MM/yyyy HH:mm'
+```
