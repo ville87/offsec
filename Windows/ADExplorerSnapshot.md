@@ -44,6 +44,22 @@ Get all objects with "Windows*" operating systems:
 ```powershell
 $windowsobjects = @();$ndjson | Where-Object { $_.operatingSystem -like "Windows*"} | % { $data = [PSCustomObject]@{name = $($_.name);description = $($_.description);operatingSystem = $($_.operatingSystem);  created = $(get-date ((Get-Date -Date "01-01-1970") + ([System.TimeSpan]::FromSeconds(("$($_.whencreated)")))) -Format "dd/MM/yyyy HH:mm"); lastLogon = $( get-date ([datetime]::FromFileTime($($_.lastLogon))) -f "dd/MM/yyyy HH:mm" );lastLogonTimestamp = $( get-date ([datetime]::FromFileTime($($_.lastLogonTimestamp))) -f "dd/MM/yyyy HH:mm" );userAccountControl = $($_.userAccountControl)}; $windowsobjects += $data}
 ```
+Get all outdated Windows systems with their last logon:    
+```powershell
+$output = @()
+$windowsobjects | ? { ($_.operatingSystem -match "(2003|2008|7|XP|2000|Vista|\s8)") -and (!($($_.userAccountControl) -band 2))}  | % { 
+$last = [datetime]::parseexact("$($_.lastLogon)", 'dd/MM/yyyy HH:mm', $null);
+$lasttimestamp = [datetime]::parseexact("$($_.lastLogonTimestamp)", 'dd/MM/yyyy HH:mm', $null);
+$actuallast = get-date ($last,$lasttimestamp | measure-object -maximum).Maximum -Format 'dd/MM/yyyy HH:mm';
+$data = [PSCustomObject]@{
+name = $($_.name);
+operatingSystem = $($_.operatingSystem);
+lastlogon = $actuallast 
+}
+$output += $data
+}
+$output 
+```
 Get all windows systems and include IP address from adidnsdump records.csv:    
 ```powershell
 $dnsrecords = Import-Csv .\records.csv
