@@ -79,6 +79,13 @@ You can directly download a custom queries file to your Windows box running Bloo
 `MATCH p=(n) WHERE n.owned=true RETURN n.name`   
 (BH CE) List all owned objects:    
 `MATCH (m:User) WHERE m.system_tags CONTAINS "owned" RETURN m`    
+(BH CE) Sessions of high value (Tier 0) accounts
+```
+MATCH p = (c:Computer)-[n:HasSession]->(u:User)
+WHERE 'admin_tier_0' IN split(u.system_tags, ' ')
+RETURN p
+LIMIT 1000
+```
 Reachable high value targets from specific source object:   
 ```
 MATCH p=allShortestPaths((n)-[:Owns|GenericAll|GenericWrite|WriteOwner|WriteDacl|MemberOf|ForceChangePassword|AllExtendedRights|AddMember|HasSession|Contains|GPLink|AllowedToDelegate|TrustedBy|AllowedToAct|AdminTo|CanPSRemote|CanRDP|ExecuteDCOM|HasSIDHistory|AddSelf|DCSync|ReadLAPSPassword|ReadGMSAPassword|DumpSMSAPassword|SQLAdmin|AddAllowedToAct|WriteSPN|AddKeyCredentialLink|SyncLAPSPassword|WriteAccountRestrictions|GoldenCert|ADCSESC1|ADCSESC3|ADCSESC4|ADCSESC5|ADCSESC6a|ADCSESC6b|ADCSESC7|ADCSESC9a|ADCSESC9b|ADCSESC10a|ADCSESC10b|ADCSESC13|DCFor|SyncedToEntraUser*1..]->(m))
