@@ -10,30 +10,36 @@
 
 ### Basic usage   
 Search for users:   
-```shell
+```powershell
 $search = [adsisearcher]"(&(samAccountType=805306368))"
 $search.PageSize = 10000
 $users = $search.FindAll()
 ```
 Note: The query `(samAccountType=805306368)` is more efficient to search for users in AD, than `(objectCategory=person)(objectClass=user)`, since it only specifies one adsisearcher criteria!
 
-List all samaccountnames of enabled users:   
+LDAP 'whoami':    
+```powershell
+Add-Type -AssemblyName System.DirectoryServices.AccountManagement;
+[System.DirectoryServices.AccountManagement.UserPrincipal]::Current;
 ```
+
+List all samaccountnames of enabled users:   
+```powershell
 ([adsisearcher]"(&(samAccountType=805306368)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))").FindAll().properties.samaccountname
 ```
 
 Search for groups:   
-```shell
+```powershell
 $objSearcher=[adsisearcher]'(&(objectCategory=group)(name=GroupNameX*))'
 $objSearcher.PageSize = 10000
 $groups = $objSearcher.FindAll()
 ```
 Oneliner:
-```
+```powershell
 ([adsisearcher]'(&(objectCategory=group)(name=Groupxy*))').FindAll()
 ```
 Get all users and groups in one go:   
-```
+```powershell
 $objSearcher=([adsisearcher]"(|(&(samAccountType=805306368)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))(&(objectCategory=group)(name=*)))")
 $objSearcher.PageSize = 10000
 $usersngroups = $objSearcher.FindAll()
@@ -41,30 +47,30 @@ $users = $usersngroups |? { $_.Properties['objectclass'] -like "user" }
 $groups = $usersngroups |? { $_.Properties['objectclass'] -like "group" }
 ```
 List all descriptions of user accounts:
-```
+```powershell
 ([adsisearcher]"(&(samAccountType=805306368)(description=*))").FindAll().properties.description
 ```
 Search for SCCM servers:   
-```
+```powershell
 ([adsisearcher]"(objectClass=mSSMSManagementPoint)").FindAll().properties
 ```
 Search for SPNs:    
-```
+```powershell
 ([adsisearcher]'(&(&(samaccounttype>=805306367)(samaccounttype<=805306369)(!(samaccounttype=805306367))(!(samaccounttype=805306369)))(serviceprincipalname<=zzz))').FindAll()
 ```
 List DA members:    
-```
+```powershell
 (([adsisearcher]'(&(objectCategory=group)(aNR=\64\6F\6D\61\69\6E Admi*asdfasdfasdf))').FindAll().Properties['member'])
 ```
 Get ADFS Thumbrint LDAP querie examples:    
-```
+```powershell
 "(&(ObjectClass=Contact)(!(name=CryptoPolicy)))"
 "(&(oId.00000002.00000005.00000004.00000000=Contact)(!(aNr=Crypto*afasdfasdfasdf)))"
 "(&(2.5.4.0=Contact)(!(aNr=Crypto*afasdfasdfasdf)))"
 ```
 ### Different Domain Search
 The following example searches for all computers in a different domain (with alternate credentials):   
-```shell
+```powershell
 $search = [adsisearcher]"(ObjectClass=computer)"
 $domain = new-object DirectoryServices.DirectoryEntry("LDAP://192.168.1.1","targetdomain\username", "Password")
 $search.searchRoot = $domain
@@ -72,14 +78,14 @@ $search.PageSize = 10000
 $computers = $search.FindAll()
 ```
 Find user:
-```
+```powershell
 $search = [adsisearcher]"(&(samAccountType=805306368)(samaccountname=testuserabc))"
 $domain = new-object DirectoryServices.DirectoryEntry("LDAP://192.168.1.1","domain.local\testuser1", "xxxxxxx")
 $search.searchRoot = $domain
 $user = $search.FindOne()
 ```
 Find group:
-```
+```powershell
 $search = ([adsisearcher]"(&(objectClass=group)(CN=AD-ADMINS))")
 $domain = new-object DirectoryServices.DirectoryEntry("LDAP://192.168.1.1","domain.local\testuser2", "xxxxxx")
 $search.searchRoot = $domain
@@ -117,7 +123,7 @@ $data
 ```
 
 ### Add User
-```
+```powershell
 [ADSI]$OU = "LDAP://CN=Users,DC=lab,DC=local"
 $new = $OU.Create("user","CN=Mister Sister")
 $new.put("samaccountname","msister")
@@ -128,13 +134,13 @@ $new.setpassword("This-Is-Some-Serious-Sh1t")
 
 ### Add member to group
 Add group member:
-```
+```powershell
 [ADSI]$newuser = "LDAP://CN=Mister Sister,CN=Users,DC=lab,DC=local"
 [ADSI]$group = "LDAP://CN=Domain Admins,CN=Users,DC=lab,DC=local"
 $group.Add($newuser.ADSPath)
 ```
 Or with specifying DC address:   
-```
+```powershell
 $group = [adsi]"LDAP://192.168.1.1/CN=AD-ADMINS,OU=ADMANAGEMENT,DC=DOMAIN,DC=LOCAL""
 $user = [adsi]"LDAP://192.168.1.1/CN=Wayne John,OU=Users,OU=UserAccounts,DC=DOMAIN,DC=LOCAL"
 $group.add($user.path)
@@ -142,7 +148,7 @@ $group.add($user.path)
 
 ### Listing Properties
 To get specific properties of the result list, get them from the resulting hashtable as follows:   
-```shell
+```powershell
 $name = @{n="Name";e={$_.properties.'name'}}
 $distinguishedName = @{n="distinguishedName";e={$_.properties.'distinguishedname'}}
 $operatingSystem = @{n="OperatingSystem";e={$_.properties.'operatingsystem'}}
@@ -151,7 +157,7 @@ $computers | Select-Object -Property $name, $distinguishedName, $operatingSystem
 ```
 
 ### List Membership
-```shell
+```powershell
 # List User Membership
 $search = [adsisearcher]"(&(samAccountType=805306368)(samaccountname=MyUser))"
 $users = $search.FindAll()
@@ -166,7 +172,7 @@ foreach($user in $users) {
 }
 ```
 List all nested groups of one specific group:   
-```shell
+```powershell
 PS C:\Users\jdoe> ([ADSISEARCHER]"(&(objectCategory=Group)(memberOf:1.2.840.113556.1.4.1941:=CN=Marketing,CN=Users,DC=dumpsterfire,DC=local))").FindAll()
 
 Path                                                          Properties
@@ -175,7 +181,7 @@ LDAP://CN=nestedgroup1,CN=Users,DC=dumpsterfire,DC=local      {usnchanged, disti
 LDAP://CN=nestedgrouplevel2,CN=Users,DC=dumpsterfire,DC=local {usnchanged, distinguishedname, grouptype, whencreated...
 ```
 
-```shell
+```powershell
 # Get local computers OU:
 Function Get-OSCComputerOU
 {
@@ -195,16 +201,16 @@ Get-OSCComputerOU
 ```
 
 Get all computers in the OU "server":   
-```shell
+```powershell
 (New-Object -TypeName adsisearcher -ArgumentList ([adsi]'LDAP://OU=Servers,DC=contoso,DC=com', '(objectclass=computer)')).FindAll()
 ```
 
 Get group membership   
-```
+```powershell
 ([adsisearcher]"(&(ObjectClass=Group)(CN=ADMINISTRATORS))").FindOne().Properties['member']
 ```
 Get group membership recursively   
-```shell
+```powershell
 $findgroup = { param($groupname) ([adsisearcher]"(&(ObjectClass=Group)(CN=$groupname))").FindOne() }
 $recursegroup = { param($object, $prefix="") if ($object.Properties['ObjectClass'] -notcontains "group") { Write-Verbose "NOTAGROUP"; Write-Host $prefix"-"$object.Properties['cn'] } else { Write-Verbose "AGROUP"; Write-Host $prefix $object.Properties['name']; $object.Properties['member'] | % { $recursegroup.Invoke([ADSI]"LDAP://$_", $prefix+"|") } } }
 $recursegroup.Invoke($findgroup.Invoke("Domain Admins"))
@@ -212,13 +218,13 @@ $recursegroup.Invoke($findgroup.Invoke("Domain Admins"))
 
 ### AD Information
 Get Subnet information from AD:   
-```shell
+```powershell
 ([System.DirectoryServices.ActiveDirectory.Forest]::Getcurrentforest()).Sites.Subnets
 ```
 
 ### User Account Control (and other stuff)
 Get accounts with "PasswordNeverExpires" into csv: (import into excel and sort out all "mailbox" accounts and such for documentation)   
-```shell
+```powershell
 $search = ([adsisearcher]'(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=66048)(!userAccountControl:1.2.840.113556.1.4.803:=514))')
 $search.PageSize = 10000
 $userpwneverexpires = $search.FindAll()
@@ -239,25 +245,25 @@ $itemarray | Export-Csv -NoTypeInformation -Append $outfile -Force
 ```
 
 All users not require to have a password:   
-```shell
+```powershell
 ([adsisearcher]'(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=32))').FindAll()
 
 ```
 
 All users with "Do not require kerberos preauthentication" enabled (AS-REP Roasting):   
-```shell
+```powershell
 ([adsisearcher]"(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304))").FindAll()
 ```
 Get Kerberoastable accounts:
-```shell
+```powershell
 ([adsisearcher]"(&(objectClass=user)(servicePrincipalName=*)(!(cn=krbtgt))(!(userAccountControl:1.2.840.113556.1.4.803:=2)))").FindAll()
 ```
 Get unconstrained delegation systems:
-```shell
+```powershell
 ([adsisearcher]"(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))").FindAll()
 ```
 Get constrained delegations: (Check both user and computers)
-```shell
+```powershell
 ([adsisearcher]"(&(objectCategory=computer)(msds-allowedtodelegateto=*))").FindAll() | % { $_.Properties['msds-allowedtodelegateto'] }
 ([adsisearcher]"(&(objectCategory=user)(msds-allowedtodelegateto=*))").FindAll() | % { $_.Properties['msds-allowedtodelegateto'] }
 ```
@@ -266,7 +272,7 @@ No Password Required:
 `(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=32))`   
 
 Get "PasswordNeverExpires", "Enabled" and "PasswordExpired":   
-```shell
+```powershell
 $ACCOUNTDISABLE = 0x000002
 $DONT_EXPIRE_PASSWORD = 0x010000
 $PASSWORD_EXPIRED = 0x800000
@@ -290,7 +296,7 @@ $PASSWORD_EXPIRED)
 ```
 
 All users with Logon Script field set:   
-```shell
+```powershell
 ([adsisearcher]'(&(samAccountType=805306368)(scriptPath=*))').FindAll()
 ```
 
@@ -302,33 +308,33 @@ User Objects with Description:
 
 
 Get LAPS PWs of all systems in the domain (where the user running the command has the permission):   
-```shell
+```powershell
 ([adsisearcher]"((objectCategory=computer))").FindAll() | % {write-host $_.Properties['name'] "--->" $_.Properties['ms-mcs-admpwd'] }
 ```
 Get LAPS PW of single system:   
-```shell
+```powershell
 ([adsisearcher]"(&(objectCategory=computer)(name=ws1))").FindAll().Properties['ms-mcs-admpwd']
 ```
 List enabled systems without LAPS (Legacy LAPS):   
-```
+```powershell
 ([adsisearcher]"(&(objectCategory=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(!(ms-mcs-admpwdexpirationtime=*)))").FindAll()
 ```
 List enabled systems without LAPS (Windows LAPS):   
-```
+```powershell
 ([adsisearcher]"(&(objectCategory=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(!(msLAPS-PasswordExpirationTime=*)))").FindAll()
 ```
 Get Failed logon attempts (badpwdcount):   
-```shell
+```powershell
 ([adsisearcher]"(&(samAccountType=805306368))").FindAll() | % {write-host $_.Properties['name'] "--->" $_.Properties['badpwdcount'] }
 ```
 
 Get trusted domains and trusted forests:   
-```shell
+```powershell
 ([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()
 ([System.DirectoryServices.ActiveDirectory.Forest]::GetCurrentForest()).GetAllTrustRelationships()
 ```
 Get all users with DCSync permissions:   
-```shell
+```powershell
 $Root = [ADSI]"LDAP://RootDSE"
 $ADObject = [ADSI]"LDAP://$($Root.rootDomainNamingContext)"
 $aclObject = $ADObject.psbase.ObjectSecurity
@@ -387,12 +393,12 @@ $c.Dispose()
 
 ## AD UserAccountControl Values
 Get uac value:   
-```shell
+```powershell
 ([adsisearcher]"(&(samAccountType=805306368)(samaccountname=user1))").Findall().Properties.useraccountcontrol
 ```
 
 You might have to combine queries so that e.g. disabled accounts are not included,e.g.:   
-```shell
+```powershell
 ([adsisearcher]'(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=66048)(!userAccountControl:1.2.840.113556.1.4.803:=514))')
 ```
 
