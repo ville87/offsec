@@ -121,6 +121,25 @@ pwdLastSet = Get-Date ([DateTime]::FromFileTime("$($user.properties.pwdlastset)"
 memberOf = "$($user.properties.memberof)";};
 $data
 ```
+Collect details for all enabled users in domain:
+```powershell
+$search = [adsisearcher]"(&(samAccountType=805306368)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))"
+$search.PageSize = 10000
+$users = $search.FindAll()
+$object = @()
+foreach($user in $users){
+$data = [PSCustomObject]@{
+samaccountname = $($user.properties.samaccountname);
+useraccountcontrol = "$($user.properties.useraccountcontrol)"; 
+created = $(get-date ($($user.properties.whencreated)) -Format "dd/MM/yyyy HH:mm"); 
+logonCount = $($user.properties.logonCount); 
+lastLogon = Get-Date ([DateTime]::FromFileTime("$($user.properties.lastlogon)") ) -Format "dd/MM/yyyy HH:mm";
+lastLogonTimestamp = Get-Date ([DateTime]::FromFileTime("$($user.properties.lastlogontimestamp)") ) -Format "dd/MM/yyyy HH:mm";
+pwdLastSet = Get-Date ([DateTime]::FromFileTime("$($user.properties.pwdlastset)") ) -Format "dd/MM/yyyy HH:mm";
+}
+$object += $data
+}
+```
 
 ### Add User
 ```powershell
