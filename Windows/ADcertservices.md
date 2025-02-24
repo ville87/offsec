@@ -1,11 +1,20 @@
 # AD Certificate Services (PKI Abuse)
-(copied from https://gist.github.com/Flangvik/15c3007dcd57b742d4ee99502440b250)
-
-Some golden links when you are having issues:
-https://social.technet.microsoft.com/Forums/windows/en-US/96016a13-9062-4842-b534-203d2f400cae/ca-certificate-request-error-quotdenied-by-policy-module-0x80094800quot-windows-server-2008?forum=winserversecurity
-
+## Ceripy setup
+Using certipy-merged:    
+```shell
+git clone https://github.com/zimedev/certipy-merged 
+cd certipy-merged
+python3 -m venv .venv 
+source .venv/bin/activate 
+python3 -m pip install .
+pip install git+https://github.com/ly4k/ldap3
+```
 
 ## Enumerating ADCS On Linux
+(copied from https://gist.github.com/Flangvik/15c3007dcd57b742d4ee99502440b250)    
+Some golden links when you are having issues:    
+https://social.technet.microsoft.com/Forums/windows/en-US/96016a13-9062-4842-b534-203d2f400cae/ca-certificate-request-error-quotdenied-by-policy-module-0x80094800quot-windows-server-2008?forum=winserversecurity
+
 ### Using certipy
 Example using Kerberos via proxychains...   
 First calculate NT hash for the users PW using Python:
