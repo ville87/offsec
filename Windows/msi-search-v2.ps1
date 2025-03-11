@@ -2,6 +2,14 @@
   Script which lists all msi files from local machine
   Original from: https://github.com/mandiant/msi-search/blob/main/msi_search.ps1
   Changed output from console to CSV file
+
+  To look for potential MSIs where the repair function can be abused for local privesc, list the MSIs 
+  using this script, run each MSI's repair function with: 
+  "msiexec.exe /fa C:\Windows\Installer\[XXXXX].msi".
+  Check with procmon for the MSIs which run any file as NT AUTHORITY\SYSTEM and any DLL loading from a 
+  path where the user has write access (e.g. C:\Windows\Temp\xxx, C:\Users\userprofile etc)
+  This would provide you with a DLL hijacking vulnerability for privesc.
+
 #>
 $folderPath = "C:\Windows\Installer"
 $msiFiles = Get-ChildItem -Path $folderPath -Filter "*.msi" -File
