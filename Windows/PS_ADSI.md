@@ -38,6 +38,10 @@ Oneliner:
 ```powershell
 ([adsisearcher]'(&(objectCategory=group)(name=Groupxy*))').FindAll()
 ```
+Get (nested) members of specific group:
+```powershell
+([adsisearcher]'((&(objectCategory=Person)(sAMAccountName=*)(memberOf:1.2.840.113556.1.4.1941:=cn=nestedtest,OU=HQOffice,OU=PROD,DC=testlab,DC=local)))').FindAll()
+```
 Get all users and groups in one go:   
 ```powershell
 $objSearcher=([adsisearcher]"(|(&(samAccountType=805306368)(!(userAccountControl:1.2.840.113556.1.4.803:=2)))(&(objectCategory=group)(name=*)))")
