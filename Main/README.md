@@ -606,7 +606,9 @@ If you have path traversal plus a location with write access you can exploit tha
 - search folder and subfolders for a string, output results and save results to file:   
   `grep -ria @emaildomain.com /mnt/leaks_unpacked/ | tee /root/Desktop/85390/search_emaildomain.out` 
 - search for string 'pass' in txt files with error redirection:   
-  `find /home -iname "*.txt" 2>/dev/null -exec grep -i 'pass' {} \;`   
+  `find /home -iname "*.txt" 2>/dev/null -exec grep -i 'pass' {} \;`    
+- search for string passw in conf files and print file path for the matches:    
+  `find /etc -type f -name "*.conf" -readable 2>/dev/null -exec grep -iE 'passw' {} \; -print`    
 - search for string in file and show n number of lines before and after the occurence of the string:   
   `cat <file> | grep "stringtosearch" -C 5`   
 - searching the home directories on linux:  
