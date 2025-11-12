@@ -133,16 +133,29 @@ Enum Fine Grained PW Policy stuff (TO FINISH):
 $ndjson | ? { $_.'msDS-PSOApplied' -ne $null}
 ```
 MachineAccountQuota:   
-```
+```powershell
 $ndjson | ? { $_.distinguishedName -like "DC=domain,DC=local" } | select ms-DS-MachineAccountQuota
 
 ms-DS-MachineAccountQuota
 -------------------------
 {10}
 ```
+### Wordlist from Description
+Generate a custom wordlist containing all words found in AD description fields:
+```powershell
+$allWords = $ndjson.description |
+    ForEach-Object {
+        ($_ -split '\W+') 
+    } |
+    Where-Object { $_ -ne "" } |       # remove empty strings
+    ForEach-Object { $_.ToLower() } |  # normalize to lowercase
+    Sort-Object -Unique                # keep only unique words
+$allWords
+```
+
 ### PW Spraying list (all users by pwdlastset month / year)
 1. Get all enabled users with their pwdlastset:
-```
+```powershell
 $users = @();$ndjson | Where-Object { ($_.samAccountType -like "805306368") -and !($($_.userAccountControl) -band 2)} | % {
     $data = [PSCustomObject]@{
         samaccountname = $($_.samaccountname);
@@ -153,7 +166,7 @@ $users = @();$ndjson | Where-Object { ($_.samAccountType -like "805306368") -and
 ```
 2. Get unique years of pwdlastchanged of all users: `$uniqueyears = $users | % { (($_.pwdlastset -split "/")[2] -split " ")[0] } | select -Unique`
 3. Create text files with users for relevant month & year:
-```
+```powershell
 foreach($year in $uniqueyears){
     1..12 | % { $month = "{0:00}" -f $_; $results = $users | Where-Object { ($_.pwdLastSet -like "*$month/$year*" )};if(($results |Measure-Object).count -gt 0){$results | select -ExpandProperty samaccountname |out-file .\pwspray_users_$year`_$month.txt}}
 }
