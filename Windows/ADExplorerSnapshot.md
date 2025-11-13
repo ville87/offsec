@@ -22,8 +22,7 @@ $certtemplates = $ndjson | Where-Object { $_.objectClass -like "*pKICertificateT
 ### Misc
 Get uac, spn, logon and pw last changed info of all enabled users:   
 ```powershell
-$objects = @();$ndjson | Where-Object { ($_.samAccountType -like "805306368") -and !($($_.userAccountControl) -band 2)} | %
-{
+$objects = @();$ndjson | Where-Object { ($_.samAccountType -like "805306368") -and !($($_.userAccountControl) -band 2)} | % {
     $data = [PSCustomObject]@{
         samaccountname = $($_.samaccountname);
         servicePrincipalName = "$($_.servicePrincipalName)";
