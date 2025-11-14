@@ -163,7 +163,10 @@ $users = @();$ndjson | Where-Object { ($_.samAccountType -like "805306368") -and
     $users += $data
 }
 ```
-2. Get unique years of pwdlastchanged of all users: `$uniqueyears = $users | % { (($_.pwdlastset -split "/")[2] -split " ")[0] } | select -Unique`
+2. Get unique years of pwdlastchanged of all users:
+```powershell
+$uniqueyears = $users | % { (($_.pwdlastset -split "/")[2] -split " ")[0] } | select -Unique
+```
 3. Create text files with users for relevant month & year:
 ```powershell
 foreach($year in $uniqueyears){
