@@ -190,6 +190,18 @@ foreach($year in $years){
     1..12 | % { $month = "{0:00}" -f $_; $results = $objects | Where-Object { (!($($_.userAccountControl) -band 2) -and ( $_.pwdLastSet -like "*$month/$year*" ))};if(($results |Measure-Object).count -gt 0){$results | select -ExpandProperty samaccountname |out-file .\pwspray_domainadmins_$year`_$month.txt}}
 }
 ```
+### PWSprayinglist from Users who never change Pwd
+When using the script further above to generate the list with month / year based on pwdlastset, you end up with one file with the year 1601 and month 01.    
+This list is the list of users who never changed their password. There is a chance that they were created with an initial password like "monthyear" (e.g. january2010) which can be used in a pw spraying attack.    
+```powershell
+spraylist1 = @()
+foreach($user in $(cat pwspray_users_1601_01.txt)){ $result = $enabledusers | ? { $_.samaccountname -match $user }; $spraylist1 +=$result }
+
+$spraylist1| ForEach-Object {
+    $dt = [datetime]::ParseExact($_.created, "dd/MM/yyyy HH.mm", $null)
+    $_ | Add-Member -NotePropertyName pwd -NotePropertyValue ($dt.ToString("MMMMyyyy").ToLower())
+}
+```
 ### Parsing DateTime values in PowerShell
 If you have a specific format of a date time string, you can try to parse it using the `[datetime]` structure. Example:   
 ```powershell
