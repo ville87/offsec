@@ -131,14 +131,19 @@ Enum Fine Grained PW Policy stuff (TO FINISH):
 ```powershell
 $ndjson | ? { $_.'msDS-PSOApplied' -ne $null}
 ```
-MachineAccountQuota:   
+### AD Sites
+Get DACL of every site:    
 ```powershell
-$ndjson | ? { $_.distinguishedName -like "DC=domain,DC=local" } | select ms-DS-MachineAccountQuota
-
-ms-DS-MachineAccountQuota
--------------------------
-{10}
+$sites = $ndjson | ? { ($_.distinguishedname -match "CN=Sites,CN=Configuration,DC=domain,DC=local") -and ($_.objectcategory -match "CN=Site,CN=Schema,CN=Configuration,DC=domain,DC=local") 
+$sites | % {
+"-------------------- [SITE] --------------------";
+"DACL for site $($_.name):";
+$raw = [System.Convert]::FromBase64String("$($_.nTSecurityDescriptor)");
+$sd = New-Object System.Security.AccessControl.RawSecurityDescriptor ($raw, 0);
+$sd.DiscretionaryAcl | select AceType,AceFlags,SecurityIdentifier
+}
 ```
+
 ### Wordlist from Description
 Generate a custom wordlist containing all words found in AD description fields:
 ```powershell
