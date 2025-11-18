@@ -140,8 +140,7 @@ $sites | % {
 "DACL for site $($_.name):";
 $raw = [System.Convert]::FromBase64String("$($_.nTSecurityDescriptor)");
 $sd = New-Object System.Security.AccessControl.RawSecurityDescriptor ($raw, 0);
-$sd.DiscretionaryAcl | select AceType,AceFlags,SecurityIdentifier
-}
+$sd.DiscretionaryAcl | select AceType,AceFlags,SecurityIdentifier, @{ Name="Rights"; Expression={[System.Enum]::ToObject([System.DirectoryServices.ActiveDirectoryRights], $_.AccessMask)}}
 ```
 
 ### Wordlist from Description
