@@ -87,6 +87,10 @@ Get all subnets:
 ```powershell
 $subnets = $ndjson | Where-Object { $_.objectCategory -like "CN=Subnet,CN=Schema,CN=Configuration,DC=domain,DC=local"}
 ```
+Get all groups:
+```powershell
+$ADGroups = ($ndjson | Where-Object { ($_.objectCategory -match "CN=Group,CN=Schema,CN=Configuration,DC=*")})
+```
 Get ms-ds-machineaccountquota:    
 ```
 $ndjson | Where-Object { ($_.objectclass -like "domain")} | select ms-DS-MachineAccountQuota
