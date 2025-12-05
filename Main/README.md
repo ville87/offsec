@@ -138,7 +138,18 @@ If we specify the zone to the tool (or leave it empty for the default zone), we 
   `# /opt/impacket/examples/GetADUsers.py -all domain.local/user1:Str0ngP@ss2021 -dc-ip 192.168.10.1`   
 - Search interesting files using MANSPIDER:   
   `manspider host.domain.local --sharenames generalshare -e bat ps1 cfg conf kdbx rtsz -d domain.local -u user1 -p somepass`   
-
+- NXC Share enumeration: `nxc smb 10.11.1.0/24 -u user -p <password> --shares`    
+  Limit to only readable or writeable shares: `nxc smb smb_targets.txt -u username -p 'password' -d domain.local --shares --dns-server 10.10.10.4 --filter-shares READ`    
+- NXC Access enumeration: `nxc smb 10.11.1.0/24 -u user -p <password>`    
+- NXC session enum: `nxc smb smb_targets.txt -u username -p 'password' -d domain.local --smb-sessions --loggedon-users --dns-server 10.10.10.4`    
+- SMBMap share enum: `smbmap -d <domain> -u <username> -p <password> --host-file files/smbhosts.txt`    
+- Snaffler: First list available shares (running in cmd.exe or powershell.exe using logged in domain user): `.\snaffler.exe -o C:\Users\userx\snaffout.log -s -a -d domain.com `    
+  Extract the sharelist from the resulting logfile and do the full search against those shares defined in the list sharelist.txt
+  ```powershell
+  foreach($share in $(cat C:\Users\userx\sharelist-domainx.txt)){ 
+      .\snaffler.exe -o snaffout-$($share -replace "\\","-").txt -s -i $share
+  }
+  ```
 Get files from SMB share:  
 - /usr/share/doc/python-impacket/examples# python smbclient.py 10.11.1.136  
 - `shares` --> list shares  
