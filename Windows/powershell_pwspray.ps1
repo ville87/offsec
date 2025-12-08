@@ -30,7 +30,7 @@ $count = $UserList.count
 Write-Host "Getting badpwdcount value for those users..."
 $objects = @()
 foreach($user in $userlist){
-	$result = ([adsisearcher]"(&(ObjectCategory=Person)(ObjectClass=User)(samaccountname=$user))").FindAll() 
+	$result = ([adsisearcher]"(&(samAccountType=805306368)(samaccountname=$user))").FindAll() 
 	$data = [PSCustomObject]@{
 		samaccountname = $($result.Properties['samaccountname'])
 		badpwdcount = $($result.Properties['badpwdcount'])
