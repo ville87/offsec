@@ -95,6 +95,30 @@ Get ms-ds-machineaccountquota:
 ```
 $ndjson | Where-Object { ($_.objectclass -like "domain")} | select ms-DS-MachineAccountQuota
 ```
+List all NTAuthCerts:    
+```powershell
+$NTAuthCertificates = $ndjson | ? { ($_.distinguishedname -match "CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=domain,DC=tld")}
+foreach($cert in $NTAuthCertificates.cACertificate){
+$bytes = [Convert]::FromBase64String($cert)
+$cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2 -ArgumentList @(,$bytes)
+$cert | Select-Object `
+    Subject,
+    Issuer,
+    Thumbprint,
+    SerialNumber,
+    NotBefore,
+    NotAfter,
+    Version,
+    @{n='SignatureAlgorithm'; e={$_.SignatureAlgorithm.FriendlyName}},
+    @{n='PublicKeyAlgorithm'; e={$_.PublicKey.Oid.FriendlyName}},
+    @{n='KeySize'; e={$_.PublicKey.Key.KeySize}},
+    @{n='EnhancedKeyUsage'; e={($_.EnhancedKeyUsageList | ForEach-Object {$_.FriendlyName}) -join ', '}},
+    @{n='DNSNames'; e={($_.Extensions | Where-Object {$_.Oid.FriendlyName -eq 'Subject Alternative Name'} |
+        ForEach-Object {
+            ($_.Format($true) -split "`n" | ForEach-Object {$_.Trim()}) -join ', '
+        })}}
+}
+```
 Get default domain password policy:    
 ```
 $domainpwpolicy = @();$ndjson | Where-Object { ($_.objectclass -like "domain")} | %{
