@@ -72,6 +72,14 @@ Get ADFS Thumbrint LDAP querie examples:
 "(&(oId.00000002.00000005.00000004.00000000=Contact)(!(aNr=Crypto*afasdfasdfasdf)))"
 "(&(2.5.4.0=Contact)(!(aNr=Crypto*afasdfasdfasdf)))"
 ```
+Get ObjectSid:    
+```powershell
+$search = [adsisearcher]"(&(samAccountType=805306368)(samaccountname=someusername))"
+$user = $search.FindAll()
+$bytes = $user.properties.objectsid[0]
+$sid   = [System.Security.Principal.SecurityIdentifier]::new($bytes, 0)
+$sid.Value
+```
 ### Different Domain Search
 The following example searches for all computers in a different domain (with alternate credentials):   
 ```powershell
