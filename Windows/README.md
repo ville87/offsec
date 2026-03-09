@@ -85,8 +85,26 @@ Specify TLS:
 ```
 
 ### Recon
-- Portscanning on single port without ping test:   
-  `New-Object System.Net.Sockets.TCPClient -ArgumentList "hostname.domain.local",3389`   
+- Portscanning on single port without ping test (Note: This still can have a long timeout:   
+  `New-Object System.Net.Sockets.TCPClient -ArgumentList "hostname.domain.local",3389`
+
+- Portscanning function:
+```powershell
+Function TestTCP { Param($address, $port, $timeout=2000)
+    $socket=New-Object System.Net.Sockets.TcpClient
+    try {
+        $result=$socket.BeginConnect($address, $port, $NULL, $NULL)
+        if (!$result.AsyncWaitHandle.WaitOne($timeout, $False)) {
+            Write-Warning "Connection Timeout on $address`:$port"
+        }
+        $socket.EndConnect($result) | Out-Null
+        $socket.Connected
+    }
+    finally {
+        $socket.Close()
+    }
+}
+```
   
 - Gather active user sessions on Windows:   
   Check: https://raw.githubusercontent.com/FuzzySecurity/PowerShell-Suite/master/Invoke-NetSessionEnum.ps1   
